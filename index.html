@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<title>SOULSILVER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --ground:#EEF0F2;
+    --ground-2:#E4E7EA;
+    --surface: rgba(255,255,255,0.58);
+    --surface-strong: rgba(255,255,255,0.82);
+    --edge: rgba(20,24,28,0.10);
+    --edge-strong: rgba(20,24,28,0.18);
+    --ink:#0D1013;
+    --ink-soft:#565F6B;
+    --ink-faint:#87909C;
+    --chrome-1:#C7CDD6;
+    --chrome-2:#9AA1AC;
+    --chrome-3:#5B6270;
+    --mint:#0FD79A;
+    --mint-deep:#0A9E77;
+    --mint-ink:#04352A;
+    --shadow: 0 20px 60px -20px rgba(20,30,35,0.35);
+    --radius-card: 26px;
+    --radius-pill: 999px;
+    --radius-tile: 14px;
+    --sp-1:.5rem; --sp-2:1rem; --sp-3:1.5rem; --sp-4:2rem;
+    --sp-5:2.5rem; --sp-6:3rem; --sp-8:4rem; --sp-10:5rem; --sp-12:6rem; --sp-16:8rem;
+    --font-display:'Unbounded', 'Arial Black', sans-serif;
+    --font-body:'Manrope', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', 'Courier New', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0A0C0E;
+      --ground-2:#101317;
+      --surface: rgba(255,255,255,0.055);
+      --surface-strong: rgba(255,255,255,0.09);
+      --edge: rgba(255,255,255,0.10);
+      --edge-strong: rgba(255,255,255,0.18);
+      --ink:#EDEFF2;
+      --ink-soft:#9BA3AE;
+      --ink-faint:#6B737E;
+      --chrome-1:#454B54;
+      --chrome-2:#2B2F35;
+      --chrome-3:#1A1C20;
+      --mint:#22F0B4;
+      --mint-deep:#12C592;
+      --mint-ink:#04352A;
+      --shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0A0C0E;
+    --ground-2:#101317;
+    --surface: rgba(255,255,255,0.055);
+    --surface-strong: rgba(255,255,255,0.09);
+    --edge: rgba(255,255,255,0.10);
+    --edge-strong: rgba(255,255,255,0.18);
+    --ink:#EDEFF2;
+    --ink-soft:#9BA3AE;
+    --ink-faint:#6B737E;
+    --chrome-1:#454B54;
+    --chrome-2:#2B2F35;
+    --chrome-3:#1A1C20;
+    --mint:#22F0B4;
+    --mint-deep:#12C592;
+    --mint-ink:#04352A;
+    --shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; letter-spacing:-0.01em; }
+  p{ margin:0; }
+  a{ color:inherit; }
+  ::selection{ background:var(--mint); color:var(--mint-ink); }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding-left:var(--sp-4); padding-right:var(--sp-4); }
+  @media (max-width:640px){ .wrap{ padding-left:var(--sp-3); padding-right:var(--sp-3); } }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--mint-deep);
+    display:flex;
+    align-items:center;
+    gap:.6em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:1.6em; height:1px;
+    background:var(--mint-deep);
+    display:inline-block;
+  }
+
+  button, .btn{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    border-radius:var(--radius-pill);
+    padding:.9em 1.6em;
+    display:inline-flex;
+    align-items:center;
+    gap:.5em;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+  }
+  button:focus-visible, .btn:focus-visible, a:focus-visible, input:focus-visible{
+    outline:2px solid var(--mint);
+    outline-offset:3px;
+  }
+  .btn-primary{ background:var(--mint); color:var(--mint-ink); box-shadow:0 10px 30px -8px rgba(15,215,154,0.55); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 34px -6px rgba(15,215,154,0.65); }
+  .btn-ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--edge-strong); }
+  .btn-ghost:hover{ border-color:var(--mint-deep); color:var(--mint-deep); }
+  .btn-block{ width:100%; justify-content:center; }
+
+  /* ============ LIQUID CHROME BACKDROP ============ */
+  .liquid-bg{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
+  .blob{ position:absolute; border-radius:50%; filter:blur(7vw); will-change:transform; }
+  .blob-a{ width:48vw; height:48vw; top:-14%; left:-10%; background:var(--chrome-1); opacity:.55; animation:driftA 28s ease-in-out infinite alternate; }
+  .blob-b{ width:42vw; height:42vw; top:6%; right:-14%; background:var(--mint); opacity:.4; animation:driftB 34s ease-in-out infinite alternate; }
+  .blob-c{ width:40vw; height:40vw; bottom:-16%; left:18%; background:var(--chrome-2); opacity:.45; animation:driftC 26s ease-in-out infinite alternate; }
+  .blob-d{ width:26vw; height:26vw; bottom:8%; right:12%; background:var(--mint); opacity:.3; animation:driftB 22s ease-in-out infinite alternate-reverse; }
+  @keyframes driftA{ from{ transform:translate(0,0) scale(1); } to{ transform:translate(6vw,8vh) scale(1.15); } }
+  @keyframes driftB{ from{ transform:translate(0,0) scale(1); } to{ transform:translate(-7vw,6vh) scale(.9); } }
+  @keyframes driftC{ from{ transform:translate(0,0) scale(1); } to{ transform:translate(5vw,-7vh) scale(1.1); } }
+  @media (prefers-reduced-motion: reduce){ .blob{ animation:none !important; } }
+  .grain-veil{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background: radial-gradient(ellipse at 50% -10%, rgba(255,255,255,0.35), transparent 60%);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .grain-veil{ background:radial-gradient(ellipse at 50% -10%, rgba(255,255,255,0.06), transparent 60%); }
+  }
+  :root[data-theme="dark"] .grain-veil{ background:radial-gradient(ellipse at 50% -10%, rgba(255,255,255,0.06), transparent 60%); }
+
+  /* ============ GLASS ============ */
+  .glass{
+    background:var(--surface);
+    backdrop-filter:blur(22px) saturate(140%);
+    -webkit-backdrop-filter:blur(22px) saturate(140%);
+    border:1px solid var(--edge);
+    box-shadow:var(--shadow);
+  }
+
+  /* ============ NAV ============ */
+  nav.topnav{
+    position:fixed; top:var(--sp-3); left:50%; transform:translateX(-50%);
+    z-index:50; width:min(1100px, calc(100% - 2rem));
+    border-radius:var(--radius-pill);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:.6rem .7rem .6rem 1.4rem;
+  }
+  .brand{ font-family:var(--font-display); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em; }
+  .brand .dot{ color:var(--mint-deep); }
+  .nav-links{ display:flex; gap:var(--sp-4); list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; font-weight:600; font-size:.92rem; color:var(--ink-soft); transition:color .2s; }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-cta{ display:flex; align-items:center; gap:var(--sp-2); }
+  .nav-toggle{ display:none; background:transparent; border:none; padding:.5rem; }
+  .nav-toggle span{ display:block; width:20px; height:2px; background:var(--ink); margin:4px 0; border-radius:2px; }
+  @media (max-width:860px){
+    .nav-links{ display:none; }
+    .nav-toggle{ display:inline-flex; flex-direction:column; }
+  }
+  .mobile-panel{
+    position:fixed; top:calc(var(--sp-3) + 62px); left:50%; transform:translateX(-50%);
+    width:min(560px, calc(100% - 2rem)); z-index:49;
+    border-radius:22px; padding:var(--sp-3);
+    display:none; flex-direction:column; gap:var(--sp-2);
+  }
+  .mobile-panel.open{ display:flex; }
+  .mobile-panel a{ text-decoration:none; font-weight:600; padding:.5rem .3rem; color:var(--ink-soft); }
+
+  /* ============ SECTION SCAFFOLD ============ */
+  section{ position:relative; padding:var(--sp-16) 0; }
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.from-left{ transform:translate(-32px,10px); }
+  .reveal.from-right{ transform:translate(32px,10px); }
+  .reveal.is-visible{ opacity:1; transform:translate(0,0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ transition:opacity .3s ease; transform:none !important; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{ padding-top:calc(var(--sp-16) + 3rem); padding-bottom:var(--sp-12); }
+  .hero-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:var(--sp-8); align-items:end; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+  .headline-collage{
+    display:flex; flex-wrap:wrap; align-items:center; gap:.45rem .6rem;
+    margin-top:var(--sp-3); max-width:15ch;
+  }
+  .badge{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(1.5rem, 2.4vw + 1rem, 3.1rem);
+    line-height:1.05; padding:.22em .48em; display:inline-flex; align-items:center;
+    white-space:nowrap; border-radius:.42em; text-wrap:balance;
+  }
+  .badge-solid{ background:var(--mint); color:var(--mint-ink); }
+  .badge-dark{ background:var(--ink); color:var(--ground); }
+  .badge-slant{ background:var(--chrome-3); color:var(--ground); transform:skewX(-7deg); }
+  .badge-slant > span{ display:inline-block; transform:skewX(7deg); }
+  .badge-thin{
+    font-family:var(--font-body); font-weight:700; font-size:clamp(1.05rem, 1.1vw + .8rem, 1.5rem);
+    border:2px solid var(--edge-strong); color:var(--ink-soft); border-radius:var(--radius-pill);
+    padding:.35em .85em;
+  }
+  .hero-sub{ max-width:46ch; color:var(--ink-soft); font-size:1.08rem; margin-top:var(--sp-4); }
+  .hero-actions{ display:flex; gap:var(--sp-2); flex-wrap:wrap; margin-top:var(--sp-5); }
+
+  .hero-card{
+    border-radius:var(--radius-card);
+    padding:var(--sp-4);
+    display:flex; flex-direction:column; gap:var(--sp-3);
+  }
+  .hero-card .kpi-mono{ font-family:var(--font-mono); font-size:.78rem; color:var(--ink-faint); letter-spacing:.06em; }
+  .hero-card strong{ font-family:var(--font-display); font-size:1.5rem; display:block; margin-top:.2rem; }
+
+  .pill-row{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:var(--sp-6); }
+  .pill{
+    display:inline-flex; align-items:center; gap:.5em;
+    padding:.5em 1em; border-radius:var(--radius-pill);
+    font-size:.85rem; font-weight:600; color:var(--ink-soft);
+    background:var(--surface); border:1px solid var(--edge);
+  }
+  .pill svg{ width:16px; height:16px; stroke:var(--mint-deep); }
+
+  /* ============ PLATFORM BAR ============ */
+  .platform-bar{ padding:var(--sp-8) 0; }
+  .platform-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-3); margin-top:var(--sp-6); }
+  @media (max-width:760px){ .platform-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:480px){ .platform-grid{ grid-template-columns:1fr; } }
+  .platform-card{
+    background:var(--surface-strong); border:1px solid var(--edge); border-radius:20px;
+    padding:var(--sp-3) var(--sp-4); display:flex; align-items:center; gap:1rem;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .platform-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
+  .p-icon{ width:46px; height:46px; flex:none; border-radius:13px; display:flex; align-items:center; justify-content:center; }
+  .p-icon svg{ width:24px; height:24px; }
+  .platform-card .p-name{ font-weight:700; font-size:1.02rem; }
+  .platform-card .p-sub{ display:block; font-family:var(--font-mono); font-size:.68rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.08em; margin-top:.15em; }
+
+  /* ============ WEB SHOWCASE ============ */
+  .web-panel{
+    position:relative; overflow:hidden;
+    background:radial-gradient(130% 120% at 12% -10%, #171C22 0%, #0A0C0F 62%);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:36px; padding:clamp(1.5rem, 3vw, 3.5rem);
+    box-shadow:0 40px 90px -45px rgba(0,0,0,0.65);
+  }
+  .web-panel::after{
+    content:""; position:absolute; top:-25%; right:-8%; width:55%; height:70%;
+    background:radial-gradient(circle, rgba(15,215,154,0.30), transparent 68%);
+    pointer-events:none;
+  }
+  .web-grid{ position:relative; z-index:1; display:grid; grid-template-columns:.82fr 1.18fr; gap:var(--sp-6); align-items:center; }
+  @media (max-width:900px){ .web-grid{ grid-template-columns:1fr; gap:var(--sp-10); } }
+  .web-copy .eyebrow{ color:var(--mint); }
+  .web-copy .eyebrow::before{ background:var(--mint); }
+  .web-copy h2{ color:#F3F6F8; font-size:clamp(2rem,2.2vw + 1.4rem,3.1rem); font-weight:600; margin-top:.7rem; }
+  .web-copy p{ color:#AAB2BC; margin-top:var(--sp-3); max-width:42ch; font-size:1.02rem; }
+  .web-chips{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:var(--sp-4); }
+  .web-chip{ display:inline-flex; align-items:center; gap:.45em; padding:.5em .95em; border-radius:var(--radius-pill); font-size:.82rem; font-weight:700; color:#E9EDF1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); }
+  .web-chip svg{ width:15px; height:15px; stroke:var(--mint); flex:none; }
+
+  .web-stage{ position:relative; }
+  .browser-frame{
+    position:relative; z-index:1; border-radius:15px; overflow:hidden;
+    box-shadow:0 34px 70px -28px rgba(0,0,0,0.75); border:1px solid rgba(255,255,255,0.10);
+    animation:floaty 7s ease-in-out infinite alternate;
+  }
+  .browser-bar{ display:flex; align-items:center; gap:.55rem; padding:.6rem .8rem; background:#E9ECEF; }
+  .browser-bar .tl{ width:9px; height:9px; border-radius:50%; flex:none; }
+  .browser-url{ flex:1; margin-left:.4rem; background:#fff; border-radius:999px; padding:.28rem .8rem; font-family:var(--font-mono); font-size:.66rem; color:#8b939d; }
+  .browser-body{ background:#FBFCFD; padding:.9rem; }
+  .ms-nav{ display:flex; align-items:center; gap:.5rem; margin-bottom:.8rem; }
+  .ms-logo{ width:16px; height:16px; border-radius:5px; background:var(--mint); flex:none; }
+  .ms-links{ display:flex; gap:.35rem; flex:1; }
+  .ms-links i{ width:20px; height:5px; border-radius:3px; background:#dde2e7; display:block; }
+  .ms-btn{ width:34px; height:14px; border-radius:7px; background:#20262d; flex:none; }
+  .ms-hero{ display:grid; grid-template-columns:1.1fr .9fr; gap:.7rem; margin-bottom:.8rem; }
+  .ms-hcol{ display:flex; flex-direction:column; gap:.4rem; justify-content:center; }
+  .ms-bar{ height:8px; border-radius:4px; background:#c9d0d7; display:block; }
+  .ms-bar.big{ height:11px; background:#20262d; }
+  .w90{ width:90%; } .w70{ width:70%; } .w50{ width:50%; } .w80{ width:80%; } .w60{ width:60%; }
+  .ms-cta{ width:46px; height:15px; border-radius:8px; background:var(--mint); margin-top:.2rem; }
+  .ms-img{ border-radius:9px; background:linear-gradient(150deg,#9AA1AC,#454B54); min-height:70px; }
+  .ms-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem; }
+  .ms-cards span{ height:34px; border-radius:8px; }
+  .ms-cards span:nth-child(1){ background:linear-gradient(155deg,#0FD79A,#0A6B54); }
+  .ms-cards span:nth-child(2){ background:#eef1f4; border:1px solid #e2e6ea; }
+  .ms-cards span:nth-child(3){ background:linear-gradient(155deg,#C7CDD6,#5B6270); }
+
+  .phone-frame{
+    position:absolute; right:-6px; bottom:-22px; z-index:2; width:104px; height:196px;
+    background:#0E1216; border-radius:20px; padding:7px; border:1px solid rgba(255,255,255,0.14);
+    box-shadow:0 26px 50px -18px rgba(0,0,0,0.8); animation:floaty 6s ease-in-out .5s infinite alternate;
+  }
+  .phone-notch{ position:absolute; top:11px; left:50%; transform:translateX(-50%); width:34px; height:5px; border-radius:3px; background:#2a2f36; z-index:1; }
+  .phone-screen{ height:100%; border-radius:14px; background:#FBFCFD; padding:.7rem .55rem; display:flex; flex-direction:column; gap:.4rem; }
+  .phone-screen .ph-head{ height:26px; border-radius:7px; background:linear-gradient(150deg,#0FD79A,#0A6B54); margin-bottom:.15rem; }
+  .ph-card{ height:40px; border-radius:8px; background:#eef1f4; border:1px solid #e2e6ea; }
+
+  .score-ring{
+    position:absolute; left:-20px; top:-20px; z-index:3; width:84px; height:84px; border-radius:50%;
+    background:conic-gradient(var(--mint) 0% 96%, rgba(255,255,255,0.14) 96% 100%);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 18px 40px -14px rgba(0,0,0,0.7); animation:floaty 8s ease-in-out .2s infinite alternate;
+  }
+  .score-ring .score-inner{ width:66px; height:66px; border-radius:50%; background:#0C0F13; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; }
+  .score-ring strong{ font-family:var(--font-display); font-size:1.25rem; color:#fff; line-height:1; }
+  .score-ring span{ font-family:var(--font-mono); font-size:.5rem; letter-spacing:.04em; color:var(--mint); text-transform:uppercase; }
+
+  @keyframes floaty{ from{ transform:translateY(0); } to{ transform:translateY(-11px); } }
+  @media (prefers-reduced-motion: reduce){ .browser-frame,.phone-frame,.score-ring{ animation:none !important; } }
+  @media (max-width:520px){ .phone-frame{ display:none; } .score-ring{ left:auto; right:-6px; top:-14px; } }
+
+  /* ============ FEATURE GRID ============ */
+  .feature-grid{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); margin-top:var(--sp-6); }
+  @media (max-width:820px){ .feature-grid{ grid-template-columns:1fr; } }
+  .feature-tile{
+    border-radius:28px; padding:var(--sp-4); min-height:400px;
+    display:flex; flex-direction:column; gap:var(--sp-3);
+  }
+  .feature-tile.tone-mint{ background:var(--mint); color:var(--mint-ink); }
+  .feature-tile.tone-ink{ background:var(--ink); color:var(--ground); }
+  .feature-tile.tone-chrome{ background:var(--chrome-3); color:var(--ground); }
+  .feature-tile.tone-pale{ background:var(--surface-strong); color:var(--ink); border:1px solid var(--edge); }
+  .feature-icon{ width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.22); }
+  .feature-tile.tone-pale .feature-icon{ background:var(--surface); }
+  .feature-icon svg{ width:22px; height:22px; stroke:currentColor; }
+  .feature-tile h3{ font-size:1.5rem; font-weight:600; font-family:var(--font-body); }
+  .feature-tile p{ font-size:.95rem; opacity:.85; max-width:34ch; }
+  .feature-mock{
+    margin-top:auto; background:var(--ground); border-radius:16px; padding:var(--sp-3);
+    color:var(--ink); box-shadow:0 10px 30px -14px rgba(0,0,0,.35);
+  }
+
+  /* mini pipeline mockup */
+  .mock-pipeline{ display:flex; flex-direction:column; gap:.55rem; }
+  .mock-node{ display:flex; align-items:center; gap:.6rem; background:var(--surface-strong); border:1px solid var(--edge); border-radius:11px; padding:.5rem .7rem; font-size:.82rem; font-weight:700; }
+  .mock-node .dot{ width:26px; height:26px; border-radius:8px; flex:none; display:flex; align-items:center; justify-content:center; }
+  .mock-node .dot svg{ width:14px; height:14px; stroke:#fff; }
+  .mock-arrow{ align-self:center; color:var(--ink-faint); font-size:.8rem; }
+
+  /* mini checklist mockup */
+  .mock-checklist{ display:flex; flex-direction:column; gap:.5rem; }
+  .mock-check-row{ display:flex; align-items:center; gap:.6rem; }
+  .mock-swatch{ width:30px; height:30px; border-radius:8px; flex:none; }
+  .mock-check-row span{ font-size:.85rem; font-weight:700; flex:1; }
+  .mock-check-row .box{ width:18px; height:18px; border-radius:5px; background:var(--mint); display:flex; align-items:center; justify-content:center; flex:none; }
+  .mock-check-row .box svg{ width:11px; height:11px; stroke:var(--mint-ink); }
+
+  /* mini rule-builder mockup */
+  .mock-rule{ display:flex; gap:.6rem; }
+  .mock-and{ width:20px; border-radius:8px; background:var(--mint); flex:none; display:flex; align-items:center; justify-content:center; }
+  .mock-and span{ writing-mode:vertical-rl; font-family:var(--font-mono); font-size:.62rem; font-weight:700; color:var(--mint-ink); letter-spacing:.06em; }
+  .mock-conditions{ flex:1; display:flex; flex-direction:column; gap:.4rem; }
+  .mock-condition{ background:var(--surface-strong); border:1px solid var(--edge); border-radius:9px; padding:.45rem .6rem; display:flex; align-items:center; gap:.5rem; font-size:.8rem; font-weight:700; }
+  .mock-condition .grip{ display:flex; gap:2px; flex-wrap:wrap; width:8px; }
+  .mock-condition .grip i{ width:3px; height:3px; border-radius:50%; background:var(--ink-faint); display:block; }
+
+  /* mini bar chart mockup */
+  .mock-chart{ display:flex; align-items:flex-end; gap:.4rem; height:110px; }
+  .mock-bar{ flex:1; background:linear-gradient(180deg, var(--mint), var(--mint-deep)); border-radius:6px 6px 2px 2px; }
+
+  /* ============ PROCESS (STICKY) ============ */
+  .process-shell{ position:relative; }
+  .process-head{ margin-bottom:var(--sp-8); }
+  .process-scroller{ position:relative; height:calc(100vh * 5); }
+  .process-stage{
+    position:sticky; top:0; height:100vh;
+    display:flex; align-items:center;
+  }
+  .process-inner{ width:100%; display:grid; grid-template-columns:.5fr 1.5fr; gap:var(--sp-8); align-items:center; }
+  @media (max-width:860px){
+    .process-inner{ grid-template-columns:1fr; gap:var(--sp-4); }
+    .process-scroller{ height:auto; }
+    .process-stage{ position:static; height:auto; padding:var(--sp-6) 0; }
+    .step-card{ display:flex !important; margin-bottom:var(--sp-3); }
+  }
+
+  .rail{ display:flex; flex-direction:column; gap:var(--sp-2); }
+  .rail-item{ display:flex; align-items:center; gap:var(--sp-2); font-family:var(--font-mono); font-size:.85rem; color:var(--ink-faint); opacity:.5; transition:opacity .3s, color .3s; }
+  .rail-item.active{ opacity:1; color:var(--mint-deep); }
+  .rail-num{ width:2.4em; }
+  .rail-item svg{ width:16px; height:16px; stroke:currentColor; flex:none; }
+  .step-icon{ width:48px; height:48px; border-radius:13px; background:var(--mint); display:flex; align-items:center; justify-content:center; margin-bottom:.3rem; }
+  .step-icon svg{ width:24px; height:24px; stroke:var(--mint-ink); }
+  .step-card-head{ display:flex; align-items:center; gap:var(--sp-2); }
+  .rail-track{ position:relative; width:2px; background:var(--edge); height:160px; margin-left:1.15em; margin-top:.4rem; }
+  .rail-fill{ position:absolute; top:0; left:0; width:100%; background:var(--mint); height:0%; transition:height .25s ease; }
+
+  .step-card{ border-radius:var(--radius-card); padding:var(--sp-6); min-height:260px; display:none; flex-direction:column; gap:var(--sp-2); }
+  .step-card.active{ display:flex; }
+  .step-num{ font-family:var(--font-mono); font-size:.85rem; color:var(--mint-deep); letter-spacing:.1em; }
+  .step-card h3{ font-size:1.9rem; font-weight:600; }
+  .step-card p{ color:var(--ink-soft); max-width:52ch; font-size:1.02rem; }
+
+  /* ============ CRM SHOWCASE ============ */
+  .crm-grid{ display:grid; grid-template-columns:1fr 1.05fr; gap:var(--sp-8); align-items:center; }
+  @media (max-width:900px){ .crm-grid{ grid-template-columns:1fr; } }
+  .crm-copy h2{ font-size:clamp(2rem, 2vw + 1.4rem, 2.9rem); font-weight:600; margin-top:var(--sp-2); }
+  .crm-copy p.lead{ color:var(--ink-soft); margin-top:var(--sp-3); max-width:50ch; font-size:1.05rem; }
+  .feature-list{ list-style:none; margin:var(--sp-4) 0 0; padding:0; display:flex; flex-direction:column; gap:var(--sp-2); }
+  .feature-list li{ display:flex; gap:.7em; align-items:flex-start; font-weight:600; }
+  .feature-list svg{ flex:none; width:20px; height:20px; margin-top:.15em; stroke:var(--mint-deep); }
+
+  .dash-card{ border-radius:var(--radius-card); padding:var(--sp-4); position:relative; overflow:hidden; }
+  .dash-topbar{ display:flex; gap:.4rem; margin-bottom:var(--sp-3); }
+  .dash-topbar span{ width:9px; height:9px; border-radius:50%; background:var(--edge-strong); }
+  .dash-row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-2); margin-bottom:var(--sp-2); }
+  .dash-tile{ background:var(--surface-strong); border:1px solid var(--edge); border-radius:var(--radius-tile); padding:var(--sp-2); }
+  .dash-tile .dash-label{ font-family:var(--font-mono); font-size:.68rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.08em; }
+  .dash-tile .dash-value{ font-family:var(--font-display); font-size:1.3rem; margin-top:.2rem; }
+  .dash-chart{ background:var(--surface-strong); border:1px solid var(--edge); border-radius:var(--radius-tile); padding:var(--sp-3); }
+  .dash-chart svg{ width:100%; height:auto; display:block; }
+
+  /* ============ PORTFOLIO ============ */
+  .work-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--sp-3); margin-top:var(--sp-6); }
+  @media (max-width:860px){ .work-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:560px){ .work-grid{ grid-template-columns:1fr; } }
+  .work-tile{
+    aspect-ratio:4/5; border-radius:18px; position:relative; overflow:hidden;
+    display:flex; align-items:flex-end; padding:var(--sp-3);
+    border:1px solid var(--edge);
+    transition:transform .35s ease;
+  }
+  .work-tile:hover{ transform:translateY(-6px); }
+  .work-tile .tile-label{ position:relative; z-index:1; font-weight:700; color:#fff; font-size:1.05rem; text-shadow:0 2px 12px rgba(0,0,0,.35); }
+  .work-tile .tile-tag{ position:relative; z-index:1; font-family:var(--font-mono); font-size:.68rem; color:rgba(255,255,255,.75); text-transform:uppercase; letter-spacing:.08em; display:block; margin-bottom:.3em; }
+  .note-caption{ margin-top:var(--sp-3); font-size:.85rem; color:var(--ink-faint); }
+
+  /* ============ TRUST ============ */
+  .trust-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--sp-4); margin-top:var(--sp-6); }
+  @media (max-width:860px){ .trust-grid{ grid-template-columns:1fr; } }
+  .trust-card{ border-radius:20px; padding:var(--sp-4); }
+  .trust-card svg{ width:26px; height:26px; stroke:var(--mint-deep); }
+  .trust-card h3{ font-size:1.05rem; font-weight:700; margin-top:var(--sp-2); font-family:var(--font-body); }
+  .trust-card p{ color:var(--ink-soft); font-size:.92rem; margin-top:.4rem; }
+
+  /* ============ NEWSLETTER ============ */
+  .news-card{ border-radius:var(--radius-card); padding:var(--sp-8); text-align:left; display:grid; grid-template-columns:1.1fr .9fr; gap:var(--sp-6); align-items:center; }
+  @media (max-width:860px){ .news-card{ grid-template-columns:1fr; } }
+  .news-card h2{ font-size:clamp(1.7rem, 1.6vw + 1.2rem, 2.4rem); font-weight:600; }
+  .news-form{ display:flex; gap:.6rem; flex-wrap:wrap; }
+  .news-form input{
+    flex:1 1 220px; padding:.95em 1.2em; border-radius:var(--radius-pill);
+    border:1px solid var(--edge-strong); background:var(--surface-strong); color:var(--ink);
+    font-family:var(--font-body); font-size:.95rem;
+  }
+  .news-form input::placeholder{ color:var(--ink-faint); }
+  .news-status{ font-family:var(--font-mono); font-size:.8rem; color:var(--mint-deep); margin-top:.7rem; min-height:1.2em; }
+
+  /* ============ FINAL CTA ============ */
+  .final-cta{ text-align:center; padding-top:var(--sp-16); }
+  .final-cta h2{ font-size:clamp(2.2rem, 3vw + 1.4rem, 3.6rem); font-weight:700; max-width:18ch; margin:0 auto; }
+  .final-cta p{ color:var(--ink-soft); margin:var(--sp-3) auto 0; max-width:48ch; }
+  .final-cta .btn-primary{ margin-top:var(--sp-5); font-size:1.05rem; padding:1em 2em; }
+
+  /* ============ FOOTER ============ */
+  footer{ padding:var(--sp-10) 0 var(--sp-16); border-top:1px solid var(--edge); margin-top:var(--sp-12); }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr .8fr .8fr .8fr; gap:var(--sp-6); }
+  @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
+  .foot-grid h4{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:var(--sp-2); }
+  .foot-grid ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.6rem; }
+  .foot-grid a{ text-decoration:none; color:var(--ink-soft); font-size:.92rem; }
+  .foot-grid a:hover{ color:var(--mint-deep); }
+  .foot-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:var(--sp-8); flex-wrap:wrap; gap:var(--sp-2); color:var(--ink-faint); font-size:.82rem; }
+  .foot-social{ display:flex; gap:.8rem; }
+  .foot-social a{ width:34px; height:34px; border-radius:50%; border:1px solid var(--edge); display:flex; align-items:center; justify-content:center; }
+  .foot-social svg{ width:15px; height:15px; stroke:var(--ink-soft); }
+
+  /* ============ COOKIE BANNER ============ */
+  .cookie-bar{
+    position:fixed; left:50%; bottom:var(--sp-3); transform:translate(-50%, 140%);
+    width:min(680px, calc(100% - 2rem)); z-index:60;
+    border-radius:20px; padding:var(--sp-3) var(--sp-4);
+    display:flex; align-items:center; gap:var(--sp-3); flex-wrap:wrap;
+    transition:transform .5s ease;
+  }
+  .cookie-bar.show{ transform:translate(-50%, 0); }
+  .cookie-bar p{ flex:1 1 260px; font-size:.85rem; color:var(--ink-soft); }
+  .cookie-actions{ display:flex; gap:.5rem; }
+  .cookie-actions button{ padding:.6em 1.1em; font-size:.82rem; }
+</style>
+</head>
+<body>
+<div class="liquid-bg" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="blob blob-c"></span>
+  <span class="blob blob-d"></span>
+</div>
+<div class="grain-veil" aria-hidden="true"></div>
+
+<nav class="topnav glass">
+  <div class="brand">SOULSILVER<span class="dot">.</span></div>
+  <ul class="nav-links">
+    <li><a href="#szolgaltatasok">Szolgáltatások</a></li>
+    <li><a href="#web">Weboldal</a></li>
+    <li><a href="#folyamat">Folyamat</a></li>
+    <li><a href="#crm">CRM</a></li>
+    <li><a href="#munkaink">Munkáink</a></li>
+    <li><a href="#kapcsolat">Kapcsolat</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#kapcsolat" class="btn btn-primary" style="padding:.7em 1.3em; font-size:.88rem;">Ingyenes konzultáció</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü megnyitása" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-panel glass" id="mobilePanel">
+  <a href="#szolgaltatasok">Szolgáltatások</a>
+  <a href="#web">Weboldal</a>
+  <a href="#folyamat">Folyamat</a>
+  <a href="#crm">CRM</a>
+  <a href="#munkaink">Munkáink</a>
+  <a href="#kapcsolat">Kapcsolat</a>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow reveal is-visible">Full-service marketing ügynökség</div>
+          <h1 class="headline-collage reveal is-visible">
+            <span class="badge badge-solid">Kreatív</span>
+            <span class="badge badge-thin">megoldások</span>
+            <span class="badge badge-dark">mérhető</span>
+            <span class="badge badge-slant"><span>eredmények</span></span>
+            <span class="badge badge-thin">egy csapatban.</span>
+          </h1>
+          <p class="hero-sub reveal is-visible">A SOULSILVER stratégiai szemlélettel, kreatív tartalomgyártással és adatvezérelt megoldásokkal segít márkádnak kitűnni — a kampányötlettől a lezárt eredményig.</p>
+          <div class="hero-actions reveal is-visible">
+            <a href="#kapcsolat" class="btn btn-primary">Ingyenes konzultáció</a>
+            <a href="#crm" class="btn btn-ghost">Nézd meg a CRM-et →</a>
+          </div>
+          <div class="pill-row reveal is-visible">
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>Márkaépítés</span>
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Social Media</span>
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 6l2-3h4l2 3"/></svg>Fotózás</span>
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h12"/></svg>Kampánytervezés</span>
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>Web</span>
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6l16 6-7 2-2 7z"/></svg>Aftermovie</span>
+            <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3v4M4.2 7.5l3 2M19.8 7.5l-3 2M4 15h16l-2 6H6z"/></svg>Drón</span>
+          </div>
+        </div>
+        <div class="hero-card glass reveal from-right" data-parallax="0.06">
+          <span class="kpi-mono">// AKTÍV FÓKUSZ</span>
+          <strong>Stratégia + kreatív + adat, egy csapatban.</strong>
+          <p style="color:var(--ink-soft); font-size:.92rem;">Nem szétdarabolt alvállalkozók — egy felelős csapat, amelyik a kampányterv első vázlatától az eredmény-riportig végigviszi a munkát.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM BAR -->
+  <section class="platform-bar" id="szolgaltatasok">
+    <div class="wrap">
+      <div class="eyebrow reveal">Platformok, amiket kezelünk</div>
+      <div class="platform-grid">
+        <div class="platform-card reveal">
+          <div class="p-icon" style="background:#E7F0FF;"><svg viewBox="0 0 24 24" fill="none" stroke="#0081FB" stroke-width="2.3" stroke-linecap="round"><path d="M12 12 C12 8 4 8 4 12 S12 16 12 12 S20 8 20 12 S12 16 12 12"/></svg></div>
+          <div><span class="p-name">Meta Ads</span><span class="p-sub">Facebook · Instagram</span></div>
+        </div>
+        <div class="platform-card reveal">
+          <div class="p-icon" style="background:#fff; border:1px solid #eef0f2;"><svg viewBox="0 0 24 24"><rect x="9.3" y="1.8" width="4.5" height="14.8" rx="2.25" transform="rotate(-30 11.55 9.2)" fill="#FBBC04"/><rect x="10.2" y="6.6" width="4.5" height="14.8" rx="2.25" transform="rotate(30 12.45 14)" fill="#4285F4"/><circle cx="6.6" cy="17.4" r="2.95" fill="#4285F4"/></svg></div>
+          <div><span class="p-name">Google Ads</span><span class="p-sub">Search · Display</span></div>
+        </div>
+        <div class="platform-card reveal">
+          <div class="p-icon" style="background:#010101;"><svg viewBox="0 0 24 24"><path d="M16.5 5.5a4.4 4.4 0 0 1-1-3H12v13.2a2.6 2.6 0 1 1-2.6-2.6c.28 0 .54.05.8.13V9.7a6 6 0 0 0-.8-.06 6 6 0 1 0 6 6V8.85a7.7 7.7 0 0 0 4.5 1.44V6.83a4.4 4.4 0 0 1-3.4-1.33z" fill="#25F4EE" transform="translate(-1,1)"/><path d="M16.5 5.5a4.4 4.4 0 0 1-1-3H12v13.2a2.6 2.6 0 1 1-2.6-2.6c.28 0 .54.05.8.13V9.7a6 6 0 0 0-.8-.06 6 6 0 1 0 6 6V8.85a7.7 7.7 0 0 0 4.5 1.44V6.83a4.4 4.4 0 0 1-3.4-1.33z" fill="#FE2C55" transform="translate(1,-1)"/><path d="M16.5 5.5a4.4 4.4 0 0 1-1-3H12v13.2a2.6 2.6 0 1 1-2.6-2.6c.28 0 .54.05.8.13V9.7a6 6 0 0 0-.8-.06 6 6 0 1 0 6 6V8.85a7.7 7.7 0 0 0 4.5 1.44V6.83a4.4 4.4 0 0 1-3.4-1.33z" fill="#fff"/></svg></div>
+          <div><span class="p-name">TikTok Ads</span><span class="p-sub">Spark · In-Feed</span></div>
+        </div>
+        <div class="platform-card reveal">
+          <div class="p-icon" style="background:#fff; border:1px solid #eef0f2;"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="4" fill="#FF0000"/><path d="M10 9l6 3-6 3z" fill="#fff"/></svg></div>
+          <div><span class="p-name">YouTube</span><span class="p-sub">In-stream · Shorts</span></div>
+        </div>
+        <div class="platform-card reveal">
+          <div class="p-icon" style="background:#fff; border:1px solid #eef0f2;"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="4" fill="#0A66C2"/><path d="M6.7 9.5H9v8H6.7zM7.85 6.2a1.35 1.35 0 1 1 0 2.7 1.35 1.35 0 0 1 0-2.7zM10.6 9.5h2.2v1.1h.03c.31-.57 1.06-1.17 2.17-1.17 2.3 0 2.72 1.5 2.72 3.48v4.09h-2.28v-3.63c0-.86-.02-1.97-1.2-1.97-1.2 0-1.39.94-1.39 1.9v3.7H10.6z" fill="#fff"/></svg></div>
+          <div><span class="p-name">LinkedIn Ads</span><span class="p-sub">B2B kampányok</span></div>
+        </div>
+        <div class="platform-card reveal">
+          <div class="p-icon" style="background:linear-gradient(135deg,#F6E4FF,#E4ECFF);"><svg viewBox="0 0 24 24" fill="none" stroke="#7B4FE0" stroke-width="2.2"><rect x="4" y="4" width="10" height="8" rx="2"/><rect x="10" y="12" width="10" height="8" rx="2"/></svg></div>
+          <div><span class="p-name">Programmatic</span><span class="p-sub">Display · DOOH</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEB SHOWCASE -->
+  <section id="web">
+    <div class="wrap">
+      <div class="web-panel reveal">
+        <div class="web-grid">
+          <div class="web-copy">
+            <div class="eyebrow">Weboldal készítés</div>
+            <h2>Weboldalak, amik dolgoznak érted.</h2>
+            <p>Egyedi, villámgyors és konverzióra tervezett weboldalak — a designtól a fejlesztésen át a mérésig, mind a SOULSILVER kezében.</p>
+            <div class="web-chips">
+              <span class="web-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M2 20h20"/></svg>Reszponzív</span>
+              <span class="web-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Villámgyors</span>
+              <span class="web-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>SEO-kész</span>
+              <span class="web-chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3l2.2 5.6L20 9l-4.2 3.7L17 19l-5-3-5 3 1.2-6.3L4 9l5.8-.4z"/></svg>Egyedi design</span>
+            </div>
+            <a href="#kapcsolat" class="btn btn-primary">Kérek egy weboldalt</a>
+          </div>
+
+          <div class="web-stage">
+            <div class="browser-frame">
+              <div class="browser-bar">
+                <span class="tl" style="background:#FF5F57;"></span>
+                <span class="tl" style="background:#FEBC2E;"></span>
+                <span class="tl" style="background:#28C840;"></span>
+                <span class="browser-url">soulsilver.hu</span>
+              </div>
+              <div class="browser-body">
+                <div class="ms-nav"><span class="ms-logo"></span><span class="ms-links"><i></i><i></i><i></i></span><span class="ms-btn"></span></div>
+                <div class="ms-hero">
+                  <div class="ms-hcol">
+                    <span class="ms-bar big w90"></span>
+                    <span class="ms-bar big w70"></span>
+                    <span class="ms-bar w50"></span>
+                    <span class="ms-cta"></span>
+                  </div>
+                  <div class="ms-img"></div>
+                </div>
+                <div class="ms-cards"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+
+            <div class="phone-frame" aria-hidden="true">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <div class="ph-head"></div>
+                <span class="ms-bar w80"></span>
+                <span class="ms-bar w60"></span>
+                <div class="ph-card"></div>
+                <span class="ms-cta"></span>
+              </div>
+            </div>
+
+            <div class="score-ring" aria-hidden="true">
+              <div class="score-inner"><strong>98</strong><span>Web Vitals</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE GRID -->
+  <section id="funkciok">
+    <div class="wrap">
+      <div class="eyebrow reveal">Amit egy helyen kapsz</div>
+      <h2 class="reveal" style="font-size:clamp(2rem,2vw + 1.3rem,3rem); font-weight:600; margin-top:.6rem; max-width:18ch;">Nem kell öt fülre figyelned.</h2>
+
+      <div class="feature-grid">
+        <div class="feature-tile tone-mint reveal from-left">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="4" width="7" height="7" rx="1.5"/><rect x="3" y="15" width="7" height="5" rx="1.5"/><path d="M17.5 13v7M14 16.5h7"/></svg></div>
+          <h3>Minden platform, egy irányítópult</h3>
+          <p>A hirdetési fiókok, a kampányadatok és a riportok mind a SOULSILVER CRM-ben futnak össze.</p>
+          <div class="feature-mock mock-pipeline">
+            <div class="mock-node"><span class="dot" style="background:#0081FB;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"><path d="M12 12 C12 8 4 8 4 12 S12 16 12 12 S20 8 20 12 S12 16 12 12"/></svg></span>Meta Ads</div>
+            <div class="mock-arrow">↓</div>
+            <div class="mock-node"><span class="dot" style="background:var(--mint-deep);"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></span>SOULSILVER CRM</div>
+            <div class="mock-arrow">↓</div>
+            <div class="mock-node"><span class="dot" style="background:#5B6270;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 16V10M12 16V7M16 16v-4"/></svg></span>Heti riport</div>
+          </div>
+        </div>
+
+        <div class="feature-tile tone-ink reveal from-right">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+          <h3>Kampányok ütemezve, skálázva</h3>
+          <p>Egyszerre több kreatívot tervezünk és indítunk, nem darabonként kattintgatva.</p>
+          <div class="feature-mock mock-checklist">
+            <div class="mock-check-row"><span class="mock-swatch" style="background:linear-gradient(155deg,#0FD79A,#0A6B54);"></span><span>Nyári kampány #1</span><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+            <div class="mock-check-row"><span class="mock-swatch" style="background:linear-gradient(155deg,#9AA1AC,#454B54);"></span><span>Termékindító videó</span><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+            <div class="mock-check-row"><span class="mock-swatch" style="background:linear-gradient(155deg,#C7CDD6,#5B6270);"></span><span>Retargeting szett</span><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span></div>
+          </div>
+        </div>
+
+        <div class="feature-tile tone-chrome reveal from-left">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+          <h3>Automatikus riasztások</h3>
+          <p>A CRM szól, mielőtt egy kampány leállna vagy túlköltene — nem utólag veszed észre.</p>
+          <div class="feature-mock mock-rule">
+            <div class="mock-and"><span>ÉS</span></div>
+            <div class="mock-conditions">
+              <div class="mock-condition"><span class="grip"><i></i><i></i><i></i><i></i></span>Napi költés &gt; 40.000 Ft</div>
+              <div class="mock-condition"><span class="grip"><i></i><i></i><i></i><i></i></span>CTR &lt; 0.8%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-tile tone-pale reveal from-right">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="var(--mint-deep)"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2 2M16.4 16.4l2 2M5.6 18.4l2-2M16.4 7.6l2-2"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Kreatív teljesítmény-insightok</h3>
+          <p>Látod, melyik vizuál, hook és CTA hozza a legjobb megtérülést — kreatívonként lebontva.</p>
+          <div class="feature-mock">
+            <div class="mock-chart">
+              <div class="mock-bar" style="height:35%;"></div>
+              <div class="mock-bar" style="height:55%;"></div>
+              <div class="mock-bar" style="height:40%;"></div>
+              <div class="mock-bar" style="height:78%;"></div>
+              <div class="mock-bar" style="height:60%;"></div>
+              <div class="mock-bar" style="height:92%;"></div>
+              <div class="mock-bar" style="height:70%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process-shell" id="folyamat">
+    <div class="wrap process-head">
+      <div class="eyebrow reveal">Hogyan dolgozunk</div>
+      <h2 class="reveal" style="font-size:clamp(2rem,2vw + 1.3rem,3rem); font-weight:600; margin-top:.6rem;">Öt lépés, egy irányba.</h2>
+    </div>
+
+    <div class="process-scroller">
+    <div class="process-stage">
+      <div class="wrap process-inner">
+        <div class="rail">
+          <div class="rail-item" data-step="0"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/></svg><span class="rail-num">01</span>Stratégiai elemzés</div>
+          <div class="rail-item" data-step="1"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M17 10l4-2v8l-4-2z"/></svg><span class="rail-num">02</span>Kreatív tartalomgyártás</div>
+          <div class="rail-item" data-step="2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg><span class="rail-num">03</span>Kampánytervezés</div>
+          <div class="rail-item" data-step="3"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span class="rail-num">04</span>Nyomon követés</div>
+          <div class="rail-item" data-step="4"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg><span class="rail-num">05</span>Eredményelemzés</div>
+          <div class="rail-track"><div class="rail-fill" id="railFill"></div></div>
+        </div>
+
+        <div class="step-cards">
+          <div class="step-card glass active" data-card="0">
+            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/></svg></div>
+            <span class="step-num">01 / 05</span>
+            <h3>Stratégiai elemzés</h3>
+            <p>Feltérképezzük a piacot, a versenytársakat és a márkád jelenlegi pozícióját, mielőtt egyetlen kreatív is elkészülne. Minden döntésnek oka van.</p>
+          </div>
+          <div class="step-card glass" data-card="1">
+            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M17 10l4-2v8l-4-2z"/></svg></div>
+            <span class="step-num">02 / 05</span>
+            <h3>Kreatív tartalomgyártás</h3>
+            <p>Fotó, videó, aftermovie és drónfelvétel — saját stúdiókapacitással, hogy a tartalom illeszkedjen a stratégiához, ne fordítva.</p>
+          </div>
+          <div class="step-card glass" data-card="2">
+            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-7-7 18-2-8-9-3z"/></svg></div>
+            <span class="step-num">03 / 05</span>
+            <h3>Kampánytervezés &amp; aktiválás</h3>
+            <p>Médiatervet építünk, és elindítjuk a kampányokat minden releváns platformon — anélkül, hogy fülek között kellene ugrálnod.</p>
+          </div>
+          <div class="step-card glass" data-card="3">
+            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+            <span class="step-num">04 / 05</span>
+            <h3>Nyomon követés</h3>
+            <p>A SOULSILVER CRM-ben valós időben látod, hogyan teljesít minden kampány — mielőtt a probléma egyáltalán problémává válna.</p>
+          </div>
+          <div class="step-card glass" data-card="4">
+            <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg></div>
+            <span class="step-num">05 / 05</span>
+            <h3>Eredményelemzés</h3>
+            <p>Adatvezérelt optimalizálás minden ciklus végén, hogy a következő kampány mérhetően jobban teljesítsen az előzőnél.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- CRM -->
+  <section id="crm">
+    <div class="wrap crm-grid">
+      <div class="crm-copy">
+        <div class="eyebrow reveal from-left">Saját fejlesztés</div>
+        <h2 class="reveal from-left">A SOULSILVER CRM — minden kampányod egy helyen.</h2>
+        <p class="lead reveal from-left">Nem kell ad manager fülek között ugrálnod. A SOULSILVER CRM összegyűjti az összes platform adatát, és egyetlen áttekinthető felületen mutatja meg, mi működik és mi nem.</p>
+        <ul class="feature-list reveal from-left">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Egységes dashboard minden platformra</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Automatikus riportok az ügyfeleidnek</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Valós idejű költés- és teljesítmény-követés</li>
+        </ul>
+        <a href="#kapcsolat" class="btn btn-primary reveal from-left" style="margin-top:var(--sp-4);">Kérj demót</a>
+      </div>
+
+      <div class="dash-card glass reveal from-right" data-parallax="0.04">
+        <div class="dash-topbar"><span></span><span></span><span></span></div>
+        <div class="dash-row">
+          <div class="dash-tile"><div class="dash-label">Aktív kampány</div><div class="dash-value">14</div></div>
+          <div class="dash-tile"><div class="dash-label">Platform</div><div class="dash-value">5</div></div>
+        </div>
+        <div class="dash-chart">
+          <div class="dash-label" style="margin-bottom:.6rem;">Heti teljesítmény</div>
+          <svg viewBox="0 0 300 90" preserveAspectRatio="none">
+            <polyline points="0,70 40,60 80,64 120,40 160,45 200,20 240,28 300,10" fill="none" stroke="var(--mint)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="0,70 40,60 80,64 120,40 160,45 200,20 240,28 300,10 300,90 0,90" fill="var(--mint)" opacity="0.12" stroke="none"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="munkaink">
+    <div class="wrap">
+      <div class="eyebrow reveal">Munkáink</div>
+      <h2 class="reveal" style="font-size:clamp(2rem,2vw + 1.3rem,3rem); font-weight:600; margin-top:.6rem;">Amiben otthon vagyunk.</h2>
+      <div class="work-grid">
+        <div class="work-tile reveal" style="background:linear-gradient(155deg,#6E7684,#2B2F35);"><span class="tile-tag">Kategória</span><span class="tile-label">Közösségi média kampány</span></div>
+        <div class="work-tile reveal" style="background:linear-gradient(155deg,#0FD79A,#0A6B54);"><span class="tile-tag">Kategória</span><span class="tile-label">Aftermovie</span></div>
+        <div class="work-tile reveal" style="background:linear-gradient(155deg,#9AA1AC,#454B54);"><span class="tile-tag">Kategória</span><span class="tile-label">Drónfelvétel</span></div>
+        <div class="work-tile reveal" style="background:linear-gradient(155deg,#454B54,#0D1013);"><span class="tile-tag">Kategória</span><span class="tile-label">Márkaidentitás</span></div>
+        <div class="work-tile reveal" style="background:linear-gradient(155deg,#0A9E77,#0D1013);"><span class="tile-tag">Kategória</span><span class="tile-label">Webfejlesztés</span></div>
+        <div class="work-tile reveal" style="background:linear-gradient(155deg,#C7CDD6,#5B6270);"><span class="tile-tag">Kategória</span><span class="tile-label">Termékfotózás</span></div>
+      </div>
+      <p class="note-caption reveal">Kategória-előnézet — a friss esettanulmányok hamarosan valós ügyféleredményekkel töltődnek fel ide.</p>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section>
+    <div class="wrap">
+      <div class="eyebrow reveal">Adatbiztonság</div>
+      <h2 class="reveal" style="font-size:clamp(1.8rem,1.6vw + 1.2rem,2.6rem); font-weight:600; margin-top:.6rem; max-width:20ch;">A te adataid. A te tulajdonod.</h2>
+      <div class="trust-grid">
+        <div class="trust-card glass reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/></svg>
+          <h3>Nem adjuk tovább</h3>
+          <p>Az ügyfeleink adatait soha nem kereskedelmezzük harmadik felek felé.</p>
+        </div>
+        <div class="trust-card glass reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <h3>Névtelenített mérés</h3>
+          <p>A SOULSILVER CRM-ben minden mérési adat anonimizált marad.</p>
+        </div>
+        <div class="trust-card glass reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          <h3>Te vagy a tulajdonos</h3>
+          <p>A kampányadatok, riportok és kreatívok mindig a márkádé maradnak.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="hirlevel">
+    <div class="wrap">
+      <div class="news-card glass reveal">
+        <div>
+          <div class="eyebrow">Maradj kapcsolatban</div>
+          <h2 style="margin-top:.6rem;">Iratkozz fel — havi egy email, amiben tényleg van tartalom.</h2>
+        </div>
+        <div>
+          <form class="news-form" id="newsForm">
+            <input type="email" required placeholder="te@ceged.hu" aria-label="Email cím" id="newsEmail">
+            <button type="submit" class="btn btn-primary">Feliratkozom</button>
+          </form>
+          <div class="news-status" id="newsStatus" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta" id="kapcsolat">
+    <div class="wrap">
+      <h2 class="reveal">Készen állsz, hogy a márkád kitűnjön?</h2>
+      <p class="reveal">Foglalj egy ingyenes konzultációt, és nézzük meg együtt, hova tud eljutni a márkád a SOULSILVER csapatával.</p>
+      <a href="#" class="btn btn-primary reveal">Ingyenes konzultáció foglalása</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand">SOULSILVER<span class="dot">.</span></div>
+        <p style="color:var(--ink-soft); font-size:.92rem; margin-top:.8rem; max-width:32ch;">Full-service marketing ügynökség — kreatív megoldások, mérhető eredmények.</p>
+      </div>
+      <div>
+        <h4>Szolgáltatások</h4>
+        <ul>
+          <li><a href="#szolgaltatasok">Márkaépítés</a></li>
+          <li><a href="#szolgaltatasok">Kampánytervezés</a></li>
+          <li><a href="#szolgaltatasok">Tartalomgyártás</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Cég</h4>
+        <ul>
+          <li><a href="#munkaink">Munkáink</a></li>
+          <li><a href="#crm">CRM</a></li>
+          <li><a href="#kapcsolat">Kapcsolat</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Jog</h4>
+        <ul>
+          <li><a href="#">Adatvédelem</a></li>
+          <li><a href="#">ÁSZF</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 SOULSILVER Marketing Agency</span>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 014 0v4"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18V6l7 3-7 3"/><circle cx="16" cy="15" r="2.4"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 9.5l4 2.5-4 2.5z"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 21v-7h3l1-4h-4V7.5a1.5 1.5 0 011.5-1.5H18V3h-2.5A4.5 4.5 0 0011 7.5V10H8v4h3v7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-bar glass" id="cookieBar">
+  <p>Sütiket használunk az élmény javítására és a forgalom méréséhez.</p>
+  <div class="cookie-actions">
+    <button class="btn-ghost" id="cookieReject">Elutasítom</button>
+    <button class="btn-primary" id="cookieAccept">Elfogadom</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal:not(.is-visible)');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* ---------- foreground parallax ---------- */
+  var parallaxEls = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  function onScrollParallax(){
+    var y = window.scrollY;
+    parallaxEls.forEach(function(el){
+      var speed = parseFloat(el.getAttribute('data-parallax')) || 0.05;
+      el.style.transform = 'translateY(' + (y*speed*-1) + 'px)';
+    });
+  }
+  if(!reduceMotion && parallaxEls.length){
+    window.addEventListener('scroll', function(){ requestAnimationFrame(onScrollParallax); }, {passive:true});
+  }
+
+  /* ---------- sticky process tracker ---------- */
+  var stage = document.querySelector('.process-stage');
+  var shell = document.querySelector('.process-scroller');
+  var railItems = document.querySelectorAll('.rail-item');
+  var stepCards = document.querySelectorAll('.step-card');
+  var railFill = document.getElementById('railFill');
+  var STEP_COUNT = stepCards.length;
+
+  function updateProcess(){
+    if(!shell) return;
+    var rect = shell.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    if(total <= 0) return;
+    var progress = Math.min(1, Math.max(0, -rect.top / total));
+    var idx = Math.min(STEP_COUNT-1, Math.floor(progress * STEP_COUNT));
+    railItems.forEach(function(el){ el.classList.toggle('active', Number(el.dataset.step) === idx); });
+    stepCards.forEach(function(el){ el.classList.toggle('active', Number(el.dataset.card) === idx); });
+    railFill.style.height = (((idx+1)/STEP_COUNT)*100) + '%';
+  }
+  window.addEventListener('scroll', function(){ requestAnimationFrame(updateProcess); }, {passive:true});
+  updateProcess();
+
+  /* ---------- mobile nav ---------- */
+  var navToggle = document.getElementById('navToggle');
+  var mobilePanel = document.getElementById('mobilePanel');
+  navToggle.addEventListener('click', function(){
+    var open = mobilePanel.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true':'false');
+  });
+  mobilePanel.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mobilePanel.classList.remove('open'); });
+  });
+
+  /* ---------- newsletter (visual only) ---------- */
+  var newsForm = document.getElementById('newsForm');
+  var newsStatus = document.getElementById('newsStatus');
+  newsForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('newsEmail').value;
+    newsStatus.textContent = 'Feliratkozva: ' + email + ' — köszönjük!';
+    newsForm.querySelector('input').value = '';
+  });
+
+  /* ---------- cookie bar ---------- */
+  var cookieBar = document.getElementById('cookieBar');
+  var COOKIE_KEY = 'soulsilver_cookie_choice';
+  function getChoice(){
+    try{ return localStorage.getItem(COOKIE_KEY); }catch(e){ return null; }
+  }
+  function setChoice(v){
+    try{ localStorage.setItem(COOKIE_KEY, v); }catch(e){}
+  }
+  if(!getChoice()){
+    setTimeout(function(){ cookieBar.classList.add('show'); }, 900);
+  }
+  document.getElementById('cookieAccept').addEventListener('click', function(){
+    setChoice('accepted'); cookieBar.classList.remove('show');
+  });
+  document.getElementById('cookieReject').addEventListener('click', function(){
+    setChoice('rejected'); cookieBar.classList.remove('show');
+  });
+})();
+</script>
+
+</body>
+</html>
