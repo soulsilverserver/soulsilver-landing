@@ -96,4 +96,17 @@
     if(acc) acc.addEventListener('click', function(){ setChoice('accepted'); cookieBar.classList.remove('show'); });
     if(rej) rej.addEventListener('click', function(){ setChoice('rejected'); cookieBar.classList.remove('show'); });
   }
+
+  /* ---------- Google Ads conversion tracking (lead intent) ---------- */
+  if(typeof gtag === 'function'){
+    document.querySelectorAll('a[href^="mailto:info@soulsilvermarketing.com"]').forEach(function(a){
+      a.addEventListener('click', function(){
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17312625266/hpAtCOOHyeocEPLkpr9A',
+          'value': 1.0,
+          'currency': 'HUF'
+        });
+      });
+    });
+  }
 })();
