@@ -12,3 +12,6 @@ desktop.ini
 _preview_*.html
 *.log
 node_modules/
+
+_phero_transform.py
+soulsilver_hero_*.jpg

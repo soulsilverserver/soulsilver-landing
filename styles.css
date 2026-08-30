@@ -596,3 +596,64 @@
   .page-cta h2{ font-size:clamp(1.9rem,2vw + 1.3rem,2.8rem); font-weight:700; position:relative; z-index:1; }
   .page-cta p{ color:#AAB2BC; max-width:46ch; margin:var(--sp-3) auto 0; position:relative; z-index:1; }
   .page-cta .svc-hero-actions{ justify-content:center; position:relative; z-index:1; }
+
+  /* ============================================================
+     PARALLAX CINEMATIC HERO (service pages)
+     ============================================================ */
+  .phero{
+    position:relative; width:100vw; left:50%; margin-left:-50vw;
+    min-height:min(80vh, 760px); display:flex; align-items:flex-end;
+    color:#fff; overflow:hidden; isolation:isolate;
+  }
+  .phero-bg{
+    position:absolute; inset:0; z-index:-1;
+    background-size:cover; background-position:center;
+    background-attachment:fixed;
+    background-color:#0A0C0F;
+  }
+  .phero-scrim{
+    position:absolute; inset:0; z-index:-1; pointer-events:none;
+    background:
+      linear-gradient(90deg, rgba(8,10,12,0.94) 0%, rgba(8,10,12,0.80) 26%, rgba(8,10,12,0.30) 58%, rgba(8,10,12,0.30) 100%),
+      linear-gradient(0deg, rgba(8,10,12,0.90) 0%, rgba(8,10,12,0.15) 45%, rgba(8,10,12,0.35) 100%);
+  }
+  .phero .wrap{ position:relative; z-index:1; width:100%; padding-top:calc(var(--sp-16) + 3rem); padding-bottom:var(--sp-8); }
+  .phero .subnav{ color:rgba(255,255,255,0.62); }
+  .phero .subnav a{ color:rgba(255,255,255,0.62); }
+  .phero .subnav a:hover{ color:var(--mint); }
+  .phero-kicker{
+    display:inline-flex; align-items:center; gap:.7em;
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--mint); margin-top:var(--sp-4);
+  }
+  .phero-kicker::before{ content:""; width:2.2em; height:1px; background:var(--mint); display:inline-block; }
+  .phero h1{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(2.6rem, 4vw + 1.4rem, 5rem); line-height:1.0; letter-spacing:-0.02em;
+    margin-top:var(--sp-3); max-width:16ch; text-wrap:balance;
+    text-shadow:0 4px 40px rgba(0,0,0,0.5);
+  }
+  .phero h1 em{ font-style:normal; color:var(--mint); }
+  .phero .lead{ max-width:46ch; color:rgba(255,255,255,0.86); font-size:1.12rem; margin-top:var(--sp-4); text-shadow:0 2px 18px rgba(0,0,0,0.5); }
+  .phero-actions{ display:flex; flex-wrap:wrap; gap:var(--sp-2); margin-top:var(--sp-5); }
+  .phero-actions .btn-ghost{ color:#fff; border-color:rgba(255,255,255,0.35); }
+  .phero-actions .btn-ghost:hover{ border-color:var(--mint); color:var(--mint); }
+  .phero-stats{ display:flex; flex-wrap:wrap; gap:var(--sp-4) var(--sp-6); margin-top:var(--sp-6); }
+  .phero-stat b{ font-family:var(--font-display); font-size:1.5rem; display:block; }
+  .phero-stat span{ font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,0.6); }
+  .phero-cue{ position:absolute; left:50%; bottom:1.1rem; transform:translateX(-50%); z-index:1; width:22px; height:34px; border:2px solid rgba(255,255,255,0.5); border-radius:12px; }
+  .phero-cue::after{ content:""; position:absolute; left:50%; top:6px; transform:translateX(-50%); width:3px; height:7px; border-radius:2px; background:var(--mint); animation:pheroCue 1.6s ease-in-out infinite; }
+  @keyframes pheroCue{ 0%{opacity:0; transform:translate(-50%,0);} 40%{opacity:1;} 100%{opacity:0; transform:translate(-50%,10px);} }
+  @media (prefers-reduced-motion: reduce){ .phero-cue::after{ animation:none; } }
+  @media (max-width:900px){
+    .phero-bg{ background-attachment:scroll; }
+    .phero{ min-height:auto; }
+    .phero .wrap{ padding-top:calc(var(--sp-16) + 1rem); padding-bottom:var(--sp-6); }
+  }
+
+  /* mid-page full-bleed parallax accent band (optional per page) */
+  .pband{ position:relative; width:100vw; left:50%; margin-left:-50vw; min-height:340px; display:flex; align-items:center; color:#fff; overflow:hidden; }
+  .pband-bg{ position:absolute; inset:0; z-index:-1; background-size:cover; background-position:center; background-attachment:fixed; background-color:#0A0C0F; }
+  .pband-scrim{ position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg, rgba(8,10,12,0.86), rgba(8,10,12,0.45) 60%, rgba(8,10,12,0.6)); pointer-events:none; }
+  .pband .wrap{ position:relative; z-index:1; }
+  @media (max-width:900px){ .pband-bg{ background-attachment:scroll; } }
