@@ -97,20 +97,31 @@
     if(rej) rej.addEventListener('click', function(){ setChoice('rejected'); cookieBar.classList.remove('show'); });
   }
 
-  /* ---------- Google Ads + GA4 conversion tracking (lead intent) ---------- */
+  /* ---------- Google Ads + GA4 conversion tracking ----------
+     Két külön konverziót mérünk, mert nem egyenértékűek:
+       - Űrlapbeküldés (koszonjuk.html) = befejezett lead → "Potenciális ügyfél
+         űrlapjának beküldése" (elsődleges, erre licitál a Smart Bidding).
+       - Email-/WhatsApp-kattintás = kapcsolatfelvételi szándék, de nem
+         garantáltan elküldött üzenet → külön "Kapcsolatfelvétel" konverzió.
+     Ha a kattintások is a lead-címkére mennének, felhígítanák az elsődleges
+     célt, és a Smart Bidding az olcsó kattintásokra optimalizálna. */
   if(typeof gtag === 'function'){
-    document.querySelectorAll('a[href^="mailto:info@soulsilvermarketing.com"]').forEach(function(a){
-      a.addEventListener('click', function(){
-        gtag('event', 'generate_lead', {
-          'value': 1.0,
-          'currency': 'HUF'
-        });
-        gtag('event', 'conversion', {
-          'send_to': 'AW-17312625266/hpAtCOOHyeocEPLkpr9A',
-          'value': 1.0,
-          'currency': 'HUF'
+    var CONTACT_INTENT = 'AW-17312625266/2Gt3CI3gguscEPLkpr9A';
+
+    function trackContactIntent(selector, gaEvent){
+      document.querySelectorAll(selector).forEach(function(a){
+        a.addEventListener('click', function(){
+          gtag('event', gaEvent, { 'value': 1.0, 'currency': 'HUF' });
+          gtag('event', 'conversion', {
+            'send_to': CONTACT_INTENT,
+            'value': 1.0,
+            'currency': 'HUF'
+          });
         });
       });
-    });
+    }
+
+    trackContactIntent('a[href^="mailto:info@soulsilvermarketing.com"]', 'contact_email');
+    trackContactIntent('a[href^="https://wa.me/"]', 'contact_whatsapp');
   }
 })();

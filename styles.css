@@ -127,6 +127,8 @@
   .btn-ghost{ background:transparent; color:var(--ink); border:1.5px solid var(--edge-strong); }
   .btn-ghost:hover{ border-color:var(--mint-deep); color:var(--mint-deep); }
   .btn-block{ width:100%; justify-content:center; }
+  .btn-whatsapp{ background:#25D366; color:#04150D; box-shadow:0 10px 30px -8px rgba(37,211,102,0.55); }
+  .btn-whatsapp:hover{ transform:translateY(-2px); box-shadow:0 14px 34px -6px rgba(37,211,102,0.65); }
 
   /* ============ LIQUID CHROME BACKDROP ============ */
   .liquid-bg{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
@@ -472,6 +474,24 @@
   .final-cta h2{ font-size:clamp(2.2rem, 3vw + 1.4rem, 3.6rem); font-weight:700; max-width:18ch; margin:0 auto; }
   .final-cta p{ color:var(--ink-soft); margin:var(--sp-3) auto 0; max-width:48ch; }
   .final-cta .btn-primary{ margin-top:var(--sp-5); font-size:1.05rem; padding:1em 2em; }
+
+  .contact-panel{
+    display:grid; grid-template-columns:.85fr 1.15fr; gap:var(--sp-8);
+    align-items:stretch; text-align:left; margin-top:var(--sp-8);
+  }
+  @media (max-width:860px){ .contact-panel{ grid-template-columns:1fr; } }
+  .contact-quick{ display:flex; flex-direction:column; gap:.9rem; }
+  .contact-quick .btn{ justify-content:center; }
+  .contact-quick-note{ font-size:.85rem; color:var(--ink-faint); margin-top:.2rem; }
+  .contact-form{ display:flex; flex-direction:column; gap:.8rem; }
+  .contact-form input, .contact-form textarea{
+    width:100%; padding:.95em 1.2em; border-radius:var(--radius-tile);
+    border:1px solid var(--edge-strong); background:var(--surface-strong); color:var(--ink);
+    font-family:var(--font-body); font-size:.95rem; resize:vertical;
+  }
+  .contact-form input::placeholder, .contact-form textarea::placeholder{ color:var(--ink-faint); }
+  .contact-form textarea{ min-height:110px; }
+  .contact-form .form-status{ font-family:var(--font-mono); font-size:.8rem; color:var(--mint-deep); min-height:1.2em; }
 
   /* ============ FOOTER ============ */
   footer{ padding:var(--sp-10) 0 var(--sp-16); border-top:1px solid var(--edge); margin-top:var(--sp-12); }
