@@ -504,8 +504,10 @@
   .foot-grid a:hover{ color:var(--mint-deep); }
   .foot-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:var(--sp-8); flex-wrap:wrap; gap:var(--sp-2); color:var(--ink-faint); font-size:.82rem; }
   .foot-social{ display:flex; gap:.8rem; }
-  .foot-social a{ width:34px; height:34px; border-radius:50%; border:1px solid var(--edge); display:flex; align-items:center; justify-content:center; }
+  .foot-social a{ width:34px; height:34px; border-radius:50%; border:1px solid var(--edge); display:flex; align-items:center; justify-content:center; background:#fff; transition:transform .2s ease; }
+  .foot-social a:hover{ transform:translateY(-2px); }
   .foot-social svg{ width:15px; height:15px; stroke:var(--ink-soft); }
+  .foot-social img{ width:17px; height:17px; object-fit:contain; display:block; }
 
   /* ============ COOKIE BANNER ============ */
   .cookie-bar{
