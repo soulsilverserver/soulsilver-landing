@@ -19,28 +19,50 @@ Utolsó frissítés: 2026-09-01
 
 **Commitolva a `main`-en, DE NINCS PUSHOLVA** — push = azonnali éles deploy.
 
+### Valós tartalom (2026-09-01, 2. kör)
+
+A demó szövegek lecserélve a Drive `REFERENCIÁK` mappája alapján
+(https://drive.google.com/drive/folders/14JKD5Zm0nPWb_LGkFkLUiKpwxlyQXBod).
+12 valós referencia-kártya:
+
+| # | Projekt | Kategória | Média-slug |
+|---|---------|-----------|------------|
+| 1 | YOUTOPIA × Sara Landry | aftermovie, social | `sara-landry` |
+| 2 | Kowalsky Meg a Vega — Budapest Park | aftermovie | `kowalsky-bp-park` |
+| 3 | Barabás Bio Hungary | web | `barabas-bio-hungary` |
+| 4 | Nyári rendezvényszezon | aftermovie, social | `rendezvenyek` |
+| 5 | Építőipari videósorozat | social, marka | `epitoipar` |
+| 6 | Foqusd | web, marka | `foqusd` |
+| 7 | THE G.O.A.T. España | social, termek | `goat-espana` |
+| 8 | Eurama | marka | `eurama` |
+| 9 | Hirdetési kreatívok | ppc, social | `hirdetesi-kreativok` |
+| 10 | GLDN Street | marka | `gldn-street` |
+| 11 | Parton Tali — légi felvételek | dron | `parton-tali` |
+| 12 | BUZZ Sneaker Store | termek, marka | `buzz-sneaker` |
+
+A két videó-sáv: YOUTOPIA × Sara Landry és THE G.O.A.T. España.
+
+Hero statisztikák a Drive-mappák alapján számolva: 30+ lezárt projekt,
+14 dokumentált rendezvény, 7 szolgáltatási terület. **Ezeket érdemes
+ellenőrizni** — mappaszámlálásból származnak, nem könyvelésből.
+
+Kikerült az oldalról a `img/hero-dronfelvetel.jpg`: az a szolgáltatás-oldal
+dekorációja, nem valós referenciaanyag, ezért nem szerepelhet referenciaként.
+
 ## Hátralévő teendők a referenciák oldalon
 
-1. **Valós tartalom** (kötelező élesítés előtt) — most minden kártya, statisztika
-   és média-útvonal helykitöltő, a HTML-ben `DEMÓ` kommenttel jelölve:
-   - `referenciak.html` hero: a három `data-count` érték (24+, 1,8M, 7)
-   - a 10 `.bento-item` címe, leírása, kategóriája
-   - a két `.vband` szövege
-2. **Média feltöltése** az `img/ref/` mappába. A kártyák a fájlnevet a
-   `data-lb-src` és a `background-image` alapján keresik; amíg nincs fájl, a
-   gradiens látszik és a lightbox „A látványanyag hamarosan felkerül." szöveget
-   mutat — nem törik el semmi. Szükséges fájlok:
-   - képek: `termek-kozmetikum.jpg`, `ppc-webshop.jpg`, `marka-arculat.jpg`,
-     `dron-ipari.jpg`, `social-kreativ-teszt.jpg`, `termek-gasztro.jpg`,
-     `social-vendeglatas.jpg`, `web-szolgaltato.jpg`, `aftermovie-fesztival.jpg`
-   - videók: `aftermovie-fesztival.mp4`, `dron-ingatlan.mp4`,
-     `vband-aftermovie.mp4` (+ `vband-aftermovie.jpg` poszter), `vband-dron.mp4`
-3. **Ügyféllogók**: jelenleg a marquee a platformlogókat mutatja
-   („Platformok, amelyeken dolgozunk") — ez szándékos, mert valós ügyféllogó még
-   nincs. Ha meglesznek: `img/logos/ugyfel/` mappa, az eyebrow átírása
-   „Ügyfeleink"-re, és a `.logo-item` képek cseréje (a listát kétszer kell
-   felsorolni a végtelen csúszás miatt).
-4. **Push** a `main`-re, amint a tartalom valós.
+1. **Média feltöltése** az `img/ref/` mappába. Minden kártya `<slug>.jpg`
+   posztert vár, a videós kártyák `<slug>.mp4`-et is (lásd a fenti táblát).
+   Amíg hiányzik, a gradiens látszik és a lightbox „A látványanyag hamarosan
+   felkerül." szöveget mutat — nem törik el semmi.
+   A Drive-ban lévő nyers fájlok nagyok (a Barabás weboldal-felvétel 1,79 GB),
+   webre tömöríteni kell — a git repóba nyers videó ne kerüljön.
+2. **Ügyféllogók**: a marquee továbbra is platformlogókat mutat
+   („Platformok, amelyeken dolgozunk"). Ha lesz engedélyezett ügyféllogó:
+   `img/logos/ugyfel/`, az eyebrow átírása „Ügyfeleink"-re, és a `.logo-item`
+   képek cseréje (a listát kétszer kell felsorolni a végtelen csúszás miatt).
+3. **Szövegek ellenőrzése**: a leírásokat a Drive mappa- és fájlnevekből
+   vezettem le. Ahol a projekt tartalma pontosabban megfogalmazható, javítsd.
 
 ## Ismert, korábbról meglévő hibák (nem ehhez a munkához tartoznak)
 
