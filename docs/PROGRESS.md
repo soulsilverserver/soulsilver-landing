@@ -17,7 +17,8 @@ Utolsó frissítés: 2026-09-01
 - Bekötve: nav + mobil panel + footer mind a 9 tartalmi oldalon, `sitemap.xml`
 - `robots.txt`: `Disallow: /docs/`
 
-**Commitolva a `main`-en, DE NINCS PUSHOLVA** — push = azonnali éles deploy.
+Pusholva a `main`-re 2026-09-01-en, él: https://soulsilver.hu/referenciak.html
+(minden `main`-re pusholt commit azonnal élesedik a Hostinger auto-deployon).
 
 ### Valós tartalom (2026-09-01, 2. kör)
 
