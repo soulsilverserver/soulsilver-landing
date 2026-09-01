@@ -16,3 +16,6 @@ node_modules/
 
 _phero_transform.py
 soulsilver_hero_*.jpg
+
+# Titkos konfiguráció (Resend API kulcs) — SOHA ne kerüljön a repóba
+config.php
