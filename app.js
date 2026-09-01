@@ -107,13 +107,14 @@
      célt, és a Smart Bidding az olcsó kattintásokra optimalizálna. */
   if(typeof gtag === 'function'){
     var CONTACT_INTENT = 'AW-17312625266/2Gt3CI3gguscEPLkpr9A';
+    var WHATSAPP_INTENT = 'AW-17312625266/HlTICL_g_OscEPLkpr9A';
 
-    function trackContactIntent(selector, gaEvent){
+    function trackContactIntent(selector, gaEvent, conversionLabel){
       document.querySelectorAll(selector).forEach(function(a){
         a.addEventListener('click', function(){
           gtag('event', gaEvent, { 'value': 1.0, 'currency': 'HUF' });
           gtag('event', 'conversion', {
-            'send_to': CONTACT_INTENT,
+            'send_to': conversionLabel,
             'value': 1.0,
             'currency': 'HUF'
           });
@@ -121,7 +122,7 @@
       });
     }
 
-    trackContactIntent('a[href^="mailto:info@soulsilvermarketing.com"]', 'contact_email');
-    trackContactIntent('a[href^="https://wa.me/"]', 'contact_whatsapp');
+    trackContactIntent('a[href^="mailto:info@soulsilvermarketing.com"]', 'contact_email', CONTACT_INTENT);
+    trackContactIntent('a[href^="https://wa.me/"]', 'contact_whatsapp', WHATSAPP_INTENT);
   }
 })();
