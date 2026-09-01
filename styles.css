@@ -697,7 +697,9 @@
   @media (max-width:560px){ .ref-stats{ grid-template-columns:1fr; max-width:none; } }
 
   /* --- ügyféllogó marquee --- */
-  .logo-marquee{ position:relative; width:100vw; left:50%; margin-left:-50vw; padding:var(--sp-4) 0; border-block:1px solid var(--edge); overflow:hidden;
+  /* A szülő <section> már teljes szélességű, ezért NEM kell 100vw full-bleed trükk:
+     a 100vw a görgetősávot is beleszámolja, és vízszintes túlcsordulást okoz. */
+  .logo-marquee{ position:relative; width:100%; padding:var(--sp-4) 0; border-block:1px solid var(--edge); overflow:hidden;
     -webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
             mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
   .logo-track{ display:flex; align-items:center; gap:var(--sp-8); width:max-content; animation:logo-slide 38s linear infinite; }
@@ -723,15 +725,24 @@
   .bento{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:225px; gap:var(--sp-2); margin-top:var(--sp-5); }
   .bento-item{ position:relative; grid-column:span 1; grid-row:span 1; border-radius:var(--radius-tile); overflow:hidden;
     border:1px solid var(--edge); background:var(--chrome-3); cursor:pointer; padding:0; text-align:left; color:#fff;
-    clip-path:inset(0 0 100% 0); transform:perspective(900px) rotateX(var(--ty,0deg)) rotateY(var(--tx,0deg));
-    transition:clip-path .9s cubic-bezier(.16,1,.3,1), transform .4s ease, opacity .45s ease, box-shadow .4s ease; }
-  .bento-item.is-visible{ clip-path:inset(0 0 0 0); }
+    transition:transform .4s ease, opacity .45s ease, box-shadow .4s ease; }
+  /* A dőlés-transzformot a .reveal.is-visible fölé kell emelni, különben az
+     nullázza. A reveal-maszk NEM a gombon van: a clip-path kinullázná az
+     IntersectionObserver metszetét, és a kártya sosem jelenne meg. */
+  .bento-item.reveal, .bento-item.reveal.is-visible{
+    transform:perspective(900px) rotateX(var(--ty,0deg)) rotateY(var(--tx,0deg)); }
+  .bento-inner{ position:absolute; inset:0; display:block;
+    clip-path:inset(0 0 100% 0); transition:clip-path .9s cubic-bezier(.16,1,.3,1); }
+  .bento-item.is-visible .bento-inner{ clip-path:inset(0 0 0 0); }
   .bento-item.wide{ grid-column:span 2; }
   .bento-item.tall{ grid-row:span 2; }
   .bento-item:hover{ box-shadow:var(--shadow); }
   .bento-item:focus-visible{ outline:2px solid var(--mint); outline-offset:3px; }
 
-  .bento-media{ position:absolute; inset:0; background-size:cover; background-position:center; }
+  .bento-media{ position:absolute; inset:0; display:block; background-size:cover; background-position:center; background-repeat:no-repeat;
+    transform:scale(1.12); transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
+  .bento-item.is-visible .bento-media{ transform:scale(1); }
+  .bento-item:hover .bento-media{ transform:scale(1.07); }
   .bento-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.15);
     transition:transform 1.1s cubic-bezier(.16,1,.3,1); }
   .bento-item.is-visible .bento-img{ transform:scale(1); }
@@ -764,10 +775,9 @@
     display:grid; place-items:center; background:rgba(255,255,255,.18); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.3); }
   .bento-play svg{ width:13px; height:13px; fill:#fff; margin-left:2px; }
 
-  /* szűrt állapot */
-  .bento-item.is-hidden{ opacity:0; transform:scale(.94); pointer-events:none; visibility:hidden;
-    grid-column:span 1; grid-row:span 1; height:0; min-height:0; margin:0; padding:0; border-width:0;
-    transition:opacity .3s ease, transform .3s ease; }
+  /* szűrt állapot — előbb kifakul (.is-fading), majd kikerül a rácsból (.is-hidden) */
+  .bento-item.is-fading{ opacity:0; transform:scale(.94); pointer-events:none; }
+  .bento-item.is-hidden{ display:none; }
 
   @media (max-width:860px){
     .bento{ grid-template-columns:repeat(2,1fr); grid-auto-rows:200px; }
@@ -779,7 +789,7 @@
   }
 
   /* --- full-bleed parallax videó-sáv --- */
-  .vband{ position:relative; width:100vw; left:50%; margin-left:-50vw; height:78vh; min-height:420px; max-height:760px;
+  .vband{ position:relative; width:100%; height:78vh; min-height:420px; max-height:760px;
     overflow:hidden; display:flex; align-items:flex-end; color:#fff; background:#0A0C0F; margin-block:var(--sp-10); }
   .vband-frame{ position:absolute; inset:-14% 0; z-index:0; will-change:transform; }
   .vband-video{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -834,9 +844,10 @@
 
   /* --- mozgáscsökkentés --- */
   @media (prefers-reduced-motion: reduce){
-    .bento-item{ clip-path:none; transform:none; }
-    .bento-img{ transform:none; }
-    .bento-item:hover .bento-img{ transform:none; }
+    .bento-inner{ clip-path:none; transition:none; }
+    .bento-item.reveal, .bento-item.reveal.is-visible{ transform:none; }
+    .bento-img, .bento-media{ transform:none; }
+    .bento-item:hover .bento-img, .bento-item:hover .bento-media{ transform:none; }
     .bento-sheen{ display:none; }
     .logo-track{ animation:none; flex-wrap:wrap; width:auto; justify-content:center; }
     .vband-frame, .vband-content{ transform:none; }
