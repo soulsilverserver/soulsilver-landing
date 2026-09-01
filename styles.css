@@ -254,6 +254,7 @@
   .platform-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
   .p-icon{ width:46px; height:46px; flex:none; border-radius:13px; display:flex; align-items:center; justify-content:center; }
   .p-icon svg{ width:24px; height:24px; }
+  .p-icon img{ width:26px; height:26px; object-fit:contain; display:block; }
   .platform-card .p-name{ font-weight:700; font-size:1.02rem; }
   .platform-card .p-sub{ display:block; font-family:var(--font-mono); font-size:.68rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.08em; margin-top:.15em; }
 
