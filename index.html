@@ -440,10 +440,13 @@
           <p class="contact-quick-note">Gyors kérdésre a leggyorsabb válasz — általában percek alatt reagálunk.</p>
         </div>
         <form class="contact-form" id="contactForm" action="contact.php" method="POST">
-          <input type="text" name="name" id="cfName" placeholder="Neved *" required>
-          <input type="tel" name="phone" id="cfPhone" placeholder="Telefonszámod *" required>
+          <input type="text" name="name" id="cfName" placeholder="Neved *" required autocomplete="name">
+          <input type="tel" name="phone" id="cfPhone" placeholder="Telefonszámod *" required autocomplete="tel">
+          <input type="email" name="email" id="cfEmail" placeholder="Email címed (opcionális)" autocomplete="email">
           <textarea name="message" id="cfMessage" placeholder="Miben segíthetünk?"></textarea>
+          <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn-primary btn-block">Üzenet küldése</button>
+          <p class="contact-consent">Az „Üzenet küldése" gombra kattintva hozzájárulsz, hogy megadott adataidat kizárólag a kapcsolatfelvételhez használjuk fel.</p>
           <div class="form-status" id="cfStatus" role="status"></div>
         </form>
       </div>

@@ -493,6 +493,8 @@
   .contact-form input::placeholder, .contact-form textarea::placeholder{ color:var(--ink-faint); }
   .contact-form textarea{ min-height:110px; }
   .contact-form .form-status{ font-family:var(--font-mono); font-size:.8rem; color:var(--mint-deep); min-height:1.2em; }
+  .contact-form .hp-field{ position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; opacity:0; overflow:hidden; pointer-events:none; }
+  .contact-consent{ font-size:.74rem; color:var(--ink-faint); line-height:1.45; margin-top:.1rem; }
 
   /* ============ FOOTER ============ */
   footer{ padding:var(--sp-10) 0 var(--sp-16); border-top:1px solid var(--edge); margin-top:var(--sp-12); }
