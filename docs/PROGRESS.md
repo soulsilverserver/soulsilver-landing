@@ -198,32 +198,46 @@ szöveg, 24×24px alatti tap-target, apró betűk, átfedő elemek, kilógó ké
 ## Szolgáltatás-hero képek kivéve (2026-09-02)
 
 A generált „hightech iroda" fotók kikerültek mind a 9 oldalról (8 szolgáltatás
-+ CRM). A user szerint AI-klisék voltak; a mérés ezt alátámasztja: a
--n a monitoron **halandzsa szöveg** van („ROAS" után
++ CRM). A user szerint AI-klisék voltak, és a mérés ezt alátámasztja: a
+`hero-ppc.jpg`-n a monitoron **halandzsa szöveg** van (a „ROAS" után
 olvashatatlan karakterek), ami klasszikus generálási artifact, és ugyanez a
- papírjain.
+`hero-markaidentitas.jpg` papírjain.
 
-Helyettük **rétegzett gradiens** minden oldalon,  osztályokkal
-a -ben. Két dolog kellett hozzá:
+Helyettük **rétegzett gradiens** minden oldalon, `.phero-bg.bg-*` osztályokkal
+a `styles.css`-ben. Két dolog kellett hozzá:
 
-1. A  , tehát a gradiens a
+1. A `.phero-bg` beállítása `background-attachment: fixed`, tehát a gradiens a
    **viewporthoz** méretezett, nem az elemhez — a százalékos pozíciók a
-   képernyőre értendők.
-2. A  a jobb oldalon is ~44%-ot elnyel, ezért az első próbálkozás
-   (alfa 0,2–0,3) sík sötét sávnak látszott. Éles kifutású, 0,7–0,95 alfájú
-   fénypont kellett, hogy szándékos megvilágításnak olvasódjon. A fény a jobb
-   oldalon van, ahol a scrim a legvilágosabb; balra a scrim 94%, oda kerül a
-   fehér szöveg.
+   képernyőre értendők, nem a hero-sávra.
+2. A `.phero-scrim` a jobb oldalon is ~44%-ot elnyel (0,30 vízszintes +
+   0,15–0,35 függőleges réteg). Ezért az első próbálkozás (0,2–0,3 alfa) sík
+   sötét sávnak látszott. Éles kifutású, 0,7–0,95 alfájú fénypont kellett,
+   hogy szándékos megvilágításnak olvasódjon. A fény a jobb oldalon van, ahol
+   a scrim a legvilágosabb; balra a scrim 94%, oda kerül a fehér szöveg.
 
-Oldalanként más a fénypont helye és színe (9 különböző háttér — ellenőrizve).
-A 8 hero-JPEG (900 KB) törölve, mert hivatkozás nélkül maradt; a git
-történetében megvan, ha kellene.
+Oldalanként más a fénypont helye és színe — ellenőrizve, hogy mind a 9 háttér
+különböző. A 8 hero-JPEG (900 KB) törölve, mert hivatkozás nélkül maradt; a
+git történetében megvan, ha kellene.
 
-### Nyitott: az og-image.jpg
+Ha később mégis fotó kell: a jó megoldás **nem** AI-generálás, hanem a Drive
+`REFERENCIÁK` mappájában lévő **saját anyag** (Fénykép: 23 projektmappa, drón-
+és rendezvényfotókkal). Az egyszerre hiteles és portfólió is.
 
-A közösségi megosztásokhoz használt  **1200×1335, tehát
+### Nyitott döntés: az og-image.jpg
+
+A közösségi megosztásokhoz használt `img/og-image.jpg` **1200×1335, tehát
 portré**. Az Open Graph 1200×630-at vár (1,91:1), így a platformok a középső
-sávot vágják ki — a megosztásokból pont a „SOUL SILVER" és a „MARKETING
-AGENCY" felirat esne le, és nagyrészt a tenger meg az „ARTIFICIAL
-INTELLIGENCE" maradna. A bézs/barna színvilág a site grafit + mint
-palettájához sem passzol. Mind a 16 oldal ezt a képet hivatkozza.
+sávot vágják ki: a megosztásokból pont a „SOUL SILVER" felirat és a „MARKETING
+AGENCY" esik le, és nagyrészt a tenger meg az „ARTIFICIAL INTELLIGENCE" marad.
+A bézs/barna színvilág a site grafit + mint palettájához sem passzol.
+Mind a 16 oldal ezt a képet hivatkozza (`og:image` és `twitter:image`).
+
+### Nyitott döntés: a mint akcentus szövegként
+
+A `--mint-deep` (`#0A9E77`) világos háttéren **2,98:1** — megbukik a WCAG AA
+4,5:1-en, sőt a nagy szövegre vonatkozó 3:1-en is egy hajszállal. 22 helyen
+használjuk szövegszínként világos háttéren (`eyebrow`, `price-name`,
+lépés-számok, `ref-metric`, jogi linkek, hover-állapotok). A javítás egy külön
+`--mint-text: #087B5D` token lenne (4,58:1) — ugyanaz a zöld, sötétebb.
+Grafikai elemként (diagram-sávok, gombháttér) a jelenlegi érték megfelel a
+3:1-nek, tehát csak a szöveges használatot kell átváltani.
