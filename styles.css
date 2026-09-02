@@ -79,8 +79,13 @@
     overflow-x:hidden;
   }
 
-  h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; letter-spacing:-0.01em; }
-  p{ margin:0; }
+  /* overflow-wrap:anywhere — a hosszú magyar összetett szavak (pl.
+     "kampánymenedzsernek") min-content szélessége keskeny mobilnézetben
+     nagyobb, mint a rendelkezésre álló hely: e nélkül kilógnak a dobozukból,
+     és rács-elemként a saját sávjukat is szélesebbre feszítik. */
+  h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; letter-spacing:-0.01em; overflow-wrap:anywhere; }
+  h4{ overflow-wrap:anywhere; }
+  p{ margin:0; overflow-wrap:break-word; }
   a{ color:inherit; }
   ::selection{ background:var(--mint); color:var(--mint-ink); }
 
@@ -193,6 +198,14 @@
   .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
   .reveal.from-left{ transform:translate(-32px,10px); }
   .reveal.from-right{ transform:translate(32px,10px); }
+  /* 640px alatt a .wrap oldalpaddingja már csak 24px, így a ±32px-es
+     vízszintes belépő eltolás kilógna a viewportból (vízszintes görgetés
+     a reveal lefutásáig). Mobilon ezért csak függőlegesen mozgatunk.
+     FONTOS: ennek a .reveal.is-visible szabály ELŐTT kell állnia,
+     különben azonos specificitással felülírná a végállapotot. */
+  @media (max-width:640px){
+    .reveal.from-left, .reveal.from-right{ transform:translate(0,18px); }
+  }
   .reveal.is-visible{ opacity:1; transform:translate(0,0); }
   @media (prefers-reduced-motion: reduce){
     .reveal{ transition:opacity .3s ease; transform:none !important; }
@@ -499,10 +512,14 @@
   /* ============ FOOTER ============ */
   footer{ padding:var(--sp-10) 0 var(--sp-16); border-top:1px solid var(--edge); margin-top:var(--sp-12); }
   .foot-grid{ display:grid; grid-template-columns:1.4fr .8fr .8fr .8fr; gap:var(--sp-6); }
+  .foot-grid > *{ min-width:0; }
   @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
   .foot-grid h4{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:var(--sp-2); }
   .foot-grid ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.6rem; }
-  .foot-grid a{ text-decoration:none; color:var(--ink-soft); font-size:.92rem; }
+  /* Az info@soulsilvermarketing.com egyetlen tördelhetetlen szó: 375px-en a
+     min-content szélessége ~205px, ami a 1fr 1fr rácsot a konténeren túlra
+     feszíti (~20px vízszintes túlcsordulás minden oldalon). */
+  .foot-grid a{ text-decoration:none; color:var(--ink-soft); font-size:.92rem; overflow-wrap:anywhere; }
   .foot-grid a:hover{ color:var(--mint-deep); }
   .foot-bottom{ display:flex; justify-content:space-between; align-items:center; margin-top:var(--sp-8); flex-wrap:wrap; gap:var(--sp-2); color:var(--ink-faint); font-size:.82rem; }
   .foot-social{ display:flex; gap:.8rem; }
@@ -575,7 +592,9 @@
   .page-main{ padding-top:calc(var(--sp-16) + 1rem); }
 
   /* breadcrumb / back */
-  .subnav{ display:flex; align-items:center; gap:.6rem; font-family:var(--font-mono); font-size:.75rem; letter-spacing:.04em; color:var(--ink-faint); text-transform:uppercase; }
+  /* flex-wrap nélkül a hosszabb morzsamenük (pl. "… / PPC hirdetéskezelés")
+     375px-en pár pixellel kilógnak a viewportból. */
+  .subnav{ display:flex; flex-wrap:wrap; align-items:center; gap:.3rem .6rem; font-family:var(--font-mono); font-size:.75rem; letter-spacing:.04em; color:var(--ink-faint); text-transform:uppercase; }
   .subnav a{ text-decoration:none; color:var(--ink-faint); transition:color .2s; }
   .subnav a:hover{ color:var(--mint-deep); }
   .subnav .sep{ opacity:.5; }
@@ -636,6 +655,11 @@
 
   /* pricing */
   .price-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-3); margin-top:var(--sp-6); align-items:stretch; }
+  /* A "250&nbsp;000&nbsp;Ft/hó-tól" a nem törő szóközök miatt egyetlen,
+     ~272px széles tördelhetetlen blokk. Három oszlop csak akkor fér el,
+     ha a .wrap már a teljes 1180px-es szélességén van; alatta a rács
+     a saját konténerén (861-1000px között a viewporton) is túlcsordult. */
+  @media (max-width:1180px){ .price-grid{ grid-template-columns:1fr 1fr; } }
   @media (max-width:860px){ .price-grid{ grid-template-columns:1fr; max-width:460px; } }
   .price-card{ border-radius:24px; padding:var(--sp-5); background:var(--surface); border:1px solid var(--edge); display:flex; flex-direction:column; }
   .price-card.featured{ background:var(--ink); color:var(--ground); border-color:transparent; box-shadow:var(--shadow); position:relative; }
@@ -643,7 +667,7 @@
   .price-badge{ position:absolute; top:var(--sp-3); right:var(--sp-3); background:var(--mint); color:var(--mint-ink); font-family:var(--font-mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; padding:.35em .7em; border-radius:999px; font-weight:700; }
   .price-name{ font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--mint-deep); }
   .price-card.featured .price-name{ color:var(--mint); }
-  .price-amount{ font-family:var(--font-display); font-size:2.1rem; font-weight:700; margin:var(--sp-2) 0 .2rem; line-height:1; }
+  .price-amount{ font-family:var(--font-display); font-size:clamp(1.35rem, 6vw, 2.1rem); font-weight:700; margin:var(--sp-2) 0 .2rem; line-height:1; }
   .price-amount small{ font-family:var(--font-body); font-size:.9rem; font-weight:600; color:var(--ink-faint); }
   .price-card.featured .price-amount small{ color:rgba(255,255,255,0.6); }
   .price-sub{ color:var(--ink-soft); font-size:.9rem; }
@@ -670,8 +694,12 @@
   /* ============================================================
      PARALLAX CINEMATIC HERO (service pages)
      ============================================================ */
+  /* A .phero a <main> közvetlen gyereke, tehát már teljes szélességű:
+     a 100vw + left:50% + margin-left:-50vw trükk fölösleges, viszont a
+     100vw a görgetősávot is beleszámolja → desktopon ~fél görgetősávnyi
+     (8px) vízszintes túlcsordulás. Lásd még a .logo-marquee-nél írtakat. */
   .phero{
-    position:relative; width:100vw; left:50%; margin-left:-50vw;
+    position:relative; width:100%;
     min-height:min(80vh, 760px); display:flex; align-items:flex-end;
     color:#fff; overflow:hidden; isolation:isolate;
   }
@@ -722,7 +750,7 @@
   }
 
   /* mid-page full-bleed parallax accent band (optional per page) */
-  .pband{ position:relative; width:100vw; left:50%; margin-left:-50vw; min-height:340px; display:flex; align-items:center; color:#fff; overflow:hidden; }
+  .pband{ position:relative; width:100%; min-height:340px; display:flex; align-items:center; color:#fff; overflow:hidden; }
   .pband-bg{ position:absolute; inset:0; z-index:-1; background-size:cover; background-position:center; background-attachment:fixed; background-color:#0A0C0F; }
   .pband-scrim{ position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg, rgba(8,10,12,0.86), rgba(8,10,12,0.45) 60%, rgba(8,10,12,0.6)); pointer-events:none; }
   .pband .wrap{ position:relative; z-index:1; }
