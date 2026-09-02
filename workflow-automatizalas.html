@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<title>Workflow automatizálás — SOULSILVER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Workflow automatizálás cégeknek: lead-válasz, ajánlatkövetés, feladatértesítések, riportolás és számlaemlékeztetők automatizálva. Ugyanannyi emberrel több elvégzett munka." />
+<link rel="canonical" href="https://soulsilver.hu/workflow-automatizalas.html" />
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SOULSILVER" />
+<meta property="og:locale" content="hu_HU" />
+<meta property="og:title" content="Workflow automatizálás — SOULSILVER" />
+<meta property="og:description" content="Workflow automatizálás cégeknek: lead-válasz, ajánlatkövetés, feladatértesítések, riportolás és számlaemlékeztetők automatizálva. Ugyanannyi emberrel több elvégzett munka." />
+<meta property="og:url" content="https://soulsilver.hu/workflow-automatizalas.html" />
+<meta property="og:image" content="https://soulsilver.hu/img/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Workflow automatizálás — SOULSILVER" />
+<meta name="twitter:description" content="Workflow automatizálás cégeknek: lead-válasz, ajánlatkövetés, feladatértesítések, riportolás és számlaemlékeztetők automatizálva. Ugyanannyi emberrel több elvégzett munka." />
+<meta name="twitter:image" content="https://soulsilver.hu/img/og-image.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17312625266"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17312625266');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Milyen rendszerekkel működik?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A legtöbb rendszerrel, aminek van API-ja vagy webhook-ja: Google Workspace, Meta és Google Ads, számlázóprogramok, webshopok, Slack, WhatsApp, e-mail. A saját CRM-ünkkel a mélyebb integrációk is elérhetők. A felmérésen végigmegyünk azon, amit ma használsz."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mennyi idő alatt lesz kész az első workflow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A folyamatfelmérés jellemzően egy hét, az első élő workflow ezt követően újabb egy-két hét. Szándékosan egy folyamattal kezdünk: így hamar látszik az eredmény, és a csapat is hozzászokik."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mi történik, ha elromlik egy automatizmus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Minden workflow-ba hibakezelés és értesítés kerül: ha egy lépés elhasal, arról ember kap jelzést, és a folyamat nem hal el csendben. Az üzemeltetési csomagban a hibák javítása is benne van."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kell hozzá fejlesztő vagy IT-s a cégnél?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nem. A bekötést és az üzemeltetést mi végezzük. Ami kell tőled: hozzáférés a rendszerekhez, és egy ember, aki ismeri a folyamatot, amit automatizálunk."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mi van, ha a folyamataink rendezetlenek?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Akkor először rendbe tesszük őket. A rossz folyamat automatizálva csak gyorsabban rossz — a felmérés éppen azért van, hogy ez kiderüljön, mielőtt bármit bekötünk."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="liquid-bg" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="blob blob-c"></span>
+  <span class="blob blob-d"></span>
+</div>
+<div class="grain-veil" aria-hidden="true"></div>
+
+<nav class="topnav glass">
+  <a class="brand" href="index.html" style="text-decoration:none;">SOULSILVER<span class="dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#munkaink">Szolgáltatások</a></li>
+    <li><a href="index.html#web">Weboldal</a></li>
+    <li><a href="index.html#folyamat">Folyamat</a></li>
+    <li><a href="crm.html">CRM</a></li>
+    <li><a href="referenciak.html">Referenciák</a></li>
+    <li><a href="index.html#kapcsolat">Kapcsolat</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="index.html#kapcsolat" class="btn btn-primary" style="padding:.7em 1.3em; font-size:.88rem;">Ingyenes konzultáció</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü megnyitása" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-panel glass" id="mobilePanel">
+  <a href="index.html#munkaink">Szolgáltatások</a>
+  <a href="index.html#web">Weboldal</a>
+  <a href="index.html#folyamat">Folyamat</a>
+  <a href="crm.html">CRM</a>
+  <a href="referenciak.html">Referenciák</a>
+  <a href="index.html#kapcsolat">Kapcsolat</a>
+</div>
+
+<main>
+  <!-- ========== PARALLAX HERO ==========
+       A hero-kép még nem készült el; amíg nincs, a gradiens rétegre esik vissza.
+       Ha meglesz: img/hero-workflow.jpg néven ide, a gradienst hagyd második
+       rétegnek fallbacknek. -->
+  <section class="phero">
+    <div class="phero-bg" style="background-image:url(img/hero-workflow.jpg), linear-gradient(155deg,#0A6B54 0%,#11333B 45%,#05090C 100%)"></div>
+    <div class="phero-scrim"></div>
+    <div class="wrap">
+      <div class="subnav"><a href="index.html">SOULSILVER</a><span class="sep">/</span><a href="index.html#munkaink">Szolgáltatások</a><span class="sep">/</span><span>Workflow automatizálás</span></div>
+      <div class="phero-kicker">Szolgáltatás · Workflow automatizálás</div>
+      <h1>Ugyanennyi emberrel <em>kétszer</em> annyi munka.</h1>
+      <p class="lead">A csapatod nem attól lesz hatékonyabb, hogy több órát dolgozik — hanem attól, hogy kevesebb kézi lépést végez. Kiszedjük a folyamatból az átgépelést, az utánakérdezést és az elfelejtett follow-upot.</p>
+      <div class="phero-actions"><a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20automatiz%C3%A1l%C3%A1s%20%E2%80%93%20folyamatfelm%C3%A9r%C3%A9s" class="btn btn-primary">Kérek egy folyamatfelmérést</a>
+            <a href="#kalkulator" class="btn btn-ghost">Mennyit nyerek vele?</a></div>
+      <div class="phero-stats">
+        <div class="phero-stat"><b>1 hét</b><span>Folyamatfelmérés</span></div>
+        <div class="phero-stat"><b>2 hét</b><span>Első élő workflow</span></div>
+        <div class="phero-stat"><b>0</b><span>Kézi átgépelés</span></div>
+      </div>
+    </div>
+    <div class="phero-cue" aria-hidden="true"></div>
+  </section>
+
+  <!-- ========== A PROBLÉMA ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">A probléma</div>
+        <h2>Hol szivárog el az idő?</h2>
+        <p>Nem a nagy dolgokon. Azokon a tíz-húsz perces lépéseken, amiket senki nem számol, mert „csak beírom gyorsan".</p>
+      </div>
+      <div class="incl-grid">
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M8 6h11M8 12h11M8 18h11"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg></div><h3>Kézi átgépelés</h3><p>Ugyanaz az adat háromszor: e-mailben megjön, táblázatba bekerül, aztán a számlázóba is. Minden kör egy újabb elírási lehetőség.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Elfelejtett follow-up</h3><p>Az ajánlat kiment, aztán senki nem kérdezett rá. A lead nem azért veszett el, mert nem kellett neki — hanem mert nem szóltunk időben.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Státusz-egyeztetés</h3><p>„Hol tart?" — és megy a körlevél. A válasz eleve benne van a rendszerben, csak nem jut el magától az érintettekhez.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 4-6"/></svg></div><h3>Riport összeollózása</h3><p>Havonta pár óra: kimásolni a hirdetési adatokat, összerakni egy dokumentumba, elküldeni. Ugyanaz a mozdulatsor, minden hónapban.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><h3>Fizetési emlékeztetők</h3><p>A lejárt számlát valakinek észre kell vennie, aztán kellemetlen levelet írnia. Általában későn, néha soha.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><h3>Onboarding fejben</h3><p>Új ügyfél indul, és a tizenkét lépéses lista valakinek a fejében van. Ami kimarad, az két hét múlva derül ki.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WORKFLOW KATALÓGUS ========== -->
+  <section id="workflowok">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Workflow-katalógus</div>
+        <h2>Mit automatizálunk konkrétan?</h2>
+        <p>Minden workflow ugyanígy épül fel: van egy <b>indító esemény</b>, arra lefut egy <b>lépéssor</b>, és lesz egy <b>eredmény</b>, amiért nem kell senkinek emlékeznie. Nyisd ki bármelyiket.</p>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Ügyfélszerzés</h3><span>2 workflow</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-lead">
+              <span class="wf-name">Lead → azonnali válasz</span>
+              <span class="wf-tag">Email + értesítés</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-lead" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> valaki beküldi a kapcsolatfelvételi űrlapot.</li>
+                  <li class="wf-step">A lead bekerül a CRM-be, forrás és kampány szerint címkézve.</li>
+                  <li class="wf-step">Visszaigazoló e-mail megy ki fél percen belül — nem sablonszagú, hanem arra reagál, amit kitöltött.</li>
+                  <li class="wf-step">Az illetékes kollégának értesítés fut be WhatsApp-on vagy Slacken, a lead adataival.</li>
+                  <li class="wf-step">Ha 15 percen belül senki nem nyitotta meg, a rendszer eszkalál a vezetőnek.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Egyetlen érdeklődő sem áll órákig válasz nélkül, és nem múlik azon, hogy ki nézte meg a postafiókot.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-ajanlat">
+              <span class="wf-name">Ajánlatkérés → ajánlat és utánkövetés</span>
+              <span class="wf-tag">Dokumentum + follow-up</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-ajanlat" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> a lead státusza „ajánlatkérés"-re vált a CRM-ben.</li>
+                  <li class="wf-step">A rendszer a CRM-adatokból kitölti az ajánlatsablont, és PDF-et készít.</li>
+                  <li class="wf-step">Az ajánlat kimegy e-mailben, a megnyitása mérve.</li>
+                  <li class="wf-step">Ha nincs válasz: emlékeztető a 3., 7. és 14. napon — mindegyik más hangvétellel.</li>
+                  <li class="wf-step">Válasz esetén a follow-up sor azonnal leáll, és a kolléga kap jelzést.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Az ajánlatok utánkövetése nem az értékesítő emlékezetén múlik — és nem is zaklatja azt, aki már válaszolt.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Projektmenedzsment</h3><span>2 workflow</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-feladat">
+              <span class="wf-name">Feladatértesítések és határidők</span>
+              <span class="wf-tag">Feladat + eszkalálás</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-feladat" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> egy projekt fázist vált (pl. „forgatás kész" → „utómunka").</li>
+                  <li class="wf-step">A fázishoz tartozó feladatok automatikusan létrejönnek, felelőssel és határidővel.</li>
+                  <li class="wf-step">A felelős értesítést kap, a határidő előtt egy nappal emlékeztetőt.</li>
+                  <li class="wf-step">Ha a határidő lejár és a feladat nyitva van, a projektvezető kap jelzést.</li>
+                  <li class="wf-step">A projekt státusza magától frissül — nem kell rákérdezni.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Megszűnnek a „hol tartunk?" körlevelek, és a csúszás nem az átadás napján derül ki.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-onboarding">
+              <span class="wf-name">Új ügyfél onboarding</span>
+              <span class="wf-tag">Checklist + hozzáférések</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-onboarding" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> a szerződés aláírva, a deal „megnyert"-re vált.</li>
+                  <li class="wf-step">Létrejön a projekt mappaszerkezete, a megfelelő hozzáférésekkel.</li>
+                  <li class="wf-step">Az ügyfél megkapja az adatbekérő listát (logók, hozzáférések, kontaktok).</li>
+                  <li class="wf-step">A kick-off egyeztetéshez időpontjavaslat megy ki.</li>
+                  <li class="wf-step">Ami az adatbekérőből hiányzik, arra a rendszer emlékeztet — nem a projektvezető.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Minden ügyfél ugyanazt a rendezett indulást kapja, függetlenül attól, ki viszi a projektet.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Pénzügy</h3><span>2 workflow</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-szamla">
+              <span class="wf-name">Számlázás és fizetési emlékeztetők</span>
+              <span class="wf-tag">Számla + emlékeztető</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-szamla" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> a teljesítés megjelölve a projektben.</li>
+                  <li class="wf-step">A számla kiállítása és kiküldése a CRM-adatokból, kézi bevitel nélkül.</li>
+                  <li class="wf-step">Fizetési határidő után 8 nappal barátságos emlékeztető.</li>
+                  <li class="wf-step">15 nap után második, határozottabb emlékeztető.</li>
+                  <li class="wf-step">Utána eszkalálás belső felelősre, hogy telefonon rendezze.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Rövidebb átfutás a kifizetésig, és senkinek nem kell kellemetlen levelet fogalmaznia nulláról.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-koltes">
+              <span class="wf-name">Hirdetési költés figyelése</span>
+              <span class="wf-tag">Riasztás</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-koltes" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> napi zárás után lefutó ellenőrzés.</li>
+                  <li class="wf-step">A rendszer összesíti a Google és Meta költést fiókonként.</li>
+                  <li class="wf-step">Összeveti a havi kerettel és az addigi lefutással.</li>
+                  <li class="wf-step">Ha egy fiók túlfut a küszöbön, azonnal riasztás megy a kampánykezelőnek.</li>
+                  <li class="wf-step">Heti összefoglaló a keret állásáról, ügyfelenként.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>A keret túllépése aznap derül ki, nem a hónap végi elszámoláskor.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Marketing működés</h3><span>4 workflow</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-riport">
+              <span class="wf-name">Kampányriport összeállítása</span>
+              <span class="wf-tag">Riport + kiküldés</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-riport" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> hét vagy hónap zárása.</li>
+                  <li class="wf-step">A rendszer behúzza a Google Ads és Meta adatokat az ügyfél fiókjaiból.</li>
+                  <li class="wf-step">Összeállítja a riportot a megszokott szerkezetben, előző periódushoz hasonlítva.</li>
+                  <li class="wf-step">A kampánykezelő átnézi és hozzáírja a szöveges értékelést.</li>
+                  <li class="wf-step">Jóváhagyás után a PDF kimegy az ügyfélnek.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Az adatgyűjtés és a formázás eltűnik; ami marad, az a szakmai értékelés — vagyis amiért az ügyfél fizet.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-naptar">
+              <span class="wf-name">Tartalomnaptár és publikálás</span>
+              <span class="wf-tag">Időzítés</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-naptar" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> az ügyfél jóváhagy egy posztot a naptárban.</li>
+                  <li class="wf-step">A poszt automatikusan időzítésre kerül a megfelelő platformokra.</li>
+                  <li class="wf-step">Publikálás után a naptár bejegyzése „megjelent"-re vált.</li>
+                  <li class="wf-step">48 óra múlva a teljesítményadatok visszaíródnak a naptárba.</li>
+                  <li class="wf-step">Hónap végén látszik, milyen tartalomtípus működött.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>A jóváhagyástól a publikálásig nincs kézi lépés, és a tanulság nem veszik el.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-velemeny">
+              <span class="wf-name">Vélemény- és értékeléskérés</span>
+              <span class="wf-tag">Email + elágazás</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-velemeny" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> a projekt lezárva, az átadás megtörtént.</li>
+                  <li class="wf-step">Pár nap múlva rövid kérdés megy ki: mennyire volt elégedett?</li>
+                  <li class="wf-step">Pozitív válasz esetén jön a Google-értékelés linkje.</li>
+                  <li class="wf-step">Negatív válasz esetén nem kér nyilvános értékelést, hanem belső jelzést ad.</li>
+                  <li class="wf-step">A visszajelzés bekerül a CRM-be az ügyfél kartonjára.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Több nyilvános értékelés, és az elégedetlenség előbb kerül eléd, mint egy nyilvános posztba.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-szinkron">
+              <span class="wf-name">Rendszerek közti adatszinkron</span>
+              <span class="wf-tag">Integráció</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-szinkron" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Indító:</b> bármelyik összekötött rendszerben megváltozik egy adat.</li>
+                  <li class="wf-step">A CRM, a számlázó és a hirdetési fiókok között a kapcsolódó rekordok frissülnek.</li>
+                  <li class="wf-step">Ütközés esetén nem ír felül vaktában, hanem jelez.</li>
+                  <li class="wf-step">A módosítások naplózva vannak, visszakövethetően.</li>
+                  <li class="wf-step">Havi ellenőrzés keresi az eltéréseket a rendszerek között.</li>
+                </ol>
+                <div class="wf-result"><b>Eredmény</b>Egy adatot egyszer kell rögzíteni, és mindenhol ugyanaz szerepel.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== EGY WORKFLOW ANATÓMIÁJA ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Hogyan épül fel</div>
+        <h2>Egy workflow anatómiája.</h2>
+        <p>Így néz ki a lead-válasz folyamat. Egy indító esemény, egy döntési pont, párhuzamos akciók, végül értesítés és biztosíték arra, ha valami elakad.</p>
+      </div>
+      <div class="wf-anatomy reveal">
+        <svg viewBox="0 0 710 260" role="img" aria-labelledby="wfDiagTitle wfDiagDesc">
+          <title id="wfDiagTitle">A lead-válasz workflow felépítése</title>
+          <desc id="wfDiagDesc">Az űrlap beküldése indítja a folyamatot. A rendszer megvizsgálja, új kontaktról van-e szó, majd párhuzamosan rögzíti a leadet a CRM-ben és kiküldi a visszaigazoló e-mailt. Ezután értesíti az illetékes kollégát, és ha 15 percen belül nincs érintés, eszkalál a vezetőnek.</desc>
+          <defs>
+            <marker id="wfArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="var(--chrome-2)"/>
+            </marker>
+          </defs>
+
+          <g fill="none" stroke="var(--chrome-2)" stroke-width="1.6" marker-end="url(#wfArrow)">
+            <path d="M126 140H142"/>
+            <path d="M264 140H274C280 140 280 70 286 70"/>
+            <path d="M264 140H274C280 140 280 210 286 210"/>
+            <path d="M420 70H430C436 70 436 140 442 140"/>
+            <path d="M420 210H430C436 210 436 140 442 140"/>
+            <path d="M558 140H574" stroke-dasharray="5 4"/>
+          </g>
+
+          <g font-family="var(--font-body)" font-size="12.5">
+            <g>
+              <rect x="8" y="110" width="118" height="60" rx="12" fill="var(--mint)" stroke="var(--mint-deep)" stroke-width="1.5"/>
+              <text x="67" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--mint-ink)">INDÍTÓ</text>
+              <text x="67" y="152" text-anchor="middle" font-weight="700" fill="var(--mint-ink)">Űrlap beküldve</text>
+            </g>
+            <g>
+              <rect x="146" y="110" width="118" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="205" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">FELTÉTEL</text>
+              <text x="205" y="152" text-anchor="middle" font-weight="700" fill="var(--ink)">Új kontakt?</text>
+            </g>
+            <g>
+              <rect x="286" y="40" width="134" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="353" y="64" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">AKCIÓ</text>
+              <text x="353" y="82" text-anchor="middle" font-weight="700" fill="var(--ink)">CRM: lead rögzítés</text>
+            </g>
+            <g>
+              <rect x="286" y="180" width="134" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="353" y="204" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">AKCIÓ</text>
+              <text x="353" y="222" text-anchor="middle" font-weight="700" fill="var(--ink)">Visszaigazoló email</text>
+            </g>
+            <g>
+              <rect x="442" y="110" width="116" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="500" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">ÉRTESÍTÉS</text>
+              <text x="500" y="152" text-anchor="middle" font-weight="700" fill="var(--ink)">Kolléga szól</text>
+            </g>
+            <g>
+              <rect x="578" y="110" width="124" height="60" rx="12" fill="none" stroke="var(--chrome-3)" stroke-width="1.5" stroke-dasharray="5 4"/>
+              <text x="640" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">BIZTOSÍTÉK</text>
+              <text x="640" y="152" text-anchor="middle" font-weight="700" fill="var(--ink)">15 p → eszkalál</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p class="wf-anatomy-note">Szélesebb ábra — szűk kijelzőn oldalra húzható</p>
+    </div>
+  </section>
+
+  <!-- ========== ROI KALKULÁTOR ========== -->
+  <section id="kalkulator">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Kalkulátor</div>
+        <h2>Számold ki a saját számaidra.</h2>
+        <p>Állítsd be, hányan végeznek nálad ismétlődő adminisztrációt, és mennyi idő megy el rá. A kalkulátor a te bemeneteiddel számol — nincs benne előre beírt ígéret.</p>
+      </div>
+
+      <div class="calc reveal">
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label for="wfPeople">Hány fő végez ismétlődő adminisztrációt?<span class="calc-val" id="wfPeopleVal">3 fő</span></label>
+            <input type="range" id="wfPeople" min="1" max="20" step="1" value="3">
+            <p class="calc-hint">Nem csak asszisztensek — bárki, aki adatot gépel át vagy emlékeztetőket ír.</p>
+          </div>
+          <div class="calc-field">
+            <label for="wfHours">Napi mennyi idő megy el rá fejenként?<span class="calc-val" id="wfHoursVal">1,5 óra</span></label>
+            <input type="range" id="wfHours" min="0.5" max="4" step="0.5" value="1.5">
+            <p class="calc-hint">A tíz-húsz perces lépések összege egy átlagos munkanapon.</p>
+          </div>
+          <div class="calc-field">
+            <label for="wfCost">Bruttó órabér-költség<span class="calc-val" id="wfCostVal">4 500 Ft</span></label>
+            <input type="range" id="wfCost" min="2000" max="12000" step="500" value="4500">
+            <p class="calc-hint">A teljes munkáltatói költség órára vetítve.</p>
+          </div>
+        </div>
+
+        <div class="calc-out">
+          <div class="calc-eyebrow">Felszabaduló kapacitás</div>
+          <div class="calc-big"><span id="wfHoursMonth">0</span> <small>óra / hó</small></div>
+          <ul class="calc-rows">
+            <li><span>Éves szinten</span><b id="wfHoursYear">0 óra</b></li>
+            <li><span>Bérköltségben / hó</span><b id="wfCostMonth">0 Ft</b></li>
+            <li><span>Bérköltségben / év</span><b id="wfCostYear">0 Ft</b></li>
+          </ul>
+          <p class="calc-fte">Ez <b id="wfFte">0</b> fő teljes munkaidejének felel meg — ennyi kapacitás szabadul fel új munka bevállalására.</p>
+        </div>
+      </div>
+
+      <p class="calc-formula reveal">felszabaduló óra / hó = fő × napi óra × 21 munkanap × 0,7 &nbsp;·&nbsp; a 0,7 az automatizálhatóság feltételezett aránya</p>
+      <p class="calc-note reveal">A kalkulátor a megadott bemenetekkel számol, és tájékoztató jellegű. A tényleges megtakarítás a folyamataidtól és a használt rendszerektől függ — ezt a folyamatfelmérés mutatja meg pontosan.</p>
+    </div>
+  </section>
+
+  <!-- ========== MODELLEZETT SZÁMPÉLDA ==========
+       FONTOS: ez NEM valós ügyfél adata. A "SZÁMPÉLDA" címke és a lezáró
+       jegyzet nem távolítható el — kitalált konkrét eredmény valós esetként
+       megtévesztő kereskedelmi gyakorlat (Fttv., UCPD). Ha lesz valós,
+       dokumentált eset ügyfél-hozzájárulással, akkor cserélhető. -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Számpélda</div>
+        <h2>Mit jelent ez a gyakorlatban?</h2>
+        <p>Egy modellezett forgatókönyv tipikus értékekkel, hogy látszódjon a logika — nem konkrét ügyfél adata.</p>
+      </div>
+
+      <div class="model-case reveal">
+        <div class="model-case-in">
+          <span class="model-badge">Számpélda · modellezett forgatókönyv</span>
+          <h3>8 fős csapat, 2 fő nagyrészt adminisztrációval</h3>
+          <p>A kiindulás: napi szinten két ember ideje megy el lead-válaszra, ajánlatkövetésre, riportolásra és számlaemlékeztetőkre. Ezt a négy folyamatot automatizáljuk.</p>
+
+          <div class="model-grid">
+            <div class="model-box">
+              <div class="model-k">Adminisztratív teher</div>
+              <div class="model-v">−70%</div>
+              <p>A négy folyamatból ennyi lépés fut le emberi beavatkozás nélkül a modellben.</p>
+            </div>
+            <div class="model-box">
+              <div class="model-k">Felszabaduló kapacitás</div>
+              <div class="model-v">≈1,4 fő</div>
+              <p>Két fő idejének 70%-a — ami nem leépítés, hanem átterhelhető munkaerő.</p>
+            </div>
+            <div class="model-box">
+              <div class="model-k">Elvállalható munka</div>
+              <div class="model-v">≈+30%</div>
+              <p>Ha a felszabadult kapacitás értékesítésre és kiszolgálásra megy át, létszámnövelés nélkül.</p>
+            </div>
+          </div>
+
+          <p class="model-disclaimer">Modellezett példa tipikus értékekkel, nem konkrét ügyfél adata. A ≈+30% abból adódik, hogy a felszabaduló ≈1,4 fő kapacitás a 8 fős csapat munkaidejének ~17%-a, és értékteremtő munkára átterhelve — nem adminisztrációra — arányosan nagyobb kibocsátást hoz. A te eseted a folyamataidtól függ; a felmérés ezt méri fel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MIT NEM AUTOMATIZÁLUNK ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Határok</div>
+        <h2>Mit nem automatizálunk.</h2>
+        <p>Attól lesz jó egy automatizálás, hogy tudjuk, hol kell abbahagyni.</p>
+      </div>
+      <div class="incl-grid">
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg></div><h3>Kreatív döntés</h3><p>Hogy mi legyen az üzenet, milyen legyen a kép, mi a márka hangja — ez ember dolga. Az automatizálás legfeljebb odaviszi.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Ügyféltárgyalás</h3><p>Kifogáskezelés, árazás, kényes helyzetek. A robotválasz itt többet visz, mint amennyit hoz.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M10.3 3.6a2 2 0 0 1 3.4 0l7.3 12.6a2 2 0 0 1-1.7 3H4.7a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg></div><h3>Rendezetlen folyamat</h3><p>A rossz folyamat automatizálva csak gyorsabban rossz. Előbb rendbe tesszük, aztán kötünk be bármit.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg></div><h3>Ellenőrzés nélküli kiküldés</h3><p>Ami az ügyfél elé megy, arra marad emberi jóváhagyás. A riport összeáll magától — de nem megy ki átolvasás nélkül.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOLYAMAT ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Folyamat</div>
+        <h2>Hogyan dolgozunk.</h2>
+        <p>Egy folyamattal kezdünk, nem az egész céggel. Így hamar látszik az eredmény, és a csapat is hozzászokik.</p>
+      </div>
+      <div class="steprow">
+        <div class="stepbox reveal"><div class="stepnum">01</div><h4>Folyamatfelmérés</h4><p>Végigmegyünk azon, mi hogyan működik ma, és hol megy el az idő. Jellemzően egy hét.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">02</div><h4>Workflow-térkép</h4><p>Megkapod, mit érdemes automatizálni, milyen sorrendben, és mit hoz mindegyik.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">03</div><h4>Pilot</h4><p>Egy folyamat éles bekötése — a legnagyobb nyereséggel és a legkisebb kockázattal.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">04</div><h4>Élesítés, betanítás</h4><p>A csapat megtanulja, mi történik magától és mi marad rájuk. Hibakezelés és értesítések beállítva.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">05</div><h4>Mérés, finomhangolás</h4><p>Megnézzük, tényleg megtakarított-e időt, és onnan lépünk a következő folyamatra.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ÁRAK ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Árak</div>
+        <h2>Átlátható csomagok.</h2>
+        <p>Az árak tájékoztató kiindulási alapok — a pontos ajánlat a folyamatok számától és a bekötendő rendszerektől függ.</p>
+      </div>
+      <div class="price-grid">
+        <div class="price-card reveal">
+          <div class="price-name">Feltárás</div>
+          <div class="price-amount">90&nbsp;000&nbsp;Ft<small>-tól</small></div>
+          <div class="price-sub">Felmérés és workflow-térkép</div>
+          <ul class="price-feat">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Folyamatfelmérés interjúkkal</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Workflow-térkép prioritásokkal</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Becsült megtakarítás folyamatonként</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Beszámítjuk, ha továbbmegyünk</li>
+          </ul>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20%E2%80%93%20Felt%C3%A1r%C3%A1s" class="btn btn-ghost btn-block">Ajánlatot kérek</a>
+        </div>
+        <div class="price-card featured reveal">
+          <div class="price-badge">Népszerű</div>
+          <div class="price-name">Egy workflow</div>
+          <div class="price-amount">180&nbsp;000&nbsp;Ft<small>-tól</small></div>
+          <div class="price-sub">Egy folyamat, éles bekötéssel</div>
+          <ul class="price-feat">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Egy folyamat teljes automatizálása</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Rendszerek bekötése, tesztelés</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Hibakezelés és értesítések</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Betanítás a csapatnak</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>30 nap utánkövetés</li>
+          </ul>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20%E2%80%93%20Egy%20workflow" class="btn btn-primary btn-block">Ezt kérem</a>
+        </div>
+        <div class="price-card reveal">
+          <div class="price-name">Teljes csomag</div>
+          <div class="price-amount">490&nbsp;000&nbsp;Ft<small>-tól</small></div>
+          <div class="price-sub">4–6 workflow, üzemeltetéssel</div>
+          <ul class="price-feat">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>4–6 folyamat automatizálása</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Rendszerek közti adatszinkron</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Dokumentált folyamatleírások</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Havi üzemeltetés 39&nbsp;000&nbsp;Ft/hó-tól</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Negyedéves felülvizsgálat</li>
+          </ul>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20%E2%80%93%20Teljes%20csomag" class="btn btn-ghost btn-block">Ajánlatot kérek</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GYIK ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">GYIK</div>
+        <h2>Gyakori kérdések.</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal"><h4>Milyen rendszerekkel működik?</h4><p>A legtöbb rendszerrel, aminek van API-ja vagy webhook-ja: Google Workspace, Meta és Google Ads, számlázóprogramok, webshopok, Slack, WhatsApp, e-mail. A saját CRM-ünkkel a mélyebb integrációk is elérhetők. A felmérésen végigmegyünk azon, amit ma használsz.</p></div>
+        <div class="faq-item reveal"><h4>Mennyi idő alatt lesz kész az első workflow?</h4><p>A folyamatfelmérés jellemzően egy hét, az első élő workflow ezt követően újabb egy-két hét. Szándékosan egy folyamattal kezdünk: így hamar látszik az eredmény, és a csapat is hozzászokik.</p></div>
+        <div class="faq-item reveal"><h4>Mi történik, ha elromlik egy automatizmus?</h4><p>Minden workflow-ba hibakezelés és értesítés kerül: ha egy lépés elhasal, arról ember kap jelzést, és a folyamat nem hal el csendben. Az üzemeltetési csomagban a hibák javítása is benne van.</p></div>
+        <div class="faq-item reveal"><h4>Kell hozzá fejlesztő vagy IT-s a cégnél?</h4><p>Nem. A bekötést és az üzemeltetést mi végezzük. Ami kell tőled: hozzáférés a rendszerekhez, és egy ember, aki ismeri a folyamatot, amit automatizálunk.</p></div>
+        <div class="faq-item reveal"><h4>Mi van, ha a folyamataink rendezetlenek?</h4><p>Akkor először rendbe tesszük őket. A rossz folyamat automatizálva csak gyorsabban rossz — a felmérés éppen azért van, hogy ez kiderüljön, mielőtt bármit bekötünk.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="page-cta">
+    <div class="wrap">
+      <div class="sec-head reveal" style="text-align:center;">
+        <div class="eyebrow">Első lépés</div>
+        <h2>Kezdjük egy folyamatfelméréssel.</h2>
+        <p>Megnézzük, hol megy el az idő nálad, és mit érdemes először automatizálni. Ha nem találunk értelmes megtakarítást, azt is megmondjuk.</p>
+        <div style="display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-top:var(--sp-4);">
+          <a href="index.html#kapcsolat" class="btn btn-primary">Ingyenes konzultáció</a>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20automatiz%C3%A1l%C3%A1s%20%E2%80%93%20folyamatfelm%C3%A9r%C3%A9s" class="btn btn-ghost">Írok emailt</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="index.html" style="text-decoration:none;">SOULSILVER<span class="dot">.</span></a>
+        <p style="color:var(--ink-soft); font-size:.92rem; margin-top:.8rem; max-width:32ch;">Full-service marketing ügynökség — kreatív megoldások, mérhető eredmények.</p>
+      </div>
+      <div>
+        <h4>Szolgáltatások</h4>
+        <ul>
+          <li><a href="ppc-hirdeteskezeles.html">PPC hirdetéskezelés</a></li>
+          <li><a href="workflow-automatizalas.html">Workflow automatizálás</a></li>
+          <li><a href="markaidentitas.html">Márkaidentitás</a></li>
+          <li><a href="kozossegi-media.html">Közösségi média</a></li>
+          <li><a href="weboldalkeszites.html">Weboldalkészítés</a></li>
+          <li><a href="dronfelvetel.html">Drónfelvétel</a></li>
+          <li><a href="aftermovie.html">Aftermovie</a></li>
+          <li><a href="termekfotozas.html">Termékfotózás</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Cég</h4>
+        <ul>
+          <li><a href="referenciak.html">Referenciák</a></li>
+          <li><a href="crm.html">CRM</a></li>
+          <li><a href="index.html#kapcsolat">Kapcsolat</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Elérhetőség</h4>
+        <ul>
+          <li><a href="mailto:info@soulsilvermarketing.com">info@soulsilvermarketing.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 SOULSILVER Marketing Agency</span>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><img src="img/logos/instagram.svg" alt="Instagram" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="LinkedIn"><img src="img/logos/linkedin.svg" alt="LinkedIn" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="TikTok"><img src="img/logos/tiktok.svg" alt="TikTok" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="YouTube"><img src="img/logos/youtube.svg" alt="YouTube" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="Facebook"><img src="img/logos/facebook.svg" alt="Facebook" width="17" height="17" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-bar glass" id="cookieBar">
+  <p>Sütiket használunk az élmény javítására és a forgalom méréséhez.</p>
+  <div class="cookie-actions">
+    <button class="btn-ghost" id="cookieReject">Elutasítom</button>
+    <button class="btn-primary" id="cookieAccept">Elfogadom</button>
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

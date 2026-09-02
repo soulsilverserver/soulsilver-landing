@@ -382,6 +382,86 @@
     });
   }
 
+
+  /* ============================================================
+     WORKFLOW AUTOMATIZÁLÁS OLDAL
+     Mindkét modul null-guardolt: a többi oldalon kilép.
+     ============================================================ */
+
+  /* ---------- workflow katalógus akkordeon ---------- */
+  var wfTriggers = document.querySelectorAll('.wf-trigger[aria-controls]');
+  if(wfTriggers.length){
+    wfTriggers.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var panel = document.getElementById(btn.getAttribute('aria-controls'));
+        if(!panel) return;
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        panel.hidden = open;
+      });
+    });
+  }
+
+  /* ---------- ROI kalkulátor ---------- */
+  var calcPeople = document.getElementById('wfPeople');
+  var calcHours = document.getElementById('wfHours');
+  var calcCost = document.getElementById('wfCost');
+
+  if(calcPeople && calcHours && calcCost){
+    var MUNKANAP = 21;          /* átlagos munkanap egy hónapban */
+    var AUTOMATIZALHATO = 0.7;  /* feltételezett arány — a lapon jelölve */
+    var HAVI_MUNKAORA = 168;    /* 1 fő teljes munkaideje / hó */
+
+    /* A hu-HU alapbol NEM csoportositja a negyjegyu szamokat ("6000"),
+       ezert useGrouping:'always' — igy egyezik a HTML-ben levo kezdoertekkel
+       ("4 500 Ft"). Regi bongeszo ezt egyszeruen figyelmen kivul hagyja. */
+    var nf0 = new Intl.NumberFormat('hu-HU', {maximumFractionDigits:0, useGrouping:'always'});
+    var nf1 = new Intl.NumberFormat('hu-HU', {minimumFractionDigits:1, maximumFractionDigits:1});
+    var nf2 = new Intl.NumberFormat('hu-HU', {minimumFractionDigits:2, maximumFractionDigits:2});
+    /* egesz ora eseten ne irjunk ki tizedest ("2 ora", nem "2,0 ora") */
+    function oraFmt(v){ return (v % 1 === 0) ? nf0.format(v) : nf1.format(v); }
+    /* 1 fo alatt egy tizedes "0,0"-t adna, ami ertelmetlen — ott ket tizedes */
+    function fteFmt(v){ return v < 1 ? nf2.format(v) : nf1.format(v); }
+
+    var out = {
+      peopleVal: document.getElementById('wfPeopleVal'),
+      hoursVal: document.getElementById('wfHoursVal'),
+      costVal: document.getElementById('wfCostVal'),
+      hoursMonth: document.getElementById('wfHoursMonth'),
+      hoursYear: document.getElementById('wfHoursYear'),
+      costMonth: document.getElementById('wfCostMonth'),
+      costYear: document.getElementById('wfCostYear'),
+      fte: document.getElementById('wfFte')
+    };
+
+    function recalc(){
+      var people = parseFloat(calcPeople.value);
+      var hours = parseFloat(calcHours.value);
+      var cost = parseFloat(calcCost.value);
+
+      var hoursMonth = people * hours * MUNKANAP * AUTOMATIZALHATO;
+      var hoursYear = hoursMonth * 12;
+      var costMonth = hoursMonth * cost;
+      var fte = hoursMonth / HAVI_MUNKAORA;
+
+      if(out.peopleVal) out.peopleVal.textContent = nf0.format(people) + ' fő';
+      if(out.hoursVal) out.hoursVal.textContent = oraFmt(hours) + ' óra';
+      if(out.costVal) out.costVal.textContent = nf0.format(cost) + ' Ft';
+
+      if(out.hoursMonth) out.hoursMonth.textContent = nf0.format(hoursMonth);
+      if(out.hoursYear) out.hoursYear.textContent = nf0.format(hoursYear) + ' óra';
+      if(out.costMonth) out.costMonth.textContent = nf0.format(costMonth) + ' Ft';
+      if(out.costYear) out.costYear.textContent = nf0.format(costMonth * 12) + ' Ft';
+      if(out.fte) out.fte.textContent = fteFmt(fte);
+    }
+
+    [calcPeople, calcHours, calcCost].forEach(function(el){
+      el.addEventListener('input', recalc);
+      el.addEventListener('change', recalc);
+    });
+    recalc();   /* induláskor is, hogy ne 0 legyen a kimenet */
+  }
+
   /* ---------- Google Ads + GA4 conversion tracking ----------
      Két külön konverziót mérünk, mert nem egyenértékűek:
        - Űrlapbeküldés (koszonjuk.html) = befejezett lead → "Potenciális ügyfél
