@@ -581,6 +581,13 @@
   .legal-content li{ margin-bottom:.35rem; }
   .legal-content a{ color:var(--mint-deep); }
   .legal-content strong{ color:var(--ink); }
+  /* A jogi tablazatok harom szoveges kolumnaval nem szorithatok 375px ala:
+     375px-en az adatvedelmi tabla 666px-re nyult, ami 330px vizszintes
+     tulcsordulast okozott az egesz lapon. Ezert a tabla sajat, vizszintesen
+     gorgetheto keretet kap, es a min-width tartja olvashato szelessegen. */
+  .table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:var(--sp-3) 0 var(--sp-4);
+    border-radius:var(--radius-tile); }
+  .table-scroll .legal-table{ margin:0; min-width:520px; }
   .legal-table{ width:100%; border-collapse:collapse; margin:var(--sp-3) 0 var(--sp-4); font-size:.9rem; }
   .legal-table th, .legal-table td{ text-align:left; padding:.6rem .7rem; border:1px solid var(--edge); vertical-align:top; color:var(--ink-soft); }
   .legal-table th{ background:var(--surface-2, #f4f6f8); font-weight:600; color:var(--ink); }
