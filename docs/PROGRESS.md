@@ -194,3 +194,36 @@ szöveg, 24×24px alatti tap-target, apró betűk, átfedő elemek, kilógó ké
 
 **Eredmény: 320/375/414px-en nulla túlcsordulás, nulla levágott szöveg, nulla
 24px alatti tap-target mind a 17 oldalon.**
+
+## Szolgáltatás-hero képek kivéve (2026-09-02)
+
+A generált „hightech iroda" fotók kikerültek mind a 9 oldalról (8 szolgáltatás
++ CRM). A user szerint AI-klisék voltak; a mérés ezt alátámasztja: a
+-n a monitoron **halandzsa szöveg** van („ROAS" után
+olvashatatlan karakterek), ami klasszikus generálási artifact, és ugyanez a
+ papírjain.
+
+Helyettük **rétegzett gradiens** minden oldalon,  osztályokkal
+a -ben. Két dolog kellett hozzá:
+
+1. A  , tehát a gradiens a
+   **viewporthoz** méretezett, nem az elemhez — a százalékos pozíciók a
+   képernyőre értendők.
+2. A  a jobb oldalon is ~44%-ot elnyel, ezért az első próbálkozás
+   (alfa 0,2–0,3) sík sötét sávnak látszott. Éles kifutású, 0,7–0,95 alfájú
+   fénypont kellett, hogy szándékos megvilágításnak olvasódjon. A fény a jobb
+   oldalon van, ahol a scrim a legvilágosabb; balra a scrim 94%, oda kerül a
+   fehér szöveg.
+
+Oldalanként más a fénypont helye és színe (9 különböző háttér — ellenőrizve).
+A 8 hero-JPEG (900 KB) törölve, mert hivatkozás nélkül maradt; a git
+történetében megvan, ha kellene.
+
+### Nyitott: az og-image.jpg
+
+A közösségi megosztásokhoz használt  **1200×1335, tehát
+portré**. Az Open Graph 1200×630-at vár (1,91:1), így a platformok a középső
+sávot vágják ki — a megosztásokból pont a „SOUL SILVER" és a „MARKETING
+AGENCY" felirat esne le, és nagyrészt a tenger meg az „ARTIFICIAL
+INTELLIGENCE" maradna. A bézs/barna színvilág a site grafit + mint
+palettájához sem passzol. Mind a 16 oldal ezt a képet hivatkozza.

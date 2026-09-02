@@ -1307,3 +1307,73 @@
     transition:top .18s ease; }
   .skip-link:focus{ top:var(--sp-2); outline:2px solid var(--mint); outline-offset:2px; }
   @media (prefers-reduced-motion: reduce){ .skip-link{ transition:none; } }
+
+  /* ============ SZOLGÁLTATÁS-HERO HÁTTEREK ============
+     A generált „hightech iroda" fotók kikerültek: AI-klisék voltak, a
+     képernyőkön és a papírokon halandzsa szöveggel.
+
+     Két dolgot kell tudni a méretezésről:
+     1. A .phero-bg `background-attachment:fixed`, tehát a gradiens a
+        VIEWPORThoz méretezett, nem az elemhez — a százalékos pozíciók a
+        képernyőre értendők.
+     2. A .phero-scrim a jobb oldalon is ~44%-ot elnyel (0,30 vízszintes +
+        0,15–0,35 függőleges réteg). Ezért kell erős, éles kifutású fénypont,
+        különben sík sötét sávnak látszik. Balra a scrim 94%, oda kerül a
+        fehér szöveg — ott a fényerő nem zavar.
+
+     Oldalanként más a fénypont helye, színe és élessége, hogy a kilenc
+     szolgáltatás-oldal ne legyen egyforma. */
+
+  .phero-bg.bg-ppc{
+    background-image:
+      radial-gradient(62% 58% at 79% 30%, rgba(34,240,180,.92), rgba(15,215,154,.34) 42%, transparent 72%),
+      radial-gradient(70% 60% at 96% 92%, rgba(154,161,172,.34), transparent 66%),
+      linear-gradient(150deg,#10403A 0%,#08181C 52%,#05090C 100%); }
+
+  .phero-bg.bg-workflow{
+    background-image:
+      radial-gradient(58% 66% at 72% 44%, rgba(34,240,180,.85), rgba(10,158,119,.30) 44%, transparent 74%),
+      radial-gradient(64% 52% at 22% 6%, rgba(199,205,214,.24), transparent 62%),
+      linear-gradient(150deg,#0C5745 0%,#0D2A31 50%,#05090C 100%); }
+
+  .phero-bg.bg-marka{
+    background-image:
+      radial-gradient(56% 54% at 84% 24%, rgba(226,231,238,.80), rgba(154,161,172,.28) 44%, transparent 72%),
+      radial-gradient(62% 58% at 60% 88%, rgba(15,215,154,.30), transparent 66%),
+      linear-gradient(150deg,#24272D 0%,#12151A 52%,#05090C 100%); }
+
+  .phero-bg.bg-social{
+    background-image:
+      radial-gradient(52% 48% at 32% 14%, rgba(34,240,180,.72), transparent 68%),
+      radial-gradient(64% 62% at 88% 66%, rgba(199,205,214,.50), transparent 70%),
+      linear-gradient(158deg,#123A3E 0%,#0B1E23 52%,#05090C 100%); }
+
+  .phero-bg.bg-web{
+    background-image:
+      radial-gradient(60% 66% at 88% 56%, rgba(15,215,154,.88), rgba(10,158,119,.30) 46%, transparent 74%),
+      radial-gradient(54% 48% at 16% 10%, rgba(199,205,214,.22), transparent 62%),
+      linear-gradient(148deg,#0E3A31 0%,#091B20 54%,#05090C 100%); }
+
+  .phero-bg.bg-dron{
+    background-image:
+      radial-gradient(140% 52% at 52% -4%, rgba(199,205,214,.58), rgba(154,161,172,.20) 46%, transparent 74%),
+      radial-gradient(60% 50% at 80% 78%, rgba(15,215,154,.34), transparent 68%),
+      linear-gradient(180deg,#1D2A36 0%,#0D141A 50%,#05090C 100%); }
+
+  .phero-bg.bg-aftermovie{
+    background-image:
+      radial-gradient(54% 52% at 87% 74%, rgba(34,240,180,.95), rgba(15,215,154,.32) 40%, transparent 72%),
+      radial-gradient(64% 56% at 38% 8%, rgba(91,98,112,.44), transparent 66%),
+      linear-gradient(150deg,#151F29 0%,#0A1016 52%,#05090C 100%); }
+
+  .phero-bg.bg-termek{
+    background-image:
+      radial-gradient(58% 60% at 71% 42%, rgba(240,243,247,.82), rgba(199,205,214,.26) 44%, transparent 72%),
+      radial-gradient(52% 46% at 94% 90%, rgba(15,215,154,.26), transparent 66%),
+      linear-gradient(150deg,#262A31 0%,#12161A 54%,#05090C 100%); }
+
+  .phero-bg.bg-crm{
+    background-image:
+      radial-gradient(60% 58% at 68% 34%, rgba(34,240,180,.80), rgba(10,158,119,.28) 44%, transparent 72%),
+      radial-gradient(66% 58% at 95% 82%, rgba(15,215,154,.42), transparent 68%),
+      linear-gradient(150deg,#0D4249 0%,#081D24 54%,#05090C 100%); }
