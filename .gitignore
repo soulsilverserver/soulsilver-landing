@@ -20,3 +20,4 @@ soulsilver_hero_*.jpg
 # Titkos konfiguráció (Resend API kulcs) — SOHA ne kerüljön a repóba
 config.php
 _overflow-test.html
+tools/_out/

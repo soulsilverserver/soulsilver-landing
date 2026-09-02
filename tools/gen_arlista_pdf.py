@@ -18,7 +18,10 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (BaseDocTemplate, Frame, PageTemplate, Paragraph,
                                 Spacer, Table, TableStyle, KeepTogether)
 
-OUT = r'C:\Users\SOULSILVER\Downloads\SOULSILVER-arlista.pdf'
+# A kimenet a Downloads mappaba megy, NEM a repoba: az arlista PDF-et
+# nem akarjuk automatikusan kozzetenni a soulsilver.hu-n.
+OUT = os.environ.get('ARLISTA_OUT') or \
+    os.path.expanduser(r'~\Downloads\SOULSILVER-arlista.pdf')
 FONTDIR = r'C:\Windows\Fonts'
 pdfmetrics.registerFont(TTFont('Ari', os.path.join(FONTDIR, 'arial.ttf')))
 pdfmetrics.registerFont(TTFont('Ari-B', os.path.join(FONTDIR, 'arialbd.ttf')))

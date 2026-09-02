@@ -182,10 +182,11 @@ SPECS = [
      'havidijas-arak', 'Havidíjas szolgáltatások ártartománya'),
 ]
 
-DST = os.environ.get('CHART_OUT') or (
-    r'C:\Users\SOULSI~1\AppData\Local\Temp\claude'
-    r'\C--Users-SOULSILVER-Downloads-SOULSILVER'
-    r'\b56e1554-c390-4ea5-acba-e77dc82aace4\scratchpad')
+# A kimenet a repon beluli tools/_out/ (gitignore-olt), hogy sessiontol
+# fuggetlenul mukodjon. CHART_OUT env valtozoval felulirhato.
+DST = os.environ.get('CHART_OUT') or os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), '_out')
+os.makedirs(DST, exist_ok=True)
 
 for key, rows, amax, ticks, unit, cid, title in SPECS:
     wide = chart_wide(rows, amax, ticks, unit, cid, title)

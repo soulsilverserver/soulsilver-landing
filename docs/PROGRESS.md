@@ -1,8 +1,187 @@
-# SOULSILVER — állapot
+# SOULSILVER — állapot és átvétel
 
-Utolsó frissítés: 2026-09-01
+Utolsó frissítés: 2026-09-02
 
-## Kész
+> **Ha új sessionként veszed át:** ez a fájl a kiindulás. Olvasd végig a
+> „Kezdd itt" és a „Csapdák" szakaszt, mielőtt bármit módosítasz — a Csapdák
+> szakasz olyan dolgokat rögzít, amiket drága volt megtalálni.
+
+---
+
+## Kezdd itt
+
+**Mi ez:** a SOULSILVER Marketing Agency weboldala. Statikus, többoldalas
+HTML/CSS/JS, build lépés nélkül. 17 tartalmi oldal.
+
+**Repo:** `soulsilverserver/soulsilver-landing`, branch `main`.
+A git identitás a repóban `soulsilverserver` (NEM a globális fiók).
+
+**Deploy:** Hostinger hPanel → GIT integráció, auto-deployment BE.
+**Minden `main`-re pusholt commit azonnal élesedik** a soulsilver.hu-n.
+Ezért: commitolj bátran, de **pushot csak akkor, ha a user kéri**.
+
+**Helyi futtatás:**
+
+```bash
+python -m http.server 8643
+```
+
+A `.claude/launch.json` ezt `soulsilver-static` néven tartalmazza (port 8643).
+
+**Első dolgod átvételkor:**
+
+```bash
+git log --oneline -15
+git status --short
+git log --oneline origin/main..HEAD    # van-e nem pusholt commit
+git worktree list
+```
+
+Több session dolgozott már párhuzamosan ezen a repón, és egyszer ütköztek is.
+Ne hidd el vakon, amit ez a fájl ír — ellenőrizd a repó tényleges állapotát.
+
+---
+
+## Jelenlegi állapot
+
+**Élő:** 17 oldal. index, arak, referenciak, crm, koszonjuk, 8 szolgáltatás-oldal
+(ppc-hirdeteskezeles, workflow-automatizalas, markaidentitas, kozossegi-media,
+weboldalkeszites, dronfelvetel, aftermovie, termekfotozas), 4 jogi oldal
+(impresszum, adatvedelem, aszf, cookie-szabalyzat).
+
+**Mérve és rendben:**
+
+- 0px vízszintes túlcsordulás 320 / 375 / 414 / 768 / 1280px-en, mind a 17 oldalon
+- nincs levágott szöveg, nincs 24×24px alatti tap-target
+- minden oldalon pontosan egy `h1`, nincs címsorszint-kihagyás
+- az `app.js` mindenhol végig lefut (jelzőbója: a `.wa-float` gomb létrejön)
+- nincs törött belső link, halott horgony, duplikált `id`, `alt` nélküli kép
+- az árak egyeznek mind a négy helyen (lásd Csapdák)
+
+**Nem pusholt commitok lehetnek** — ellenőrizd a fenti git paranccsal.
+
+---
+
+## Nyitott döntések (a user-re várnak, ne döntsd el helyette)
+
+| # | Kérdés | A javasolt megoldás |
+|---|---|---|
+| 1 | **Saját fotók a heroba?** A szolgáltatás-oldalak heroja most rétegzett gradiens. A generált fotók kikerültek (AI-klisék, halandzsa szöveggel). | A Drive `REFERENCIÁK/Fénykép` mappájából a **saját anyag** — drón lapra valódi drónfotó stb. A gradiens marad fallbacknek. |
+| 2 | **OG-kép** | A mostani `img/og-image.jpg` **1200×1335, portré**. Az Open Graph 1200×630-at vár, így a megosztásokból levágja a „SOUL SILVER" és a „MARKETING AGENCY" feliratot. Javaslat: 1200×630 a site dizájnjából. |
+| 3 | **Mint akcentus szövegként** | `--mint-deep` (`#0A9E77`) világos háttéren **2,98:1** → megbukik a WCAG AA 4,5:1-en. Javaslat: külön `--mint-text: #087B5D` (4,58:1) csak a szöveges használatra; grafikai elemként a mostani marad (ott a 3:1 elég). 22 helyen érinti. |
+
+---
+
+## Hátralévő munka (prioritás szerint)
+
+1. **Referencia-média** — a `referenciak.html` 12 kártyája gradiensen áll, mert
+   az `img/ref/` üres. 21 fájl kell (a pontos nevek a „Referenciák oldal"
+   szakaszban lentebb). A Drive-ban lévő nyers anyagok nagyok (a Barabás
+   weboldal-felvétel 1,79 GB) — webre tömöríteni kell, nyers videó ne kerüljön
+   a git repóba.
+2. **Ügyféllogók** — a `referenciak.html` marquee-ja most **platformlogókat**
+   mutat („Platformok, amelyeken dolgozunk"), mert valós ügyféllogó nincs.
+   Ha lesz engedélyezett logó: `img/logos/ugyfel/`, az eyebrow átírása
+   „Ügyfeleink"-re, és a lista **kétszer** felsorolva (a végtelen csúszáshoz).
+3. **A workflow-oldal árai** — 90 000 / 180 000 / 490 000 Ft-tól + 39 000 Ft/hó
+   üzemeltetés. Ezeket az előző session tette be a többi nagyságrendjéhez
+   illesztve; a user **nem hagyta jóvá számszerűen**.
+4. **A referenciák oldal hero-statisztikái** — 30+ projekt / 14 rendezvény /
+   7 szolgáltatási terület. Ezek a Drive **mappáiból számolva** készültek, nem
+   könyvelésből. Ellenőrizendő.
+5. **`koszonjuk.html`** — nincs nav és footer (szándékos, konverziós oldal),
+   de emiatt a menü onnan nem elérhető. Eldöntendő, kell-e.
+
+---
+
+## Csapdák — ezeket drága volt megtalálni
+
+**Tartalmi szabály, ne írd felül.** A user kétszer is jóváhagyta, hogy kitalált
+eredményszámot ne tegyünk ki valós ügyféleredményként. A
+`workflow-automatizalas.html` számpéldája ezért kötelezően `SZÁMPÉLDA ·
+modellezett forgatókönyv` címkét és záró jegyzetet visel — **ezt a két
+jelölést nem szabad eltávolítani** (Fttv. 2008. évi XLVII. tv., uniós UCPD).
+Ha konkrét eredményszámot kér, kérdezz rá, hogy valós-e, és ajánlj fel hármat:
+valós esettanulmány hozzájárulással · jelölt modellezett példa · kalkulátor a
+látogató saját számaival.
+
+**Az árak NÉGY helyen vannak, automatikus kapcsolat nélkül:**
+a szolgáltatás-oldal `.price-grid`-je (a forrás) · `tools/gen_charts.py`
+`PROJEKT`/`HAVI` listája · az `arak.html` táblázatos nézete ·
+`tools/gen_arlista_pdf.py` `SERVICES` listája. Ha árat módosítasz, mind a négyet
+frissítsd, majd futtasd: `python3 tools/audit_prices.py` — ez kimutatja az
+eltérést.
+
+**A diagram jelölő-színe NEM a téma tokene.** `--chart-mark: #0A9E77`, és
+szándékosan ugyanez világos és sötét témában. A sötét téma `--mint-deep`-je
+(`#12C592`) megbukik a dataviz-validátor világosság-sávján (OKLCH L 0,73 a
+0,48–0,67 helyett). Ne „javítsd vissza" a tokenre.
+
+**A `clip-path` nem lehet azon az elemen, amit IntersectionObserver figyel.**
+A klip kinullázza a metszetet, és a reveal sosem tüzel. Ezért van a
+`referenciak.html` bento-kártyáin egy külön `.bento-inner` wrapper.
+
+**Az SVG-szöveg a konténerrel skálázódik, tehát nem lehet reszponzív.**
+Bármelyik viewBox-méretnél valamelyik készülékszélességen elromlik a betűméret.
+Ezért az `arak.html` mobil ártartomány-diagramja **HTML/CSS sávlista**, nem SVG
+(`tools/gen_charts.py` → `chart_compact`). A ROI-görbe maradt SVG, de 240
+egységes viewBox-szal, hogy a nagyítás minden telefonon ≥0,93 legyen.
+
+**A `.phero-bg` `background-attachment: fixed`**, tehát a gradiens a
+**viewporthoz** méretezett, nem az elemhez — a százalékos pozíciók a képernyőre
+értendők. A `.phero-scrim` a jobb oldalon is ~44%-ot elnyel, ezért a hero-fények
+0,7–0,95 alfájúak és éles kifutásúak; halványabbal sík sötét sávnak látszanak.
+
+**A `requestAnimationFrame` nem fut a Claude Code preview-paneljében.** Ezért a
+láthatóság-váltások `void el.offsetWidth` reflow-t használnak, nem rAF-ot
+(`app.js`: lightbox nyitás, bento szűrő). Ugyanezért **a panel képernyőképe nem
+lát a hajtás alá** — legörgetve üres képet ad. Mérj DOM-ból, és ha látképet
+akarsz egy lentebbi szekcióról, ideiglenesen rejtsd el a fölötte lévőket JS-sel.
+
+**A panel nem kap OS-szintű billentyűfókuszt**, ezért a `:focus` állapot ott nem
+tesztelhető (a Tab a `BODY`-n marad). A skip-link stílusa ellenőrzött, a
+kiváltása nem.
+
+**A PATH-on lévő `python` az Inkscape-é**, nincs benne pip. Használd:
+`/c/Users/SOULSILVER/scoop/shims/python3.exe` (van pip, van reportlab,
+pdfplumber, pypdfium2).
+
+**A Bash tool heredocjai megeszik a backslasht és a backticket**, ha a Python-kód
+dupla idézőjelben megy át. Több szkript és egy commit-üzenet is elromlott már
+ettől. Hosszabb Python-kódot **írj fájlba** (Write tool), és úgy futtasd.
+
+**A `styles.css` és az `app.js` a böngésző cache-éből jön**, ha csak a HTML-en
+van cache-buster. Mérés előtt:
+`await fetch('/styles.css',{cache:'reload'})` és ugyanez az `app.js`-re.
+
+---
+
+## Ellenőrző szkriptek
+
+```bash
+python3 tools/audit_static.py     # linkek, id-k, alt, nav, sitemap, canonical
+python3 tools/audit_prices.py     # az árak egyeznek-e a négy helyen
+```
+
+Böngészős méréshez (túlcsordulás, levágott szöveg, tap-target) a bevált módszer:
+iframe-ekben betölteni az oldalakat különböző szélességen, és a DOM-ból mérni.
+A `tools/audit_browser.js` tartalmazza a snippetet — másold be a
+`javascript_tool`-ba a preview-lapon.
+
+## Generátorok
+
+```bash
+python3 tools/gen_charts.py       # arak.html: 2 SVG (desktop) + 2 HTML sávlista (mobil)
+python3 tools/gen_roi.py          # workflow ROI-görbe: széles + mobil
+python3 tools/gen_arlista_pdf.py  # letölthető árlista PDF (a Downloads mappába)
+```
+
+A kimenet a `tools/_out/` mappába megy (gitignore-olt); onnan kell bemásolni a
+megfelelő HTML-be. Részletek: `tools/README.md`.
+
+---
+
+# Történet (visszamenőleg)
 
 ### Referenciák oldal (2026-09-01)
 
