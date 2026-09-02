@@ -1,26 +1,36 @@
 # -*- coding: utf-8 -*-
-"""ROI-gorbe SVG a workflow-oldal kalkulatorahoz.
+"""ROI-görbe SVG a workflow-oldal kalkulátorához — széles és mobil változatban.
 
-Egy sorozat (nincs legend-box), 2px vonal, ~10% area wash a jelenlegi letszamig,
-szilard hajszalvonal racs, >=8px jelolo 2px felszin-gyuruvel.
+Egy sorozat (nincs legend-box), 2px vonal, ~10% area wash a jelenlegi
+létszámig, szilárd hajszálvonal rács, >=8px jelölő 2px felszín-gyűrűvel.
 
-A vonal a kalkulator formulaja kirajzolva:
-  felszabadulo ora/ho = letszam * napi_ora * 21 * 0.7
-Linearis, ezert egyenes - a diagram azt mutatja meg, hol all a nezo a savon,
-es mennyi a fejlodesi ter felette.
+A vonal a kalkulátor formulája kirajzolva:
+  felszabaduló óra/hó = létszám × napi óra × 21 × 0,7
+
+MIÉRT KÉT VÁLTOZAT: a széles viewBox 520 egység. Egy 375px-es telefonon a
+görgethető keret ~246px, ott a 9px-es tengelyfelirat ~4px-en jelenne meg. A
+mobil változat 340 egység széles, nagyobb betűkkel, rövidebb tengelyfelirattal.
+
+A geometria data-* attribútumokban is ott van, mert az app.js MINDKÉT SVG-t
+ebből rajzolja újra a csúszkákra — így nem kell a JS-ben duplikálni a számokat.
 """
 import io
+import os
 
-VB_W, VB_H = 520, 236
-PX0, PX1 = 46, 502          # plot vizszintesen
-PY0, PY1 = 16, 190          # plot fuggolegesen (PY1 = a nulla vonal)
 NMIN, NMAX = 1, 20
 MUNKANAP = 21
 AUTO = 0.7
 
+# (nev, viewBox szelesseg, magassag, px0, px1, py0, py1, x-tengely cimkek, tengelyfelirat)
+VARIANTS = [
+    ('', 520, 236, 46, 502, 16, 190, (1, 5, 10, 15, 20),
+     'ismétlődő adminisztrációt végző fő'),
+    ('-m', 240, 172, 40, 234, 10, 130, (1, 5, 10, 15, 20),
+     'adminisztrációt végző fő'),
+]
+
 
 def nice_max(v):
-    """Kerek felso hatar a y tengelyhez."""
     if v <= 0:
         return 10
     import math
@@ -31,82 +41,75 @@ def nice_max(v):
     return int(step * 10)
 
 
-def build(people, hours):
+def fmt(n):
+    return format(int(round(n)), ',d').replace(',', '\u00a0')
+
+
+def build(people, hours, suffix, vw, vh, px0, px1, py0, py1, xticks, xlabel):
     ymax = nice_max(NMAX * hours * MUNKANAP * AUTO)
+    sx = lambda n: px0 + (n - NMIN) / float(NMAX - NMIN) * (px1 - px0)
+    sy = lambda v: py1 - (v / float(ymax)) * (py1 - py0)
+    val = lambda n: n * hours * MUNKANAP * AUTO
+    cid = 'roi' + suffix
+    cls = 'roi' + (' roi-compact' if suffix else '')
 
-    def sx(n):
-        return PX0 + (n - NMIN) / float(NMAX - NMIN) * (PX1 - PX0)
-
-    def sy(v):
-        return PY1 - (v / float(ymax)) * (PY1 - PY0)
-
-    def val(n):
-        return n * hours * MUNKANAP * AUTO
-
-    o = []
-    o.append('<svg viewBox="0 0 %d %d" class="roi" id="roiChart" role="img" '
-             'aria-labelledby="roi-t roi-d">' % (VB_W, VB_H))
-    o.append('  <title id="roi-t">Felszabaduló kapacitás a létszám függvényében</title>')
-    o.append('  <desc id="roi-d">Minél többen végzik az ismétlődő adminisztrációt, '
+    o = ['<svg viewBox="0 0 %d %d" class="%s" data-roi="1" '
+         'data-px0="%d" data-px1="%d" data-py0="%d" data-py1="%d" '
+         'role="img" aria-labelledby="%s-t %s-d">' % (vw, vh, cls, px0, px1, py0, py1, cid, cid)]
+    o.append('  <title id="%s-t">Felszabaduló kapacitás a létszám függvényében</title>' % cid)
+    o.append('  <desc id="%s-d">Minél többen végzik az ismétlődő adminisztrációt, '
              'annál több óra szabadul fel havonta. A pontos értékeket a kalkulátor '
-             'mutatja a diagram mellett.</desc>')
+             'mutatja a diagram mellett.</desc>' % cid)
 
-    # vizszintes racs + y cimkek (SZILARD hajszalvonal)
-    o.append('  <g class="roi-grid" id="roiGrid">')
+    o.append('  <g class="roi-grid">')
     for i in range(5):
-        v = ymax * i / 4.0
-        y = sy(v)
-        o.append('    <line x1="%d" y1="%.1f" x2="%d" y2="%.1f"/>' % (PX0, y, PX1, y))
+        y = sy(ymax * i / 4.0)
+        o.append('    <line x1="%d" y1="%.1f" x2="%d" y2="%.1f"/>' % (px0, y, px1, y))
     o.append('  </g>')
-    o.append('  <g class="roi-ylab" id="roiYlab">')
+    o.append('  <g class="roi-ylab">')
     for i in range(5):
         v = ymax * i / 4.0
-        y = sy(v)
         o.append('    <text x="%d" y="%.1f" text-anchor="end">%s</text>'
-                 % (PX0 - 8, y + 3.2, format(int(round(v)), ',d').replace(',', '\u00a0')))
+                 % (px0 - 7, sy(v) + 3.2, fmt(v)))
     o.append('  </g>')
 
-    # area wash a jelenlegi letszamig (~10%)
     pts = [(sx(n), sy(val(n))) for n in range(NMIN, people + 1)]
+    d = ''
     if len(pts) >= 2:
-        d = 'M%.1f %.1f ' % (pts[0][0], PY1)
-        d += ' '.join('L%.1f %.1f' % p for p in pts)
-        d += ' L%.1f %.1f Z' % (pts[-1][0], PY1)
-    else:
-        d = ''
-    o.append('  <path class="roi-area" id="roiArea" d="%s"/>' % d)
+        d = ('M%.1f %.1f ' % (pts[0][0], py1)
+             + ' '.join('L%.1f %.1f' % p for p in pts)
+             + ' L%.1f %.1f Z' % (pts[-1][0], py1))
+    o.append('  <path class="roi-area" d="%s"/>' % d)
 
-    # a vonal a teljes savon
     line = [(sx(n), sy(val(n))) for n in range(NMIN, NMAX + 1)]
-    o.append('  <path class="roi-line" id="roiLine" d="M%s"/>'
-             % ' L'.join('%.1f %.1f' % p for p in line))
+    o.append('  <path class="roi-line" d="M%s"/>' % ' L'.join('%.1f %.1f' % p for p in line))
 
-    # elo jelolo: >=8px atmero (r=5) + 2px felszin-gyuru
     mx, my = sx(people), sy(val(people))
-    o.append('  <circle class="roi-dot" id="roiDot" cx="%.1f" cy="%.1f" r="5"/>' % (mx, my))
-    # kozvetlen cimke a jelolonel (nem minden ponton!)
-    o.append('  <text class="roi-lab" id="roiLab" x="%.1f" y="%.1f">%s óra / hó</text>'
-             % (mx + 10, my - 8, format(int(round(val(people))), ',d').replace(',', '\u00a0')))
+    o.append('  <circle class="roi-dot" cx="%.1f" cy="%.1f" r="5"/>' % (mx, my))
+    o.append('  <text class="roi-lab" x="%.1f" y="%.1f">%s óra / hó</text>'
+             % (mx + 10, my - 8, fmt(val(people))))
 
-    # x tengely
     o.append('  <g class="roi-axis">')
-    o.append('    <line x1="%d" y1="%d" x2="%d" y2="%d"/>' % (PX0, PY1, PX1, PY1))
-    for n in (1, 5, 10, 15, 20):
-        o.append('    <text x="%.1f" y="%d" text-anchor="middle">%d</text>'
-                 % (sx(n), PY1 + 16, n))
-    o.append('    <text class="roi-unit" x="%d" y="%d" text-anchor="middle">'
-             'ismétlődő adminisztrációt végző fő</text>'
-             % ((PX0 + PX1) // 2, PY1 + 34))
+    o.append('    <line x1="%d" y1="%d" x2="%d" y2="%d"/>' % (px0, py1, px1, py1))
+    for n in xticks:
+        o.append('    <text x="%.1f" y="%d" text-anchor="middle">%d</text>' % (sx(n), py1 + 16, n))
+    o.append('    <text class="roi-unit" x="%d" y="%d" text-anchor="middle">%s</text>'
+             % ((px0 + px1) // 2, py1 + 33, xlabel))
     o.append('  </g>')
-    o.append('  <text class="roi-unit roi-yunit" x="%d" y="%d">óra / hó</text>' % (4, PY0 - 4))
+    o.append('  <text class="roi-unit roi-yunit" x="2" y="%d">óra / hó</text>' % (py0 - 3))
     o.append('</svg>')
     return '\n'.join(o)
 
 
-dst = (r'C:\Users\SOULSI~1\AppData\Local\Temp\claude'
-       r'\C--Users-SOULSILVER-Downloads-SOULSILVER'
-       r'\b56e1554-c390-4ea5-acba-e77dc82aace4\scratchpad\chart-roi.svg')
-svg = build(3, 1.5)      # a kalkulator alapertekei
-io.open(dst, 'w', encoding='utf-8', newline='').write(svg)
-print('chart-roi.svg', svg.count('\n') + 1, 'sor')
-print('ellenorzes: 3 fo * 1,5 ora * 21 * 0,7 =', 3 * 1.5 * 21 * 0.7)
+DST = os.environ.get('CHART_OUT') or (
+    r'C:\Users\SOULSI~1\AppData\Local\Temp\claude'
+    r'\C--Users-SOULSILVER-Downloads-SOULSILVER'
+    r'\b56e1554-c390-4ea5-acba-e77dc82aace4\scratchpad')
+
+for suffix, vw, vh, px0, px1, py0, py1, xt, xl in VARIANTS:
+    svg = build(3, 1.5, suffix, vw, vh, px0, px1, py0, py1, xt, xl)   # a kalkulator alapertekei
+    path = os.path.join(DST, 'chart-roi%s.svg' % suffix)
+    io.open(path, 'w', encoding='utf-8', newline='').write(svg)
+    print('chart-roi%s.svg  %d sor' % (suffix, svg.count('\n') + 1))
+
+print('ellenorzes: 3 fo * 1,5 ora * 21 * 0,7 =', 3 * 1.5 * MUNKANAP * AUTO)

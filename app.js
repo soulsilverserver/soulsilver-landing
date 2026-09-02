@@ -521,19 +521,13 @@
   }
 
   /* ---------- ROI-görbe: a kalkulátor csúszkáira újrarajzol ----------
-     Ugyanaz a formula, mint a kalkulátorban — ha az egyiket módosítod,
-     a másikat is kell. A geometria a statikus SVG-vel egyezik (lásd a
-     scratchpad gen_roi.py-t): plot x 46..502, y 16..190, létszám 1..20. */
-  var roi = document.getElementById('roiChart');
-  if(roi && calcPeople && calcHours){
-    var R_PX0 = 46, R_PX1 = 502, R_PY0 = 16, R_PY1 = 190;
+     MINDEN [data-roi] SVG-t kezel (széles + mobil változat), és a geometriát
+     a saját data-px0/px1/py0/py1 attribútumaiból veszi — így a JS-ben nem kell
+     duplikálni a tools/gen_roi.py-ban lévő számokat. A formula ugyanaz, mint a
+     kalkulátorban: ha az egyiket módosítod, a másikat is kell. */
+  var roiCharts = document.querySelectorAll('[data-roi]');
+  if(roiCharts.length && calcPeople && calcHours){
     var R_NMIN = 1, R_NMAX = 20;
-    var roiLine = document.getElementById('roiLine');
-    var roiArea = document.getElementById('roiArea');
-    var roiDot = document.getElementById('roiDot');
-    var roiLab = document.getElementById('roiLab');
-    var roiGrid = document.getElementById('roiGrid');
-    var roiYlab = document.getElementById('roiYlab');
 
     function niceMax(v){
       if(v <= 0) return 10;
@@ -545,17 +539,18 @@
       return step * 10;
     }
 
-    function drawRoi(){
-      var people = parseFloat(calcPeople.value);
-      var hours = parseFloat(calcHours.value);
+    function drawOne(svg, people, hours){
+      var px0 = +svg.getAttribute('data-px0');
+      var px1 = +svg.getAttribute('data-px1');
+      var py0 = +svg.getAttribute('data-py0');
+      var py1 = +svg.getAttribute('data-py1');
       var ymax = niceMax(R_NMAX * hours * MUNKANAP * AUTOMATIZALHATO);
-      var sx = function(n){ return R_PX0 + (n - R_NMIN) / (R_NMAX - R_NMIN) * (R_PX1 - R_PX0); };
-      var sy = function(v){ return R_PY1 - (v / ymax) * (R_PY1 - R_PY0); };
+      var sx = function(n){ return px0 + (n - R_NMIN) / (R_NMAX - R_NMIN) * (px1 - px0); };
+      var sy = function(v){ return py1 - (v / ymax) * (py1 - py0); };
       var val = function(n){ return n * hours * MUNKANAP * AUTOMATIZALHATO; };
 
-      /* y racs + cimkek ujraskalazasa */
-      var gl = roiGrid ? roiGrid.querySelectorAll('line') : [];
-      var yl = roiYlab ? roiYlab.querySelectorAll('text') : [];
+      var gl = svg.querySelectorAll('.roi-grid line');
+      var yl = svg.querySelectorAll('.roi-ylab text');
       for(var i = 0; i < 5; i++){
         var v = ymax * i / 4;
         var y = sy(v);
@@ -564,29 +559,39 @@
                    yl[i].textContent = nf0.format(Math.round(v)); }
       }
 
-      var d = [], n;
+      var n, d = [];
       for(n = R_NMIN; n <= R_NMAX; n++) d.push(sx(n).toFixed(1) + ' ' + sy(val(n)).toFixed(1));
-      if(roiLine) roiLine.setAttribute('d', 'M' + d.join(' L'));
+      var line = svg.querySelector('.roi-line');
+      if(line) line.setAttribute('d', 'M' + d.join(' L'));
 
       var a = [];
       for(n = R_NMIN; n <= people; n++) a.push('L' + sx(n).toFixed(1) + ' ' + sy(val(n)).toFixed(1));
-      if(roiArea){
-        roiArea.setAttribute('d', a.length
-          ? 'M' + sx(R_NMIN).toFixed(1) + ' ' + R_PY1 + ' ' + a.join(' ') +
-            ' L' + sx(people).toFixed(1) + ' ' + R_PY1 + ' Z'
+      var area = svg.querySelector('.roi-area');
+      if(area){
+        area.setAttribute('d', a.length
+          ? 'M' + sx(R_NMIN).toFixed(1) + ' ' + py1 + ' ' + a.join(' ') +
+            ' L' + sx(people).toFixed(1) + ' ' + py1 + ' Z'
           : '');
       }
 
       var mx = sx(people), my = sy(val(people));
-      if(roiDot){ roiDot.setAttribute('cx', mx.toFixed(1)); roiDot.setAttribute('cy', my.toFixed(1)); }
-      if(roiLab){
-        /* a cimke ne folyjon ki a plotbol: a jobb szelen balra fordul */
-        var flip = mx > R_PX1 - 90;
-        roiLab.setAttribute('x', (flip ? mx - 10 : mx + 10).toFixed(1));
-        roiLab.setAttribute('y', (my - 8).toFixed(1));
-        roiLab.setAttribute('text-anchor', flip ? 'end' : 'start');
-        roiLab.textContent = nf0.format(Math.round(val(people))) + ' óra / hó';
+      var dot = svg.querySelector('.roi-dot');
+      if(dot){ dot.setAttribute('cx', mx.toFixed(1)); dot.setAttribute('cy', my.toFixed(1)); }
+      var lab = svg.querySelector('.roi-lab');
+      if(lab){
+        /* a címke ne folyjon ki a plotból: a jobb szélen balra fordul */
+        var flip = mx > px1 - (px1 - px0) * 0.28;
+        lab.setAttribute('x', (flip ? mx - 10 : mx + 10).toFixed(1));
+        lab.setAttribute('y', (my - 8).toFixed(1));
+        lab.setAttribute('text-anchor', flip ? 'end' : 'start');
+        lab.textContent = nf0.format(Math.round(val(people))) + ' óra / hó';
       }
+    }
+
+    function drawRoi(){
+      var people = parseFloat(calcPeople.value);
+      var hours = parseFloat(calcHours.value);
+      roiCharts.forEach(function(svg){ drawOne(svg, people, hours); });
     }
 
     [calcPeople, calcHours].forEach(function(el){

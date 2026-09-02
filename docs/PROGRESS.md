@@ -157,3 +157,40 @@ nyit és zár; az `app.js` mind a 16 oldalon végig lefut.
    a user nem hagyta jóvá számszerűen.
 3. **Valós esettanulmány**, ha lesz dokumentált eset ügyfél-hozzájárulással —
    akkor a modellezett számpélda kiváltható.
+
+## Mobilnézet-audit (2026-09-02)
+
+Programozott mérés 17 oldalon × 5 szélességen (320/375/414/768/1280) = 85 mérés.
+Mért szempontok: dokumentum-túlcsordulás, saját konténerén kilógó/levágott
+szöveg, 24×24px alatti tap-target, apró betűk, átfedő elemek, kilógó képek,
+és hogy az `app.js` végig lefut-e.
+
+### Talált és javított hibák
+
+| Hol | Mi volt | Javítás |
+|---|---|---|
+| `arak.html`, workflow ROI | Az SVG-diagram feliratai **~7,5px-en** jelentek meg mobilon (a 760/520 egységes viewBox 246px-es keretbe zsugorodott), és a diagram 41%-a látszott egyszerre | Az ártartomány-diagram mobil változata **HTML/CSS sávlista** (az SVG-szöveg a konténerrel skálázódik, tehát nem lehet reszponzív); a ROI-görbe mobil viewBox-a 240 egység |
+| workflow-katalógus | 320px-en a címke-pill a workflow nevét **31px-re** szorította | A pill a név alá kerül 520px alatt; a név `flex:1 1 0`-val a chevronnal egy sorban marad |
+| `referenciak.html` | A `.bento-title` levágódott 320px-en (a kártya `overflow:hidden`) | `overflow-wrap:anywhere` a bento szövegeken |
+| `aszf.html` | **25px túlcsordulás**: a „Nyilvántartási/cégjegyzékszám:" nem tört (a `/` nem törési pont) | `overflow-wrap:anywhere` a `.legal-content` listákon |
+| kalkulátor | A csúszkák **16px** magasak voltak — ujjal alig fogható | 44px magas sáv, 24px-es fogantyú (webkit + moz) |
+| footer, jogi oldalak | Listalinkek **20–22px** magasak | `padding-block` → 31–36px (`.foot-grid`, `.legal-content`, `.foot-legal`) |
+| mobil fejléc | A logó (135px) + CTA-gomb (117px, két sorba tördelve) + hamburger (44px) = 323px a 309px-es helyen; a gomb a logóhoz tapadt, a fejléc 84px magas lett | A fejléc-CTA 620px alatt elrejtve — a Kapcsolat a hamburger-menüben és a WhatsApp gombban is elérhető |
+| szűrő-chipek | 30px magasak | 620px alatt nagyobb padding |
+
+### Vakriasztás (nem hiba)
+
+- `input.hp-field` — a kapcsolati űrlap honeypotja. `left:-9999px`, `opacity:0`,
+  `tabindex="-1"`, `aria-hidden` → helyesen van elrejtve, csak geometriája van.
+- A logó-marquee képei „kilógnak", de a `.logo-marquee` `overflow:hidden`-je levágja.
+
+### Tudatosan nyitva hagyva
+
+- **Desktop nav-linkek 21px magasak** (csak 1280px-en jelez). A köztük lévő
+  térköz 32px, ami kimeríti a WCAG 2.5.8 spacing-kivételét, és egérrel pontos —
+  a fejléc dizájnját nem érdemes ezért átszabni.
+- **A lebegő WhatsApp gomb** 320px-en a lap-alji CTA-gomb sarkát ~3×19px-en
+  fedi (a link 1%-a). Bármely lap-alji CTA-val előfordul; nem tap-hiba.
+
+**Eredmény: 320/375/414px-en nulla túlcsordulás, nulla levágott szöveg, nulla
+24px alatti tap-target mind a 17 oldalon.**

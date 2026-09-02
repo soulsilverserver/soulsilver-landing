@@ -1153,3 +1153,135 @@
   @media (prefers-reduced-motion: reduce){
     .chart-tip{ transition:none; }
   }
+
+  /* ============ MOBILNÉZET JAVÍTÁSOK (2026-09-02 audit) ============ */
+
+  /* --- diagram: széles vs. kompakt változat ---
+     A széles viewBox 760 (ár) / 520 (ROI) egység. 375px-es telefonon a
+     görgethető keret ~246px, ott a 9,5px-es címke ~7,5px-en jelent meg, és
+     egyszerre a diagram 41%-a látszott. 620px alatt ezért a kompakt változat
+     jön, amit NEM kell vízszintesen görgetni. */
+  .chart-mobile{ display:none; }
+  @media (max-width:620px){
+    .chart-desktop{ display:none; }
+    .chart-mobile{ display:block; }
+    /* a kompakt SVG-t nem kényszerítjük 600px-re: elfér a konténerben */
+    .chart-scroll.chart-mobile > svg{ min-width:0; }
+    .chart-scroll.chart-mobile{ overflow-x:visible; }
+  }
+  /* a kompakt változat nagyobb betűi (a viewBox szűkebb, a nagyítás ~1,0) */
+  .rng-compact .rng-name{ font-size:12.5px; }
+  .rng-compact .rng-val{ font-size:11px; }
+  .rng-compact .rng-axis text{ font-size:10px; }
+  .rng-compact .rng-unit{ font-size:9px; }
+  .roi-compact .roi-axis text, .roi-compact .roi-ylab text{ font-size:10.5px; }
+  .roi-compact .roi-unit{ font-size:9.5px; }
+  .roi-compact .roi-lab{ font-size:12px; }
+
+  /* --- 1. wf-trigger 320px-en: a címke-pill leszorította a nevet 31px-re,
+         olvashatatlanná. Szűk kijelzőn a pill a név ALÁ kerül. --- */
+  @media (max-width:520px){
+    .wf-trigger{ flex-wrap:wrap; align-items:flex-start; }
+    /* flex-basis:0, hogy a nev a chevronnal EGY sorban maradjon es belul
+       tordelodjon (1 1 auto eseten a chevront kulon sorba nyomta) */
+    .wf-trigger .wf-name{ flex:1 1 0; min-width:0; order:1; }
+    .wf-chev{ order:2; margin-top:3px; }
+    /* align-self, hogy a pill csak a tartalma szelessegu legyen, ne savnak lassek */
+    .wf-trigger .wf-tag{ order:3; flex-basis:100%; align-self:flex-start;
+      width:max-content; max-width:100%; margin-top:.5rem; }
+  }
+
+  /* --- 2. bento-title 320px-en levágódott (a kártya overflow:hidden) --- */
+  .bento-title, .bento-sub, .bento-tag{ overflow-wrap:anywhere; }
+
+  /* --- 3. az ÁSZF-ben a "Nyilvántartási/cégjegyzékszám:" 25px-et kilógott:
+         a "/" nem törési pont, és a li overflow-wrap-je normal volt --- */
+  .legal-content li, .legal-content strong, .legal-content dd, .legal-content dt{
+    overflow-wrap:anywhere; }
+
+  /* --- 4. tap-targetek (WCAG 2.5.8: min. 24x24, mobilon 44px a cél) --- */
+  /* csúszkák: 16px magasak voltak, ami ujjal alig fogható meg */
+  .calc-field input[type=range]{
+    -webkit-appearance:none; appearance:none; height:44px; background:transparent;
+    cursor:pointer; }
+  .calc-field input[type=range]::-webkit-slider-runnable-track{
+    height:6px; border-radius:3px; background:var(--edge-strong); }
+  .calc-field input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:24px; height:24px; margin-top:-9px;
+    border-radius:50%; background:var(--mint-deep); border:2px solid var(--ground);
+    box-shadow:0 1px 4px rgba(0,0,0,.25); }
+  .calc-field input[type=range]::-moz-range-track{
+    height:6px; border-radius:3px; background:var(--edge-strong); }
+  .calc-field input[type=range]::-moz-range-thumb{
+    width:24px; height:24px; border-radius:50%; background:var(--mint-deep);
+    border:2px solid var(--ground); box-shadow:0 1px 4px rgba(0,0,0,.25); }
+  .calc-field input[type=range]:focus-visible{ outline:2px solid var(--mint-deep);
+    outline-offset:4px; }
+
+  /* footer- és jogi listalinkek 20-22px magasak voltak */
+  .foot-grid a, .legal-content li > a, .foot-legal a{ display:inline-block; padding-block:.28em; }
+  .foot-grid .brand{ padding-block:.2em; }
+  .foot-social a{ display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:34px; }
+
+  /* hamburger 36px széles volt */
+  .nav-toggle{ min-width:44px; }
+
+  /* szűrő-chipek 30px magasak voltak. Szélesség-alapú a töréspont, nem
+     (hover:none): úgy determinisztikus és böngészőben mérhető. */
+  @media (max-width:620px){
+    .chip{ padding:.78em 1.15em; }
+  }
+
+  /* A kompakt diagram konténere 375px-en csak ~246px volt (wrap 24px + kártya
+     32px padding oldalanként), ezért a 300 egységes viewBox 0,72-re kicsinyült
+     és a feliratok 8px körül jelentek meg. Mobilon kisebb kártya-padding →
+     ~295px hely → ~1,0 nagyítás, tehát a CSS-méret a tényleges méret. */
+  @media (max-width:620px){
+    .chart-card{ padding:var(--sp-3) var(--sp-2) var(--sp-2); }
+  }
+
+  /* --- mobil ártartomány-lista (a kompakt SVG helyett) ---
+     Az SVG-szöveg a konténerrel skálázódik, tehát nem lehet reszponzív:
+     bármelyik viewBox-méretnél valamelyik készülékszélességen elromlik a
+     betűméret. HTML-ben a szöveg mindig a CSS-méretén marad, a sáv hosszát
+     pedig százalék adja — 320px-től 430px-ig egyformán olvasható. */
+  .rng-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column;
+    gap:var(--sp-3); }
+  .rng-litem{ min-width:0; }
+  .rng-litem-head{ display:flex; justify-content:space-between; align-items:baseline;
+    gap:var(--sp-2); margin-bottom:.45rem; }
+  .rng-litem-name{ font-size:.88rem; font-weight:700; overflow-wrap:anywhere; }
+  .rng-litem-val{ flex:0 0 auto; font-family:var(--font-mono); font-size:.76rem;
+    color:var(--ink-soft); white-space:nowrap; }
+  .rng-track{ position:relative; height:12px; border-radius:6px;
+    background:var(--edge); }
+  .rng-fill{ position:absolute; top:0; height:100%; border-radius:6px;
+    background:var(--chart-mark); }
+  /* nyitott vég: szaggatott folytatás a "felette egyedi ár" jelzésére */
+  .rng-open{ position:absolute; top:5px; height:2px; width:26px; margin-left:6px;
+    background:repeating-linear-gradient(90deg, var(--ink-faint) 0 2px,
+      transparent 2px 6px); }
+  .rng-cap{ position:absolute; top:1px; width:10px; height:10px; margin-left:-5px;
+    border-radius:50%; background:var(--chart-mark);
+    box-shadow:0 0 0 2px var(--chart-surface); }
+  .rng-scale{ display:flex; justify-content:space-between; font-family:var(--font-mono);
+    font-size:.66rem; color:var(--ink-faint); padding-top:.2rem;
+    border-top:1px solid var(--edge); margin-top:.2rem; }
+
+  /* a kompakt ROI-görbe betűi (viewBox 240 → nagyítás 0,93-1,3) */
+  .roi-compact .roi-axis text, .roi-compact .roi-ylab text{ font-size:11.5px; }
+  .roi-compact .roi-unit{ font-size:10px; }
+  .roi-compact .roi-lab{ font-size:12.5px; }
+
+  /* --- mobil fejléc ---
+     375px-en a logó (135px) + a "Ingyenes konzultáció" gomb (117px, két sorba
+     tördelve) + a hamburger (44px) együtt 323px, a rendelkezésre álló hely
+     309px. A gomb szövege ezért két sorba csúszott, a fejléc 84px magas lett,
+     és a logó mellett nem maradt térköz. Szűk kijelzőn a fejléc-CTA kikerül:
+     a Kapcsolat a hamburger-menüben és a lebegő WhatsApp gombban is ott van,
+     plusz minden oldalnak van saját CTA-szekciója. */
+  @media (max-width:620px){
+    .nav-cta .btn{ display:none; }
+    .topnav{ gap:var(--sp-2); }
+  }

@@ -514,28 +514,28 @@
             <div class="chart-sub">A csúszkák élőben mozgatják a jelölőt</div>
           </div>
         </div>
-        <div class="chart-scroll">
-          <svg viewBox="0 0 520 236" class="roi" id="roiChart" role="img" aria-labelledby="roi-t roi-d">
+        <div class="chart-scroll chart-desktop">
+          <svg viewBox="0 0 520 236" class="roi" data-roi="1" data-px0="46" data-px1="502" data-py0="16" data-py1="190" role="img" aria-labelledby="roi-t roi-d">
             <title id="roi-t">Felszabaduló kapacitás a létszám függvényében</title>
             <desc id="roi-d">Minél többen végzik az ismétlődő adminisztrációt, annál több óra szabadul fel havonta. A pontos értékeket a kalkulátor mutatja a diagram mellett.</desc>
-            <g class="roi-grid" id="roiGrid">
+            <g class="roi-grid">
               <line x1="46" y1="190.0" x2="502" y2="190.0"/>
               <line x1="46" y1="146.5" x2="502" y2="146.5"/>
               <line x1="46" y1="103.0" x2="502" y2="103.0"/>
               <line x1="46" y1="59.5" x2="502" y2="59.5"/>
               <line x1="46" y1="16.0" x2="502" y2="16.0"/>
             </g>
-            <g class="roi-ylab" id="roiYlab">
-              <text x="38" y="193.2" text-anchor="end">0</text>
-              <text x="38" y="149.7" text-anchor="end">125</text>
-              <text x="38" y="106.2" text-anchor="end">250</text>
-              <text x="38" y="62.7" text-anchor="end">375</text>
-              <text x="38" y="19.2" text-anchor="end">500</text>
+            <g class="roi-ylab">
+              <text x="39" y="193.2" text-anchor="end">0</text>
+              <text x="39" y="149.7" text-anchor="end">125</text>
+              <text x="39" y="106.2" text-anchor="end">250</text>
+              <text x="39" y="62.7" text-anchor="end">375</text>
+              <text x="39" y="19.2" text-anchor="end">500</text>
             </g>
-            <path class="roi-area" id="roiArea" d="M46.0 190.0 L46.0 182.3 L70.0 174.7 L94.0 167.0 L94.0 190.0 Z"/>
-            <path class="roi-line" id="roiLine" d="M46.0 182.3 L70.0 174.7 L94.0 167.0 L118.0 159.3 L142.0 151.6 L166.0 144.0 L190.0 136.3 L214.0 128.6 L238.0 120.9 L262.0 113.3 L286.0 105.6 L310.0 97.9 L334.0 90.2 L358.0 82.6 L382.0 74.9 L406.0 67.2 L430.0 59.6 L454.0 51.9 L478.0 44.2 L502.0 36.5"/>
-            <circle class="roi-dot" id="roiDot" cx="94.0" cy="167.0" r="5"/>
-            <text class="roi-lab" id="roiLab" x="104.0" y="159.0">66 óra / hó</text>
+            <path class="roi-area" d="M46.0 190.0 L46.0 182.3 L70.0 174.7 L94.0 167.0 L94.0 190.0 Z"/>
+            <path class="roi-line" d="M46.0 182.3 L70.0 174.7 L94.0 167.0 L118.0 159.3 L142.0 151.6 L166.0 144.0 L190.0 136.3 L214.0 128.6 L238.0 120.9 L262.0 113.3 L286.0 105.6 L310.0 97.9 L334.0 90.2 L358.0 82.6 L382.0 74.9 L406.0 67.2 L430.0 59.6 L454.0 51.9 L478.0 44.2 L502.0 36.5"/>
+            <circle class="roi-dot" cx="94.0" cy="167.0" r="5"/>
+            <text class="roi-lab" x="104.0" y="159.0">66 óra / hó</text>
             <g class="roi-axis">
               <line x1="46" y1="190" x2="502" y2="190"/>
               <text x="46.0" y="206" text-anchor="middle">1</text>
@@ -543,9 +543,43 @@
               <text x="262.0" y="206" text-anchor="middle">10</text>
               <text x="382.0" y="206" text-anchor="middle">15</text>
               <text x="502.0" y="206" text-anchor="middle">20</text>
-              <text class="roi-unit" x="274" y="224" text-anchor="middle">ismétlődő adminisztrációt végző fő</text>
+              <text class="roi-unit" x="274" y="223" text-anchor="middle">ismétlődő adminisztrációt végző fő</text>
             </g>
-            <text class="roi-unit roi-yunit" x="4" y="12">óra / hó</text>
+            <text class="roi-unit roi-yunit" x="2" y="13">óra / hó</text>
+          </svg>
+        </div>
+        <div class="chart-scroll chart-mobile">
+          <svg viewBox="0 0 240 172" class="roi roi-compact" data-roi="1" data-px0="40" data-px1="234" data-py0="10" data-py1="130" role="img" aria-labelledby="roi-m-t roi-m-d">
+            <title id="roi-m-t">Felszabaduló kapacitás a létszám függvényében</title>
+            <desc id="roi-m-d">Minél többen végzik az ismétlődő adminisztrációt, annál több óra szabadul fel havonta. A pontos értékeket a kalkulátor mutatja a diagram mellett.</desc>
+            <g class="roi-grid">
+              <line x1="40" y1="130.0" x2="234" y2="130.0"/>
+              <line x1="40" y1="100.0" x2="234" y2="100.0"/>
+              <line x1="40" y1="70.0" x2="234" y2="70.0"/>
+              <line x1="40" y1="40.0" x2="234" y2="40.0"/>
+              <line x1="40" y1="10.0" x2="234" y2="10.0"/>
+            </g>
+            <g class="roi-ylab">
+              <text x="33" y="133.2" text-anchor="end">0</text>
+              <text x="33" y="103.2" text-anchor="end">125</text>
+              <text x="33" y="73.2" text-anchor="end">250</text>
+              <text x="33" y="43.2" text-anchor="end">375</text>
+              <text x="33" y="13.2" text-anchor="end">500</text>
+            </g>
+            <path class="roi-area" d="M40.0 130.0 L40.0 124.7 L50.2 119.4 L60.4 114.1 L60.4 130.0 Z"/>
+            <path class="roi-line" d="M40.0 124.7 L50.2 119.4 L60.4 114.1 L70.6 108.8 L80.8 103.5 L91.1 98.2 L101.3 93.0 L111.5 87.7 L121.7 82.4 L131.9 77.1 L142.1 71.8 L152.3 66.5 L162.5 61.2 L172.7 55.9 L182.9 50.6 L193.2 45.3 L203.4 40.0 L213.6 34.7 L223.8 29.5 L234.0 24.2"/>
+            <circle class="roi-dot" cx="60.4" cy="114.1" r="5"/>
+            <text class="roi-lab" x="70.4" y="106.1">66 óra / hó</text>
+            <g class="roi-axis">
+              <line x1="40" y1="130" x2="234" y2="130"/>
+              <text x="40.0" y="146" text-anchor="middle">1</text>
+              <text x="80.8" y="146" text-anchor="middle">5</text>
+              <text x="131.9" y="146" text-anchor="middle">10</text>
+              <text x="182.9" y="146" text-anchor="middle">15</text>
+              <text x="234.0" y="146" text-anchor="middle">20</text>
+              <text class="roi-unit" x="137" y="163" text-anchor="middle">adminisztrációt végző fő</text>
+            </g>
+            <text class="roi-unit roi-yunit" x="2" y="7">óra / hó</text>
           </svg>
         </div>
         <div class="chart-key">
