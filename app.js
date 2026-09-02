@@ -88,13 +88,30 @@
     try{ localStorage.setItem(COOKIE_KEY, v); }catch(e){}
   }
   if(cookieBar){
+    var hideBar = function(v){ setChoice(v); cookieBar.classList.remove('show'); document.body.classList.remove('has-cookiebar'); };
     if(!getChoice()){
-      setTimeout(function(){ cookieBar.classList.add('show'); }, 900);
+      setTimeout(function(){ cookieBar.classList.add('show'); document.body.classList.add('has-cookiebar'); }, 900);
     }
     var acc = document.getElementById('cookieAccept');
     var rej = document.getElementById('cookieReject');
-    if(acc) acc.addEventListener('click', function(){ setChoice('accepted'); cookieBar.classList.remove('show'); });
-    if(rej) rej.addEventListener('click', function(){ setChoice('rejected'); cookieBar.classList.remove('show'); });
+    if(acc) acc.addEventListener('click', function(){ hideBar('accepted'); });
+    if(rej) rej.addEventListener('click', function(){ hideBar('rejected'); });
+  }
+
+  /* ---------- lebegő WhatsApp gomb (minden oldalon) ----------
+     A [href^="https://wa.me/"] miatt a lentebbi konverziókövetés
+     automatikusan rácsatlakozik — ezért fut ez a tracking blokk ELŐTT. */
+  if(document.body && !document.querySelector('.wa-float')){
+    var waMsg = 'Szia! Ingyenes konzultációt kérnék a SOULSILVER csapatától.\n\nNevem: \nAmiben segítséget szeretnék: ';
+    var wa = document.createElement('a');
+    wa.className = 'wa-float';
+    wa.href = 'https://wa.me/36202964933?text=' + encodeURIComponent(waMsg);
+    wa.target = '_blank';
+    wa.rel = 'noopener';
+    wa.setAttribute('aria-label', 'Írj nekünk WhatsApp-on');
+    wa.innerHTML = '<span class="wa-float-pulse" aria-hidden="true"></span>' +
+      '<img src="img/logos/whatsapp.svg" alt="" width="30" height="30" aria-hidden="true">';
+    document.body.appendChild(wa);
   }
 
 
