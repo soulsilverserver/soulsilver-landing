@@ -99,6 +99,7 @@
     <li><a href="index.html#folyamat">Folyamat</a></li>
     <li><a href="crm.html">CRM</a></li>
     <li><a href="referenciak.html">Referenciák</a></li>
+    <li><a href="arak.html">Árak</a></li>
     <li><a href="index.html#kapcsolat">Kapcsolat</a></li>
   </ul>
   <div class="nav-cta">
@@ -112,6 +113,7 @@
   <a href="index.html#folyamat">Folyamat</a>
   <a href="crm.html">CRM</a>
   <a href="referenciak.html">Referenciák</a>
+  <a href="arak.html">Árak</a>
   <a href="index.html#kapcsolat">Kapcsolat</a>
 </div>
 
@@ -502,6 +504,56 @@
         </div>
       </div>
 
+      <!-- A gorbe a fenti formula kirajzolva. A JS a csuszkakra elve
+           ujrarajzolja; JS nelkul az alapallapot (3 fo, 1,5 ora) latszik,
+           ami egyezik a kalkulator kezdoertekeivel. -->
+      <div class="chart-card reveal">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Felszabaduló kapacitás a létszám függvényében</div>
+            <div class="chart-sub">A csúszkák élőben mozgatják a jelölőt</div>
+          </div>
+        </div>
+        <div class="chart-scroll">
+          <svg viewBox="0 0 520 236" class="roi" id="roiChart" role="img" aria-labelledby="roi-t roi-d">
+            <title id="roi-t">Felszabaduló kapacitás a létszám függvényében</title>
+            <desc id="roi-d">Minél többen végzik az ismétlődő adminisztrációt, annál több óra szabadul fel havonta. A pontos értékeket a kalkulátor mutatja a diagram mellett.</desc>
+            <g class="roi-grid" id="roiGrid">
+              <line x1="46" y1="190.0" x2="502" y2="190.0"/>
+              <line x1="46" y1="146.5" x2="502" y2="146.5"/>
+              <line x1="46" y1="103.0" x2="502" y2="103.0"/>
+              <line x1="46" y1="59.5" x2="502" y2="59.5"/>
+              <line x1="46" y1="16.0" x2="502" y2="16.0"/>
+            </g>
+            <g class="roi-ylab" id="roiYlab">
+              <text x="38" y="193.2" text-anchor="end">0</text>
+              <text x="38" y="149.7" text-anchor="end">125</text>
+              <text x="38" y="106.2" text-anchor="end">250</text>
+              <text x="38" y="62.7" text-anchor="end">375</text>
+              <text x="38" y="19.2" text-anchor="end">500</text>
+            </g>
+            <path class="roi-area" id="roiArea" d="M46.0 190.0 L46.0 182.3 L70.0 174.7 L94.0 167.0 L94.0 190.0 Z"/>
+            <path class="roi-line" id="roiLine" d="M46.0 182.3 L70.0 174.7 L94.0 167.0 L118.0 159.3 L142.0 151.6 L166.0 144.0 L190.0 136.3 L214.0 128.6 L238.0 120.9 L262.0 113.3 L286.0 105.6 L310.0 97.9 L334.0 90.2 L358.0 82.6 L382.0 74.9 L406.0 67.2 L430.0 59.6 L454.0 51.9 L478.0 44.2 L502.0 36.5"/>
+            <circle class="roi-dot" id="roiDot" cx="94.0" cy="167.0" r="5"/>
+            <text class="roi-lab" id="roiLab" x="104.0" y="159.0">66 óra / hó</text>
+            <g class="roi-axis">
+              <line x1="46" y1="190" x2="502" y2="190"/>
+              <text x="46.0" y="206" text-anchor="middle">1</text>
+              <text x="142.0" y="206" text-anchor="middle">5</text>
+              <text x="262.0" y="206" text-anchor="middle">10</text>
+              <text x="382.0" y="206" text-anchor="middle">15</text>
+              <text x="502.0" y="206" text-anchor="middle">20</text>
+              <text class="roi-unit" x="274" y="224" text-anchor="middle">ismétlődő adminisztrációt végző fő</text>
+            </g>
+            <text class="roi-unit roi-yunit" x="4" y="12">óra / hó</text>
+          </svg>
+        </div>
+        <div class="chart-key">
+          <span><i class="k-dot"></i>A te beállításod</span>
+          <span>A vonal a teljes 1–20 fős sávot mutatja, a kitöltés a jelenlegi létszámig tart.</span>
+        </div>
+      </div>
+
       <p class="calc-formula reveal">felszabaduló óra / hó = fő × napi óra × 21 munkanap × 0,7 &nbsp;·&nbsp; a 0,7 az automatizálhatóság feltételezett aránya</p>
       <p class="calc-note reveal">A kalkulátor a megadott bemenetekkel számol, és tájékoztató jellegű. A tényleges megtakarítás a folyamataidtól és a használt rendszerektől függ — ezt a folyamatfelmérés mutatja meg pontosan.</p>
     </div>
@@ -694,6 +746,7 @@
         <h4>Cég</h4>
         <ul>
           <li><a href="referenciak.html">Referenciák</a></li>
+          <li><a href="arak.html">Árak</a></li>
           <li><a href="crm.html">CRM</a></li>
           <li><a href="index.html#kapcsolat">Kapcsolat</a></li>
         </ul>

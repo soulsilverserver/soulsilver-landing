@@ -462,6 +462,140 @@
     recalc();   /* induláskor is, hogy ne 0 legyen a kimenet */
   }
 
+
+  /* ============================================================
+     DIAGRAMOK
+     Null-guardolt: a diagram nélküli oldalakon kilép.
+     ============================================================ */
+
+  /* ---------- ártartomány-diagram: hover / fókusz tooltip ----------
+     A diagram magától is olvasható (minden érték ki van írva); a tooltip
+     a harmadik csomagszintet és a mértékegységet adja hozzá. */
+  var tipHosts = document.querySelectorAll('[data-chart-tip]');
+  if(tipHosts.length){
+    tipHosts.forEach(function(host){
+      var rows = host.querySelectorAll('.rng-row');
+      if(!rows.length) return;
+
+      var card = host.closest('.chart-card') || host;
+      var tip = document.createElement('div');
+      tip.className = 'chart-tip';
+      tip.setAttribute('role', 'status');
+      card.appendChild(tip);
+
+      function render(row){
+        tip.innerHTML = '';
+        var b = document.createElement('b');
+        b.textContent = row.getAttribute('data-name') || '';
+        tip.appendChild(b);
+        var dl = document.createElement('dl');
+        [['Belépő', 'data-entry'], ['Középső', 'data-mid'], ['Felső', 'data-top']]
+          .forEach(function(pair){
+            var v = row.getAttribute(pair[1]);
+            if(!v) return;
+            var dt = document.createElement('dt'); dt.textContent = pair[0];
+            var dd = document.createElement('dd'); dd.textContent = v;
+            dl.appendChild(dt); dl.appendChild(dd);
+          });
+        tip.appendChild(dl);
+      }
+
+      function place(row){
+        var hr = row.getBoundingClientRect();
+        var cr = card.getBoundingClientRect();
+        tip.style.left = Math.round(hr.left - cr.left + hr.width / 2) + 'px';
+        tip.style.top = Math.round(hr.top - cr.top) + 'px';
+      }
+
+      function show(row){ render(row); place(row); tip.classList.add('show'); }
+      function hide(){ tip.classList.remove('show'); }
+
+      rows.forEach(function(row){
+        row.addEventListener('mouseenter', function(){ show(row); });
+        row.addEventListener('mouseleave', hide);
+        row.addEventListener('focus', function(){ show(row); });
+        row.addEventListener('blur', hide);
+      });
+      host.addEventListener('mouseleave', hide);
+    });
+  }
+
+  /* ---------- ROI-görbe: a kalkulátor csúszkáira újrarajzol ----------
+     Ugyanaz a formula, mint a kalkulátorban — ha az egyiket módosítod,
+     a másikat is kell. A geometria a statikus SVG-vel egyezik (lásd a
+     scratchpad gen_roi.py-t): plot x 46..502, y 16..190, létszám 1..20. */
+  var roi = document.getElementById('roiChart');
+  if(roi && calcPeople && calcHours){
+    var R_PX0 = 46, R_PX1 = 502, R_PY0 = 16, R_PY1 = 190;
+    var R_NMIN = 1, R_NMAX = 20;
+    var roiLine = document.getElementById('roiLine');
+    var roiArea = document.getElementById('roiArea');
+    var roiDot = document.getElementById('roiDot');
+    var roiLab = document.getElementById('roiLab');
+    var roiGrid = document.getElementById('roiGrid');
+    var roiYlab = document.getElementById('roiYlab');
+
+    function niceMax(v){
+      if(v <= 0) return 10;
+      var step = Math.pow(10, Math.floor(Math.log(v) / Math.LN10));
+      var mults = [1, 2, 2.5, 5, 10];
+      for(var i = 0; i < mults.length; i++){
+        if(v <= step * mults[i]) return step * mults[i];
+      }
+      return step * 10;
+    }
+
+    function drawRoi(){
+      var people = parseFloat(calcPeople.value);
+      var hours = parseFloat(calcHours.value);
+      var ymax = niceMax(R_NMAX * hours * MUNKANAP * AUTOMATIZALHATO);
+      var sx = function(n){ return R_PX0 + (n - R_NMIN) / (R_NMAX - R_NMIN) * (R_PX1 - R_PX0); };
+      var sy = function(v){ return R_PY1 - (v / ymax) * (R_PY1 - R_PY0); };
+      var val = function(n){ return n * hours * MUNKANAP * AUTOMATIZALHATO; };
+
+      /* y racs + cimkek ujraskalazasa */
+      var gl = roiGrid ? roiGrid.querySelectorAll('line') : [];
+      var yl = roiYlab ? roiYlab.querySelectorAll('text') : [];
+      for(var i = 0; i < 5; i++){
+        var v = ymax * i / 4;
+        var y = sy(v);
+        if(gl[i]){ gl[i].setAttribute('y1', y.toFixed(1)); gl[i].setAttribute('y2', y.toFixed(1)); }
+        if(yl[i]){ yl[i].setAttribute('y', (y + 3.2).toFixed(1));
+                   yl[i].textContent = nf0.format(Math.round(v)); }
+      }
+
+      var d = [], n;
+      for(n = R_NMIN; n <= R_NMAX; n++) d.push(sx(n).toFixed(1) + ' ' + sy(val(n)).toFixed(1));
+      if(roiLine) roiLine.setAttribute('d', 'M' + d.join(' L'));
+
+      var a = [];
+      for(n = R_NMIN; n <= people; n++) a.push('L' + sx(n).toFixed(1) + ' ' + sy(val(n)).toFixed(1));
+      if(roiArea){
+        roiArea.setAttribute('d', a.length
+          ? 'M' + sx(R_NMIN).toFixed(1) + ' ' + R_PY1 + ' ' + a.join(' ') +
+            ' L' + sx(people).toFixed(1) + ' ' + R_PY1 + ' Z'
+          : '');
+      }
+
+      var mx = sx(people), my = sy(val(people));
+      if(roiDot){ roiDot.setAttribute('cx', mx.toFixed(1)); roiDot.setAttribute('cy', my.toFixed(1)); }
+      if(roiLab){
+        /* a cimke ne folyjon ki a plotbol: a jobb szelen balra fordul */
+        var flip = mx > R_PX1 - 90;
+        roiLab.setAttribute('x', (flip ? mx - 10 : mx + 10).toFixed(1));
+        roiLab.setAttribute('y', (my - 8).toFixed(1));
+        roiLab.setAttribute('text-anchor', flip ? 'end' : 'start');
+        roiLab.textContent = nf0.format(Math.round(val(people))) + ' óra / hó';
+      }
+    }
+
+    [calcPeople, calcHours].forEach(function(el){
+      el.addEventListener('input', drawRoi);
+      el.addEventListener('change', drawRoi);
+    });
+    drawRoi();
+  }
+
   /* ---------- Google Ads + GA4 conversion tracking ----------
      Két külön konverziót mérünk, mert nem egyenértékűek:
        - Űrlapbeküldés (koszonjuk.html) = befejezett lead → "Potenciális ügyfél
