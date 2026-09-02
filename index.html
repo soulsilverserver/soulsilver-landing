@@ -47,6 +47,7 @@
 </script>
 </head>
 <body>
+<a class="skip-link" href="#tartalom">Ugrás a tartalomra</a>
 <div class="liquid-bg" aria-hidden="true">
   <span class="blob blob-a"></span>
   <span class="blob blob-b"></span>
@@ -81,7 +82,7 @@
   <a href="#kapcsolat">Kapcsolat</a>
 </div>
 
-<main>
+<main id="tartalom">
   <!-- HERO -->
   <section class="hero" id="top">
     <div class="wrap">
@@ -443,9 +444,13 @@
           <p class="contact-quick-note">Gyors kérdésre a leggyorsabb válasz — általában percek alatt reagálunk.</p>
         </div>
         <form class="contact-form" id="contactForm" action="contact.php" method="POST">
+          <label class="visually-hidden" for="cfName">Neved</label>
           <input type="text" name="name" id="cfName" placeholder="Neved *" required autocomplete="name">
+          <label class="visually-hidden" for="cfPhone">Telefonszámod</label>
           <input type="tel" name="phone" id="cfPhone" placeholder="Telefonszámod *" required autocomplete="tel">
+          <label class="visually-hidden" for="cfEmail">Email címed (opcionális)</label>
           <input type="email" name="email" id="cfEmail" placeholder="Email címed (opcionális)" autocomplete="email">
+          <label class="visually-hidden" for="cfMessage">Miben segíthetünk?</label>
           <textarea name="message" id="cfMessage" placeholder="Miben segíthetünk?"></textarea>
           <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn-primary btn-block">Üzenet küldése</button>
