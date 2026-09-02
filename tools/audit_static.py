@@ -5,7 +5,10 @@ import io, os, re, glob, collections
 ROOT = r'C:\Users\SOULSILVER\Downloads\SOULSILVER'
 os.chdir(ROOT)
 
-pages = sorted(p for p in glob.glob('*.html') if not p.startswith('google'))
+# A _preview_*.html gitignore-olt, lokalis munkafajl - nem deployol, ezert
+# nem szabad hibaként jeleznie (nincs benne nav, canonical, app.js).
+pages = sorted(p for p in glob.glob('*.html')
+               if not p.startswith('google') and not p.startswith('_'))
 problems = collections.OrderedDict()
 
 
