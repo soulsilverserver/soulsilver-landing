@@ -677,7 +677,10 @@
   .price-name{ font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--mint-deep); }
   .price-card.featured .price-name{ color:var(--mint); }
   .price-amount{ font-family:var(--font-display); font-size:clamp(1.35rem, 6vw, 2.1rem); font-weight:700; margin:var(--sp-2) 0 .2rem; line-height:1; }
-  .price-amount small{ font-family:var(--font-body); font-size:.9rem; font-weight:600; color:var(--ink-faint); }
+  /* Sajat sorba: a "180 000 Ft" + "/ho-tol" egyutt nem fer ki egy ~350px-es
+     kartyan, es a "tol" magaban tordelt le. Igy soha nem torik szo kozepen. */
+  .price-amount small{ display:block; margin-top:.15em; font-family:var(--font-body);
+    font-size:.86rem; font-weight:600; color:var(--ink-faint); white-space:nowrap; }
   .price-card.featured .price-amount small{ color:rgba(255,255,255,0.6); }
   .price-sub{ color:var(--ink-soft); font-size:.9rem; }
   .price-feat{ list-style:none; padding:0; margin:var(--sp-4) 0; display:flex; flex-direction:column; gap:.7rem; flex:1; }
@@ -1380,3 +1383,102 @@
       radial-gradient(60% 58% at 68% 34%, rgba(34,240,180,.80), rgba(10,158,119,.28) 44%, transparent 72%),
       radial-gradient(66% 58% at 95% 82%, rgba(15,215,154,.42), transparent 68%),
       linear-gradient(150deg,#0D4249 0%,#081D24 54%,#05090C 100%); }
+
+  /* ============ ÜGYFÉLSZERZÉSI AJÁNLAT (arak.html) ============
+     A .page-main 144px padding-top-ot ad, és a szekció még rátesz — desktopon
+     185px, mobilon ~300px halott térköz volt a menü és az első szöveg között.
+     Az ajánlat-hero ezért maga adja a felső levegőt, a szekció-padding nélkül. */
+  .offer-main{ padding-top:0; }
+  .offer-hero{ padding-top:calc(var(--sp-12) + 1.5rem); padding-bottom:var(--sp-8);
+    position:relative; overflow:hidden; }
+  .offer-hero::before{ content:""; position:absolute; inset:-40% -10% auto -10%; height:80vh;
+    z-index:-1;
+    background:radial-gradient(ellipse at 72% 0%, rgba(15,215,154,.22), transparent 62%),
+               radial-gradient(ellipse at 20% 18%, rgba(154,161,172,.20), transparent 58%); }
+  .offer-hero h1{ font-size:clamp(2.4rem,4.4vw + 1rem,4.8rem); font-weight:600;
+    letter-spacing:-.035em; line-height:1.0; margin:.15em 0 .4em; max-width:15ch; }
+  .offer-hero h1 em{ font-style:normal; color:var(--mint-deep); }
+  .offer-hero .lead{ max-width:54ch; }
+  .offer-actions{ display:flex; flex-wrap:wrap; gap:.8rem; margin-top:var(--sp-5); }
+
+  .offer-points{ list-style:none; margin:var(--sp-6) 0 0; padding:0;
+    display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--sp-3);
+    max-width:680px; }
+  .offer-points li{ border-left:2px solid var(--mint); padding:.1rem 0 .1rem var(--sp-2); }
+  /* Rovid cimkek: NE torjenek szo kozepen (a globalis h1-h3 overflow-wrap:anywhere
+     nem ide szol). Ha nem fer ki, szavak kozott tordeljen. */
+  .offer-points b{ display:block; font-family:var(--font-display); font-weight:600;
+    font-size:clamp(1rem,1vw + .78rem,1.3rem); letter-spacing:-.02em; line-height:1.12;
+    overflow-wrap:normal; word-break:normal; hyphens:none; }
+  .offer-points span{ display:block; margin-top:.25em; font-family:var(--font-mono);
+    font-size:.66rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); }
+  @media (max-width:620px){
+    .offer-points{ grid-template-columns:1fr; gap:var(--sp-3); max-width:none; }
+    /* A .topnav fixed, top:24px, 82px magas -> az alja 106px-nel van.
+       128+8=136px ad ~30px levegot alatta. 80px-nel a morzsamenu a nav ALA csuszott. */
+    .offer-hero{ padding-top:calc(var(--sp-16) + .5rem); }
+  }
+
+  /* --- garancia-kártyák --- */
+  .guar-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--sp-3); margin-top:var(--sp-6); }
+  .guar-grid > *{ min-width:0; }
+  .guar-card-wide{ grid-column:1 / -1; }
+  @media (max-width:760px){ .guar-grid{ grid-template-columns:1fr; } }
+  .guar-card{ border:1px solid var(--edge); border-radius:var(--radius-card);
+    background:var(--surface); padding:var(--sp-4); backdrop-filter:blur(12px); }
+  .guar-k{ font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--mint-deep); margin-bottom:var(--sp-2); }
+  .guar-card p{ color:var(--ink-soft); font-size:.95rem; }
+  .guar-list{ margin:var(--sp-3) 0 0; padding-left:1.3em; display:flex;
+    flex-direction:column; gap:.55rem; color:var(--ink-soft); font-size:.95rem; }
+  .guar-list b{ color:var(--ink); }
+
+  /* --- kinek szól / kinek nem --- */
+  .fit-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:var(--sp-3); margin-top:var(--sp-6); }
+  .fit-grid > *{ min-width:0; }
+  @media (max-width:760px){ .fit-grid{ grid-template-columns:1fr; } }
+  .fit-card{ border:1px solid var(--edge); border-radius:var(--radius-card);
+    padding:var(--sp-4); background:var(--surface); }
+  .fit-card.fit-yes{ border-color:rgba(15,215,154,.42); }
+  .fit-k{ font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase;
+    letter-spacing:.1em; margin-bottom:var(--sp-2); }
+  .fit-yes .fit-k{ color:var(--mint-deep); }
+  .fit-no .fit-k{ color:var(--ink-faint); }
+  .fit-card ul{ list-style:none; margin:0; padding:0; display:flex;
+    flex-direction:column; gap:.6rem; }
+  .fit-card li{ position:relative; padding-left:1.4em; color:var(--ink-soft);
+    font-size:.95rem; overflow-wrap:anywhere; }
+  .fit-yes li::before{ content:"+"; position:absolute; left:0; top:-.05em;
+    color:var(--mint-deep); font-weight:700; }
+  .fit-no li::before{ content:"–"; position:absolute; left:0; top:-.05em;
+    color:var(--ink-faint); font-weight:700; }
+
+  /* --- szolgáltatás-árlista tábla --- */
+  .svc-table-wrap{ margin-top:var(--sp-5); overflow-x:auto;
+    -webkit-overflow-scrolling:touch; }
+  .svc-table{ width:100%; border-collapse:collapse; min-width:520px; }
+  .svc-table th, .svc-table td{ text-align:left; padding:.85em .7em;
+    border-bottom:1px solid var(--edge); vertical-align:top; }
+  .svc-table thead th{ font-family:var(--font-mono); font-size:.64rem;
+    text-transform:uppercase; letter-spacing:.09em; color:var(--ink-faint);
+    font-weight:600; border-bottom-color:var(--edge-strong); }
+  .svc-table tbody th[scope=row]{ font-weight:700; font-size:.98rem;
+    overflow-wrap:anywhere; }
+  /* A sor elsodleges tap-targetje: 21px magas volt, a WCAG 2.5.8 24px-es
+     minimuma alatt. Az inline-kivetel itt nem all, mert nem folyo szovegben van. */
+  .svc-table tbody th[scope=row] a{ text-decoration:none; display:inline-block;
+    padding-block:.32em; }
+  .svc-table tbody th[scope=row] a:hover{ color:var(--mint-deep); }
+  .svc-what{ display:block; margin-top:.25em; font-weight:400; font-size:.82rem;
+    color:var(--ink-soft); }
+  .svc-table td.num, .svc-table th.num{ text-align:right; font-family:var(--font-mono);
+    font-variant-numeric:tabular-nums; white-space:nowrap; font-size:.9rem; }
+  .svc-table tr.svc-group th{ padding-top:var(--sp-4); border-bottom:none;
+    font-family:var(--font-display); font-weight:600; font-size:1.02rem;
+    letter-spacing:-.01em; color:var(--ink); text-transform:none; }
+  .svc-table tr.svc-group th span{ font-family:var(--font-mono); font-size:.64rem;
+    text-transform:uppercase; letter-spacing:.09em; color:var(--ink-faint);
+    margin-left:.5em; }
+  .svc-table tr.svc-group:first-child th{ padding-top:0; }
