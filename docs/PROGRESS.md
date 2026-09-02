@@ -65,18 +65,36 @@ dekorációja, nem valós referenciaanyag, ezért nem szerepelhet referenciakén
 3. **Szövegek ellenőrzése**: a leírásokat a Drive mappa- és fájlnevekből
    vezettem le. Ahol a projekt tartalma pontosabban megfogalmazható, javítsd.
 
-## Ismert, korábbról meglévő hibák (nem ehhez a munkához tartoznak)
+## Hibakeresés eredménye (2026-09-02, `fdbda59` állapot)
 
-- A `<footer>` mobilon (375px) ~20px vízszintes túlcsordulást okoz — minden
-  oldalon, a referenciák oldal előtt is.
-- Az `index.html` mobilon ~88px túlcsordulást mutat.
-- A `.phero` és `.pband` a `100vw` full-bleed trükköt használja, ami a
-  görgetősáv szélességével túlcsordul. Az új `.vband` és `.logo-marquee` már
-  `width:100%`-ot használ, mert a szülő szekció úgyis teljes szélességű.
+Részletes terv a javításokról és a hátralévő munkáról:
+[docs/superpowers/plans/2026-09-02-hatralevo-munkak.md](superpowers/plans/2026-09-02-hatralevo-munkak.md)
 
-## Korábbi mérföldkövek
+**RENDBEN:** az `app.js` mind a 15 oldalon végig lefut; nincs törött belső link,
+halott horgony, duplikált `id`, `alt` nélküli kép vagy tag-eltérés; a
+referenciák oldal szűrője és lightboxa a párhuzamos módosítások után is működik;
+a WhatsApp gomb (z-index 70) helyesen a lightbox (120) alatt van.
 
-- 2026-09-01 — kapcsolatfelvételi űrlap + Resend API-s email (`contact.php`),
-  `config.php` gitignore-olva
-- 2026-08-30 — többoldalas szerkezet, közös `styles.css` + `app.js`,
-  parallax hero 3 szolgáltatás-oldalon
+**VÍZSZINTES TÚLCSORDULÁS 375px-en** (`body.scrollWidth - html.clientWidth`):
+
+| Oldal | Túlcsordulás | Okozó |
+|---|---|---|
+| `adatvedelem.html` | **330px** | `.legal-table` 666px széles, nem görgethető |
+| `crm.html` | 115px | `.phero` + footer |
+| `index.html` | 103px | `.rail`, `.step-cards` 439px |
+| `cookie-szabalyzat.html` | 51px | `.legal-table` 387px |
+| a többi 10 oldal | 35px | `.foot-grid` 2 kolúmna 48px gappel |
+| `koszonjuk.html` | 0px | (nincs nav/footer) |
+
+A footer gyökéroka: `.foot-grid` 760px alatt `1fr 1fr` + `gap: var(--sp-6)`
+(48px); 360px-en két ~205px-es kolúmna nem fér ki, és a negyediket az
+`info@soulsilvermarketing.com` link (205px, nem tördelhető) feszíti szét.
+
+**További hiányok:** a `sitemap.xml`-ből kimaradt a négy új jogi oldal
+(`impresszum`, `adatvedelem`, `aszf`, `cookie-szabalyzat`); a `koszonjuk.html`-en
+nincs `canonical`.
+
+**Blokkoló:** a `.claude/worktrees/sharp-pike-731f5a` worktree (branch
+`claude/sharp-pike-731f5a`) félbehagyva áll a `d724a09` bázison, nem commitolt
+`styles.css` módosítással — ugyanazt a fájlt érinti, mint az 1. fázis.
+
