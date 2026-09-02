@@ -8,7 +8,10 @@
     --edge-strong: rgba(20,24,28,0.18);
     --ink:#0D1013;
     --ink-soft:#565F6B;
-    --ink-faint:#87909C;
+    /* #87909C csak 2,83:1 volt a --ground-on es 2,60:1 a --ground-2-n, tehat
+       megbukott a WCAG AA 4,5:1-en. 29 szoveg-szabaly hasznalja (footer-fejlecek,
+       morzsamenu, tablazat-fejlecek, diagram-feliratok, statisztika-cimkek). */
+    --ink-faint:#616870;   /* 4,56:1 a --ground-2-n, 4,94:1 a --ground-on */
     --chrome-1:#C7CDD6;
     --chrome-2:#9AA1AC;
     --chrome-3:#5B6270;
@@ -35,7 +38,7 @@
       --edge-strong: rgba(255,255,255,0.18);
       --ink:#EDEFF2;
       --ink-soft:#9BA3AE;
-      --ink-faint:#6B737E;
+      --ink-faint:#777E88;   /* 3,88:1 -> 4,55:1 a --ground-2-n */
       --chrome-1:#454B54;
       --chrome-2:#2B2F35;
       --chrome-3:#1A1C20;
@@ -54,7 +57,7 @@
     --edge-strong: rgba(255,255,255,0.18);
     --ink:#EDEFF2;
     --ink-soft:#9BA3AE;
-    --ink-faint:#6B737E;
+    --ink-faint:#777E88;   /* 3,88:1 -> 4,55:1 a --ground-2-n */
     --chrome-1:#454B54;
     --chrome-2:#2B2F35;
     --chrome-3:#1A1C20;
@@ -84,7 +87,6 @@
      nagyobb, mint a rendelkezésre álló hely: e nélkül kilógnak a dobozukból,
      és rács-elemként a saját sávjukat is szélesebbre feszítik. */
   h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; letter-spacing:-0.01em; overflow-wrap:anywhere; }
-  h4{ overflow-wrap:anywhere; }
   p{ margin:0; overflow-wrap:break-word; }
   a{ color:inherit; }
   ::selection{ background:var(--mint); color:var(--mint-ink); }
@@ -514,7 +516,7 @@
   .foot-grid{ display:grid; grid-template-columns:1.4fr .8fr .8fr .8fr; gap:var(--sp-6); }
   .foot-grid > *{ min-width:0; }
   @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
-  .foot-grid h4{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:var(--sp-2); }
+  .foot-grid h3{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-faint); margin-bottom:var(--sp-2); }
   .foot-grid ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.6rem; }
   /* Az info@soulsilvermarketing.com egyetlen tördelhetetlen szó: 375px-en a
      min-content szélessége ~205px, ami a 1fr 1fr rácsot a konténeren túlra
@@ -643,7 +645,7 @@
   @media (max-width:520px){ .steprow{ grid-template-columns:1fr; } }
   .stepbox{ background:var(--surface); border:1px solid var(--edge); border-radius:16px; padding:var(--sp-3); position:relative; }
   .stepbox .stepnum{ font-family:var(--font-mono); font-size:.7rem; color:var(--mint-deep); letter-spacing:.1em; }
-  .stepbox h4{ font-family:var(--font-body); font-weight:700; font-size:1rem; margin:.3rem 0 0; }
+  .stepbox h3{ font-family:var(--font-body); font-weight:700; font-size:1rem; margin:.3rem 0 0; }
   .stepbox p{ color:var(--ink-soft); font-size:.85rem; margin-top:.3rem; }
 
   /* references */
@@ -654,7 +656,7 @@
   .ref-thumb{ aspect-ratio:16/10; display:flex; align-items:flex-end; padding:var(--sp-3); }
   .ref-thumb .ref-tag{ font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase; letter-spacing:.08em; color:#fff; background:rgba(0,0,0,.28); padding:.3em .7em; border-radius:999px; }
   .ref-body{ padding:var(--sp-3); }
-  .ref-body h4{ font-family:var(--font-body); font-weight:700; font-size:1.02rem; }
+  .ref-body h3{ font-family:var(--font-body); font-weight:700; font-size:1.02rem; }
   .ref-body p{ color:var(--ink-soft); font-size:.88rem; margin-top:.35rem; }
   .ref-metric{ display:flex; gap:var(--sp-3); margin-top:var(--sp-2); }
   .ref-metric b{ font-family:var(--font-display); font-size:1.15rem; color:var(--mint-deep); display:block; }
@@ -687,7 +689,7 @@
   /* faq */
   .faq-list{ margin-top:var(--sp-6); display:flex; flex-direction:column; gap:var(--sp-2); }
   .faq-item{ border:1px solid var(--edge); border-radius:16px; background:var(--surface); padding:var(--sp-3) var(--sp-4); }
-  .faq-item h4{ font-family:var(--font-body); font-weight:700; font-size:1rem; }
+  .faq-item h3{ font-family:var(--font-body); font-weight:700; font-size:1rem; }
   .faq-item p{ color:var(--ink-soft); font-size:.92rem; margin-top:.4rem; }
 
   /* page CTA band */
