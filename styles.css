@@ -933,3 +933,118 @@
     .vband-frame, .vband-content{ transform:none; }
     .lb, .lb-stage{ transition:none; }
   }
+
+  /* ============ WORKFLOW AUTOMATIZÁLÁS OLDAL ============ */
+
+  /* --- workflow katalógus --- */
+  .wf-cat{ margin-top:var(--sp-6); }
+  .wf-cat-head{ display:flex; align-items:baseline; gap:.7rem; margin-bottom:var(--sp-2);
+    padding-bottom:var(--sp-2); border-bottom:1px solid var(--edge); }
+  .wf-cat-head h3{ font-family:var(--font-display); font-size:1.05rem; font-weight:600; letter-spacing:-.01em; }
+  .wf-cat-head span{ font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--ink-faint); }
+
+  .wf-list{ display:flex; flex-direction:column; gap:.6rem; }
+  .wf-item{ border:1px solid var(--edge); border-radius:var(--radius-tile); background:var(--surface);
+    overflow:hidden; transition:border-color .25s ease; }
+  .wf-item:hover{ border-color:var(--edge-strong); }
+
+  .wf-trigger{ width:100%; display:flex; align-items:center; gap:var(--sp-2); text-align:left;
+    padding:var(--sp-3); background:none; border:0; cursor:pointer; color:inherit; font:inherit; }
+  .wf-trigger:focus-visible{ outline:2px solid var(--mint-deep); outline-offset:-2px; }
+  .wf-trigger .wf-name{ flex:1 1 auto; min-width:0; font-weight:700; font-size:1rem; overflow-wrap:anywhere; }
+  .wf-trigger .wf-tag{ flex:0 0 auto; font-family:var(--font-mono); font-size:.6rem; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--mint-deep); background:rgba(15,215,154,.12);
+    padding:.32em .7em; border-radius:var(--radius-pill); }
+  .wf-chev{ flex:0 0 auto; width:20px; height:20px; stroke:var(--ink-faint); stroke-width:2; fill:none;
+    stroke-linecap:round; stroke-linejoin:round; transition:transform .3s ease; }
+  .wf-trigger[aria-expanded="true"] .wf-chev{ transform:rotate(180deg); }
+  .wf-trigger[aria-expanded="true"] .wf-name{ color:var(--mint-deep); }
+
+  .wf-panel{ padding:0 var(--sp-3) var(--sp-3); border-top:1px solid var(--edge); }
+  .wf-panel-inner{ padding-top:var(--sp-3); }
+
+  /* lépéslista: bal oldali mint vonal + számozott pontok */
+  .wf-steps{ list-style:none; margin:0; padding:0 0 0 var(--sp-4); position:relative; }
+  .wf-steps::before{ content:""; position:absolute; left:7px; top:.5em; bottom:.5em; width:2px;
+    background:linear-gradient(180deg, var(--mint), rgba(15,215,154,.15)); border-radius:2px; }
+  .wf-step{ position:relative; padding:.35rem 0; font-size:.92rem; color:var(--ink-soft); overflow-wrap:anywhere; }
+  .wf-step::before{ content:""; position:absolute; left:calc(-1 * var(--sp-4) + 3px); top:.95em;
+    width:10px; height:10px; border-radius:50%; background:var(--mint); box-shadow:0 0 0 3px var(--ground); }
+  .wf-step b{ color:var(--ink); }
+
+  .wf-result{ margin-top:var(--sp-3); padding:var(--sp-2) var(--sp-3); border-radius:var(--radius-tile);
+    background:rgba(15,215,154,.1); border:1px solid rgba(15,215,154,.28); font-size:.9rem; }
+  .wf-result b{ font-family:var(--font-mono); font-size:.64rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--mint-deep); display:block; margin-bottom:.3em; }
+
+  /* --- workflow anatómia ábra --- */
+  .wf-anatomy{ margin-top:var(--sp-6); overflow-x:auto; -webkit-overflow-scrolling:touch;
+    border:1px solid var(--edge); border-radius:var(--radius-card); background:var(--surface);
+    padding:var(--sp-4) var(--sp-3); }
+  .wf-anatomy svg{ display:block; min-width:660px; width:100%; height:auto; }
+  .wf-anatomy-note{ margin-top:var(--sp-2); font-family:var(--font-mono); font-size:.64rem;
+    text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); text-align:center; }
+
+  /* --- ROI kalkulátor --- */
+  .calc{ display:grid; grid-template-columns:1.1fr .9fr; gap:var(--sp-4); margin-top:var(--sp-6);
+    align-items:start; }
+  .calc > *{ min-width:0; }
+  @media (max-width:860px){ .calc{ grid-template-columns:1fr; } }
+
+  .calc-inputs{ display:flex; flex-direction:column; gap:var(--sp-4);
+    border:1px solid var(--edge); border-radius:var(--radius-card); background:var(--surface);
+    padding:var(--sp-4); }
+  .calc-field label{ display:flex; justify-content:space-between; align-items:baseline; gap:var(--sp-2);
+    font-size:.9rem; font-weight:600; margin-bottom:.6rem; }
+  .calc-field .calc-val{ font-family:var(--font-mono); font-size:.85rem; color:var(--mint-deep);
+    background:rgba(15,215,154,.12); padding:.2em .6em; border-radius:var(--radius-pill); white-space:nowrap; }
+  .calc-field input[type=range]{ width:100%; margin:0; accent-color:var(--mint-deep); }
+  .calc-field .calc-hint{ margin-top:.4rem; font-size:.78rem; color:var(--ink-faint); }
+
+  .calc-out{ border-radius:var(--radius-card); background:var(--ink); color:var(--ground);
+    padding:var(--sp-4); box-shadow:var(--shadow); }
+  .calc-out .calc-eyebrow{ font-family:var(--font-mono); font-size:.64rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--mint); }
+  .calc-big{ font-family:var(--font-display); font-weight:700; line-height:1;
+    font-size:clamp(1.9rem, 5vw, 2.9rem); margin:.35em 0 .1em; overflow-wrap:anywhere; }
+  .calc-big small{ font-family:var(--font-body); font-size:.42em; font-weight:600; color:rgba(255,255,255,.6); }
+  .calc-rows{ list-style:none; margin:var(--sp-3) 0 0; padding:var(--sp-3) 0 0; display:flex;
+    flex-direction:column; gap:.65rem; border-top:1px solid rgba(255,255,255,.14); }
+  .calc-rows li{ display:flex; justify-content:space-between; align-items:baseline; gap:var(--sp-2);
+    font-size:.9rem; color:rgba(255,255,255,.72); }
+  .calc-rows b{ font-family:var(--font-mono); color:#fff; text-align:right; overflow-wrap:anywhere; }
+  .calc-fte{ margin-top:var(--sp-3); padding:var(--sp-2) var(--sp-3); border-radius:var(--radius-tile);
+    background:rgba(15,215,154,.16); border:1px solid rgba(15,215,154,.35); font-size:.9rem; color:#fff; }
+  .calc-fte b{ color:var(--mint); }
+
+  .calc-formula{ margin-top:var(--sp-3); font-family:var(--font-mono); font-size:.72rem;
+    color:var(--ink-faint); background:var(--ground-2); border:1px solid var(--edge);
+    border-radius:var(--radius-tile); padding:var(--sp-2) var(--sp-3); overflow-x:auto; }
+  .calc-note{ margin-top:var(--sp-2); font-size:.8rem; color:var(--ink-faint); }
+
+  /* --- modellezett számpélda --- */
+  .model-case{ margin-top:var(--sp-6); border-radius:var(--radius-card); overflow:hidden;
+    border:1px solid var(--edge); background:var(--ink); color:var(--ground); box-shadow:var(--shadow); }
+  .model-case-in{ padding:var(--sp-5); }
+  .model-badge{ display:inline-block; font-family:var(--font-mono); font-size:.62rem;
+    text-transform:uppercase; letter-spacing:.1em; font-weight:700;
+    background:var(--mint); color:var(--mint-ink); padding:.4em .9em; border-radius:var(--radius-pill); }
+  .model-case h3{ font-family:var(--font-display); font-weight:600; letter-spacing:-.02em;
+    font-size:clamp(1.4rem, 2.2vw + .8rem, 2.1rem); margin:var(--sp-3) 0 var(--sp-2); overflow-wrap:anywhere; }
+  .model-case p{ color:rgba(255,255,255,.76); max-width:64ch; }
+  .model-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-3); margin-top:var(--sp-4); }
+  .model-grid > *{ min-width:0; }
+  @media (max-width:760px){ .model-grid{ grid-template-columns:1fr; } }
+  .model-box{ border:1px solid rgba(255,255,255,.16); border-radius:var(--radius-tile); padding:var(--sp-3); }
+  .model-box .model-k{ font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase;
+    letter-spacing:.1em; color:var(--mint); }
+  .model-box .model-v{ font-family:var(--font-display); font-size:1.5rem; font-weight:700;
+    margin:.3em 0 .15em; line-height:1.05; overflow-wrap:anywhere; }
+  .model-box p{ font-size:.84rem; color:rgba(255,255,255,.62); }
+  .model-disclaimer{ margin-top:var(--sp-4); padding-top:var(--sp-3);
+    border-top:1px solid rgba(255,255,255,.14); font-size:.82rem; color:rgba(255,255,255,.58); }
+
+  @media (prefers-reduced-motion: reduce){
+    .wf-chev, .wf-item{ transition:none; }
+  }
