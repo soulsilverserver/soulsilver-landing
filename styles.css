@@ -1482,3 +1482,10 @@
     text-transform:uppercase; letter-spacing:.09em; color:var(--ink-faint);
     margin-left:.5em; }
   .svc-table tr.svc-group:first-child th{ padding-top:0; }
+
+  /* A hero-kartya CTA-ja: az ugyfelszerzesi ajanlatra visz. Sajat sor, hogy a
+     tap-target 24px fole menjen (a kartyan belul nincs folyo szoveg-kivetel). */
+  .hero-card-link{ display:inline-block; margin-top:var(--sp-3); padding-block:.3em;
+    font-family:var(--font-mono); font-size:.72rem; letter-spacing:.04em;
+    text-decoration:none; color:var(--mint-deep); font-weight:600; }
+  .hero-card-link:hover{ text-decoration:underline; }
