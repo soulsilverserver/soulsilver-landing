@@ -1431,6 +1431,9 @@
   .offer-hero h1{ font-size:clamp(2.4rem,4.4vw + 1rem,4.8rem); font-weight:600;
     letter-spacing:-.035em; line-height:1.0; margin:.15em 0 .4em; max-width:15ch; }
   .offer-hero h1 em{ font-style:normal; color:var(--mint-deep); }
+  /* A kenyermorzsa es az eyebrow ugyanaz a mono kiskapitalis stilus: kozvetlenul
+     egymas alatt egyetlen blokknak olvasodnak, ezert kell koztuk levego. */
+  .offer-hero .subnav{ margin-bottom:var(--sp-3); }
   .offer-hero .lead{ max-width:54ch; }
   .offer-actions{ display:flex; flex-wrap:wrap; gap:.8rem; margin-top:var(--sp-5); }
 
