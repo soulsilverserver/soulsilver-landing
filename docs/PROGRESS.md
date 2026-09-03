@@ -49,6 +49,11 @@ Ne hidd el vakon, amit ez a fájl ír — ellenőrizd a repó tényleges állapo
 weboldalkeszites, dronfelvetel, aftermovie, termekfotozas), 4 jogi oldal
 (impresszum, adatvedelem, aszf, cookie-szabalyzat).
 
+**A site üzenete (2026-09-03-tól):** ügyfélszerzés, nem „full-service
+ügynökség". A főoldal heroja és az `arak.html` is erre épül: „Megtöltjük a
+naptárad." Az ajánlat egy garanciamechanizmus — a lead-célszám a **szerződésben**
+van, nem a weboldalon (lásd Csapdák: miért nem hirdetünk 80 leadet).
+
 **Mérve és rendben:**
 
 - 0px vízszintes túlcsordulás 320 / 375 / 414 / 768 / 1280px-en, mind a 17 oldalon
@@ -57,6 +62,11 @@ weboldalkeszites, dronfelvetel, aftermovie, termekfotozas), 4 jogi oldal
 - az `app.js` mindenhol végig lefut (jelzőbója: a `.wa-float` gomb létrejön)
 - nincs törött belső link, halott horgony, duplikált `id`, `alt` nélküli kép
 - az árak egyeznek mind a négy helyen (lásd Csapdák)
+- az `arak.html` árazása kártyák + igazi táblázat (a korábbi ártartomány-
+  diagramok kikerültek: a sáv semmit nem mondott, amit a szám nem, a csomagok
+  tartalma viszont egyáltalán nem volt az oldalon)
+- a workflow-oldal ROI-kalkulátora **működik**: kitöltött csúszkasáv, min/max
+  címkék, élő jelölő a görbén, és a címke egyik szélen sem csúszik ki
 
 **Nem pusholt commitok lehetnek** — ellenőrizd a fenti git paranccsal.
 
@@ -89,8 +99,9 @@ weboldalkeszites, dronfelvetel, aftermovie, termekfotozas), 4 jogi oldal
 4. **A referenciák oldal hero-statisztikái** — 30+ projekt / 14 rendezvény /
    7 szolgáltatási terület. Ezek a Drive **mappáiból számolva** készültek, nem
    könyvelésből. Ellenőrizendő.
-5. **`koszonjuk.html`** — nincs nav és footer (szándékos, konverziós oldal),
-   de emiatt a menü onnan nem elérhető. Eldöntendő, kell-e.
+5. **`koszonjuk.html`** — nincs menü, csak a logó (szándékos: konverziós
+   oldal, ahol minden további link elterelne; a logó visszavisz a főoldalra).
+   Az `audit_static.py`-ban ez már rögzített kivétel, nem hibaként jelenik meg.
 
 ---
 
@@ -105,12 +116,32 @@ Ha konkrét eredményszámot kér, kérdezz rá, hogy valós-e, és ajánlj fel 
 valós esettanulmány hozzájárulással · jelölt modellezett példa · kalkulátor a
 látogató saját számaival.
 
+**A 80 minősített lead NEM hirdetési állítás.** A user szerződésébe kerül, de
+mérési előzmény nincs mögötte, ezért a weboldal **csak a mechanizmust** mondja
+el („a lead-célszám a szerződésben van"), számot nem. Ha valaki ki akarja tenni
+a 80-at a főoldalra, az ugyanabba a jogi kategóriába esik, mint a kitalált
+ügyféleredmény.
+
 **Az árak NÉGY helyen vannak, automatikus kapcsolat nélkül:**
 a szolgáltatás-oldal `.price-grid`-je (a forrás) · `tools/gen_charts.py`
-`PROJEKT`/`HAVI` listája · az `arak.html` táblázatos nézete ·
+`PROJEKT`/`HAVI` listája · az `arak.html` `.svc-table`-je ·
 `tools/gen_arlista_pdf.py` `SERVICES` listája. Ha árat módosítasz, mind a négyet
 frissítsd, majd futtasd: `python3 tools/audit_prices.py` — ez kimutatja az
 eltérést.
+
+**Az `audit_prices.py` a HTML-markupot parseolja, tehát a szerkezet átírása
+csendben elnémítja.** Az árazás átépítésekor a `.price-grid` helyére
+`.svc-table` került, és a szkript onnantól *nulla* árat talált az
+`arak.html`-ben — vagyis mind a kilenc szolgáltatásra eltérést jelentett, ami
+könnyen összemosódik a valódi hibával. Most sorszámot is ellenőriz (9 sor), és
+figyelmeztet, ha nem annyit olvas be. Ha átírod az árazás markupját, futtasd le
+és nézd meg, hogy a „tabla" oszlop nem üres-e.
+
+**Az SVG-jelölő címkéjét nem lehet fix arányú küszöbbel a plotban tartani.**
+A ROI-görbe két változatban van (520 és 240 egység széles viewBox), és
+ugyanaz a szöveg a szűkebbikben arányosan szélesebb — a régi „a plot jobb 28%-án
+fordulj balra" szabály a mobilon levágta a „hó"-t. A tényleges szöveghosszt kell
+mérni `getComputedTextLength()`-tel, viewBox-egységben.
 
 **A diagram jelölő-színe NEM a téma tokene.** `--chart-mark: #0A9E77`, és
 szándékosan ugyanez világos és sötét témában. A sötét téma `--mint-deep`-je
