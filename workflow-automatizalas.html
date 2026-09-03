@@ -479,16 +479,19 @@
           <div class="calc-field">
             <label for="wfPeople">Hány fő végez ismétlődő adminisztrációt?<span class="calc-val" id="wfPeopleVal">3 fő</span></label>
             <input type="range" id="wfPeople" min="1" max="20" step="1" value="3">
+            <div class="calc-range" aria-hidden="true"><span>1 fő</span><span>20 fő</span></div>
             <p class="calc-hint">Nem csak asszisztensek — bárki, aki adatot gépel át vagy emlékeztetőket ír.</p>
           </div>
           <div class="calc-field">
             <label for="wfHours">Napi mennyi idő megy el rá fejenként?<span class="calc-val" id="wfHoursVal">1,5 óra</span></label>
             <input type="range" id="wfHours" min="0.5" max="4" step="0.5" value="1.5">
+            <div class="calc-range" aria-hidden="true"><span>0,5 óra</span><span>4 óra</span></div>
             <p class="calc-hint">A tíz-húsz perces lépések összege egy átlagos munkanapon.</p>
           </div>
           <div class="calc-field">
             <label for="wfCost">Bruttó órabér-költség<span class="calc-val" id="wfCostVal">4 500 Ft</span></label>
             <input type="range" id="wfCost" min="2000" max="12000" step="500" value="4500">
+            <div class="calc-range" aria-hidden="true"><span>2 000 Ft</span><span>12 000 Ft</span></div>
             <p class="calc-hint">A teljes munkáltatói költség órára vetítve.</p>
           </div>
         </div>
@@ -512,7 +515,7 @@
         <div class="chart-head">
           <div>
             <div class="chart-title">Felszabaduló kapacitás a létszám függvényében</div>
-            <div class="chart-sub">A csúszkák élőben mozgatják a jelölőt</div>
+            <div class="chart-sub">óra / hó · a csúszkák élőben mozgatják a jelölőt</div>
           </div>
         </div>
         <div class="chart-scroll chart-desktop">
@@ -546,7 +549,6 @@
               <text x="502.0" y="206" text-anchor="middle">20</text>
               <text class="roi-unit" x="274" y="223" text-anchor="middle">ismétlődő adminisztrációt végző fő</text>
             </g>
-            <text class="roi-unit roi-yunit" x="2" y="13">óra / hó</text>
           </svg>
         </div>
         <div class="chart-scroll chart-mobile">
@@ -580,7 +582,6 @@
               <text x="234.0" y="146" text-anchor="middle">20</text>
               <text class="roi-unit" x="137" y="163" text-anchor="middle">adminisztrációt végző fő</text>
             </g>
-            <text class="roi-unit roi-yunit" x="2" y="7">óra / hó</text>
           </svg>
         </div>
         <div class="chart-key">

@@ -96,7 +96,9 @@ def build(people, hours, suffix, vw, vh, px0, px1, py0, py1, xticks, xlabel):
     o.append('    <text class="roi-unit" x="%d" y="%d" text-anchor="middle">%s</text>'
              % ((px0 + px1) // 2, py1 + 33, xlabel))
     o.append('  </g>')
-    o.append('  <text class="roi-unit roi-yunit" x="2" y="%d">óra / hó</text>' % (py0 - 3))
+    # Az y-tengely felirata KIMARAD: atfedte a legfelso tengelycimket
+    # (mobilon lathatoan). A mertekegyseg a diagram alcimeben es a jelolo
+    # cimkejeben van ('66 ora / ho'), ott nem tud utkozni.
     o.append('</svg>')
     return '\n'.join(o)
 

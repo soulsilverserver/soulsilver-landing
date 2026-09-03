@@ -758,7 +758,9 @@
   @media (max-width:900px){
     .phero-bg{ background-attachment:scroll; }
     .phero{ min-height:auto; }
-    .phero .wrap{ padding-top:calc(var(--sp-16) + 1rem); padding-bottom:var(--sp-6); }
+    /* 176px felso terkoz utan mobilon ~350px ures sav volt a nav es a
+       morzsamenu kozott. A .topnav alja 106px-nel van, 136px ad ~30px levegot. */
+    .phero .wrap{ padding-top:calc(var(--sp-16) + .5rem); padding-bottom:var(--sp-6); }
   }
 
   /* mid-page full-bleed parallax accent band (optional per page) */
@@ -1205,23 +1207,54 @@
     overflow-wrap:anywhere; }
 
   /* --- 4. tap-targetek (WCAG 2.5.8: min. 24x24, mobilon 44px a cél) --- */
-  /* csúszkák: 16px magasak voltak, ami ujjal alig fogható meg */
+  /* --- csúszkák ---
+     A 16px magas, kitöltés nélküli sáv nem olvasódott vezérlőnek: nem látszott,
+     hol állsz a skálán, és hogy húzni kell. Ezért:
+       - a --fill custom property adja a kitöltés százalékát (az app.js írja),
+         a pseudo-elem pedig örökli az inputról
+       - 44px magas fogási terület, 26px fogantyú, aktív állapotban nagyobb
+     A ::-webkit-slider-runnable-track ES a ::-moz-range-track ugyanezt a
+     gradienst kapja, kulonben Firefoxban kitoltes nelkul marad. */
   .calc-field input[type=range]{
-    -webkit-appearance:none; appearance:none; height:44px; background:transparent;
-    cursor:pointer; }
+    -webkit-appearance:none; appearance:none; width:100%; height:44px;
+    background:transparent; cursor:pointer; --fill:50%; }
+
   .calc-field input[type=range]::-webkit-slider-runnable-track{
-    height:6px; border-radius:3px; background:var(--edge-strong); }
+    height:8px; border-radius:4px;
+    background:linear-gradient(90deg,
+      var(--mint-deep) 0 var(--fill), var(--edge-strong) var(--fill) 100%); }
   .calc-field input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none; appearance:none; width:24px; height:24px; margin-top:-9px;
-    border-radius:50%; background:var(--mint-deep); border:2px solid var(--ground);
-    box-shadow:0 1px 4px rgba(0,0,0,.25); }
+    -webkit-appearance:none; appearance:none; width:26px; height:26px;
+    margin-top:-9px; border-radius:50%; background:var(--ground);
+    border:3px solid var(--mint-deep);
+    box-shadow:0 2px 8px rgba(10,158,119,.35);
+    transition:transform .12s ease, box-shadow .12s ease; }
+  .calc-field input[type=range]:hover::-webkit-slider-thumb{
+    transform:scale(1.08); box-shadow:0 3px 12px rgba(10,158,119,.5); }
+  .calc-field input[type=range]:active::-webkit-slider-thumb{
+    transform:scale(1.14); }
+
   .calc-field input[type=range]::-moz-range-track{
-    height:6px; border-radius:3px; background:var(--edge-strong); }
+    height:8px; border-radius:4px;
+    background:linear-gradient(90deg,
+      var(--mint-deep) 0 var(--fill), var(--edge-strong) var(--fill) 100%); }
   .calc-field input[type=range]::-moz-range-thumb{
-    width:24px; height:24px; border-radius:50%; background:var(--mint-deep);
-    border:2px solid var(--ground); box-shadow:0 1px 4px rgba(0,0,0,.25); }
+    width:26px; height:26px; border-radius:50%; background:var(--ground);
+    border:3px solid var(--mint-deep);
+    box-shadow:0 2px 8px rgba(10,158,119,.35); }
+
   .calc-field input[type=range]:focus-visible{ outline:2px solid var(--mint-deep);
-    outline-offset:4px; }
+    outline-offset:4px; border-radius:var(--radius-pill); }
+  @media (prefers-reduced-motion: reduce){
+    .calc-field input[type=range]::-webkit-slider-thumb{ transition:none; }
+    .calc-field input[type=range]:hover::-webkit-slider-thumb,
+    .calc-field input[type=range]:active::-webkit-slider-thumb{ transform:none; }
+  }
+
+  /* min/max feliratok a csúszka alatt: a skála végpontjai enélkül nem látszanak */
+  .calc-range{ display:flex; justify-content:space-between;
+    font-family:var(--font-mono); font-size:.64rem; letter-spacing:.06em;
+    color:var(--ink-faint); margin-top:-.35rem; }
 
   /* footer- és jogi listalinkek 20-22px magasak voltak */
   .foot-grid a, .legal-content li > a, .foot-legal a{ display:inline-block; padding-block:.28em; }

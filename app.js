@@ -434,10 +434,19 @@
       fte: document.getElementById('wfFte')
     };
 
+    /* A sav kitoltese CSS-bol nem szamolhato, ezert a --fill custom property-t
+       innen irjuk. A pseudo-elem (::-webkit-slider-runnable-track) orokli. */
+    function setFill(el){
+      var min = parseFloat(el.min), max = parseFloat(el.max);
+      var pct = ((parseFloat(el.value) - min) / (max - min)) * 100;
+      el.style.setProperty('--fill', pct.toFixed(1) + '%');
+    }
+
     function recalc(){
       var people = parseFloat(calcPeople.value);
       var hours = parseFloat(calcHours.value);
       var cost = parseFloat(calcCost.value);
+      [calcPeople, calcHours, calcCost].forEach(setFill);
 
       var hoursMonth = people * hours * MUNKANAP * AUTOMATIZALHATO;
       var hoursYear = hoursMonth * 12;
@@ -579,12 +588,27 @@
       if(dot){ dot.setAttribute('cx', mx.toFixed(1)); dot.setAttribute('cy', my.toFixed(1)); }
       var lab = svg.querySelector('.roi-lab');
       if(lab){
-        /* a címke ne folyjon ki a plotból: a jobb szélen balra fordul */
-        var flip = mx > px1 - (px1 - px0) * 0.28;
-        lab.setAttribute('x', (flip ? mx - 10 : mx + 10).toFixed(1));
-        lab.setAttribute('y', (my - 8).toFixed(1));
-        lab.setAttribute('text-anchor', flip ? 'end' : 'start');
         lab.textContent = nf0.format(Math.round(val(people))) + ' óra / hó';
+        lab.setAttribute('y', (my - 8).toFixed(1));
+
+        /* A cimke ne folyjon ki a plotbol. Fix aranyu kuszob nem mukodik: a
+           mobil diagram viewBox-a szukebb, ott ugyanaz a szoveg aranyosan
+           szelesebb. Ezert a tenyleges szoveghosszt merjuk viewBox-egysegben.
+           getComputedTextLength() csak rendereletlen SVG-nel dob - akkor
+           becslunk a monospace ~0,6em karakterszelesseggel. */
+        var tw;
+        try { tw = lab.getComputedTextLength(); } catch(e){ tw = 0; }
+        if(!tw) tw = lab.textContent.length * parseFloat(getComputedStyle(lab).fontSize || 11) * 0.6;
+
+        var x;
+        if(mx + 10 + tw <= px1){          // jobbra kifer
+          x = mx + 10; lab.setAttribute('text-anchor', 'start');
+        } else if(mx - 10 - tw >= px0){   // balra fordul
+          x = mx - 10; lab.setAttribute('text-anchor', 'end');
+        } else {                          // egyik oldalon sem fer el: jobb szelre tapasztjuk
+          x = px1; lab.setAttribute('text-anchor', 'end');
+        }
+        lab.setAttribute('x', x.toFixed(1));
       }
     }
 
