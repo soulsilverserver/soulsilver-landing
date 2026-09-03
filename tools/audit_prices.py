@@ -2,7 +2,7 @@
 """Az arak konzisztenciaja a NEGY helyen:
  1. a szolgaltatas-oldalak .price-grid-je  (a forras)
  2. tools/gen_charts.py PROJEKT / HAVI listaja (az arak.html diagramjai)
- 3. arak.html tablazatos nezete
+ 3. arak.html svc-table-je
  4. tools/gen_arlista_pdf.py SERVICES listaja
 """
 import io
@@ -59,15 +59,23 @@ for block_name in ('PROJEKT', 'HAVI'):
         charts[row.group(1)] = [int(row.group(2)), int(row.group(3)),
                                 None if row.group(4) == 'None' else int(row.group(4))]
 
-# ---------- 3. arak.html tablazat ----------
+# ---------- 3. arak.html svc-table ----------
+# A sorfej <th scope="row">, nem <td>: az arazas-atepiteskor a .price-grid
+# helyere igazi tablazat kerult. A szolgaltatas-nev utan egy .svc-what span is
+# all a fejcellaban, ezert a nevet a linkbol vesszuk, nem a cella szovegebol.
 s = io.open('arak.html', encoding='utf-8').read()
 i = s.index('<tbody>')
 j = s.index('</tbody>')
 table = {}
-for tr in re.finditer(r'<tr><td><a href="[^"]+">([^<]+)</a></td>(.*?)</tr>', s[i:j], re.S):
+row_re = re.compile(r'<th scope="row"><a href="[^"]+">([^<]+)</a>.*?</th>(.*?)</tr>', re.S)
+for tr in row_re.finditer(s[i:j]):
     name = tr.group(1)
     cells = re.findall(r'<td class="num">([^<]*)</td>', tr.group(2))
+    # "Egyedi ar" = nincs listaaras tetel -> None, ugyanugy mint a price-grid-ben
     table[name] = [num(c) if re.search(r'\d', c) else None for c in cells]
+if len(table) != 9:
+    print('FIGYELEM: az arak.html tablabol %d sor olvasodott be, nem 9 - '
+          'valoszinuleg valtozott a markup.' % len(table))
 
 # ---------- 4. PDF generator ----------
 src = io.open('tools/gen_arlista_pdf.py', encoding='utf-8').read()

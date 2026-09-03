@@ -84,21 +84,32 @@ for page in pages:
 
 
 # --- 8. nav konzisztencia ---
+# CSAK a menupont-feliratokat es a sorrendjuket hasonlitjuk, a hrefeket NEM:
+# az index.html-en ugyanezek a pontok sajat oldalon beluli horgonyok
+# (#crm, #kapcsolat), mashol viszont teljes utak (crm.html, index.html#kapcsolat).
+# Mindketto helyes, csak mas oldalrol nezve. A hrefek ervenyesseget az 1. pont
+# (torott link / halott horgony) mar ellenorzi, itt duplikalva csak vakriasztas
+# lenne - korabban minden futas jelezte az indexet.
 navs = {}
 for page in pages:
     html = io.open(page, encoding='utf-8').read()
     m = navlink_re.search(html)
     if m:
-        items = re.findall(r'<a href="([^"]+)">([^<]+)</a>', m.group(1))
-        navs[page] = tuple(items)
+        labels = re.findall(r'<a href="[^"]+">([^<]+)</a>', m.group(1))
+        navs[page] = tuple(labels)
 if navs:
     counts = collections.Counter(navs.values())
     canonical_nav = counts.most_common(1)[0][0]
     for page, nav in navs.items():
         if nav != canonical_nav:
-            add(page, 'NAV DIFFERS', ' | '.join('%s->%s' % (t, h) for h, t in nav))
+            add(page, 'NAV DIFFERS', '%s (elvart: %s)'
+                % (' | '.join(nav), ' | '.join(canonical_nav)))
+# A koszonjuk.html-en SZANDEKOSAN nincs menu, csak a logo: ez a konverzio-
+# visszaigazolo oldal, ahol minden tovabbi link elterelne. A logo visszavisz a
+# fooldalra, tobb navigacio nem kell.
+NAVLESS_OK = {'koszonjuk.html'}
 for page in pages:
-    if page not in navs:
+    if page not in navs and page not in NAVLESS_OK:
         add(page, 'NO NAV', '-')
 
 # --- 9. sitemap vs valosag ---
