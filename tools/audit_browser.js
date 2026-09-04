@@ -21,7 +21,9 @@ window.__PAGES = [
   'crm.html', 'dronfelvetel.html', 'weboldalkeszites.html', 'kozossegi-media.html',
   'aftermovie.html', 'markaidentitas.html', 'termekfotozas.html',
   'ppc-hirdeteskezeles.html', 'impresszum.html', 'adatvedelem.html', 'aszf.html',
-  'cookie-szabalyzat.html', 'koszonjuk.html'
+  'cookie-szabalyzat.html', 'koszonjuk.html',
+  'blog.html', 'blog-google-ads-koltseg.html',
+  'blog-kozossegi-media-strategia.html', 'blog-weboldal-sebesseg-seo.html'
 ];
 
 /* Amit tudatosan kihagyunk a tap-target listából:
@@ -94,8 +96,10 @@ window.__audit = async function (page, W, H) {
     if (cs.display === 'none' || cs.visibility === 'hidden') continue;
     const r = e.getBoundingClientRect();
     if (!r.width || !r.height) continue;
-    /* A folyó szövegbe ágyazott linkekre a WCAG 2.5.8 inline-kivétele áll. */
-    if (e.closest('p, .wf-step, .subnav, td')) continue;
+    /* A folyó szövegbe ágyazott linkekre a WCAG 2.5.8 inline-kivétele áll.
+       A .legal-note egy mondatba tordelt megjegyzes-blokk (nem <p>-be van
+       csomagolva), a benne levo linkek magassagat a line-height szabja meg. */
+    if (e.closest('p, .wf-step, .subnav, td, .legal-note')) continue;
     if (r.width < 40 || r.height < 40) {
       out.smallTap.push(sel(e) + ' | ' + Math.round(r.width) + 'x' + Math.round(r.height) + ' | ' + txt(e));
     }
