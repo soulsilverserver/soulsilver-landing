@@ -95,7 +95,11 @@ for page in pages:
     html = io.open(page, encoding='utf-8').read()
     m = navlink_re.search(html)
     if m:
-        labels = re.findall(r'<a href="[^"]+">([^<]+)</a>', m.group(1))
+        # A href NEM feltetlen az egyetlen attributum: az aktuális oldal linkje
+        # aria-current="page"-et is visel. A regi, [^"]+"> vegu minta ezeket
+        # kihagyta, igy pont arrol az oldalrol nem latszott az elteres, ahol a
+        # sajat menupontja allt (a blog.html-en igy maradt eszrevetlen).
+        labels = re.findall(r'<a href="[^"]+"[^>]*>([^<]+)</a>', m.group(1))
         navs[page] = tuple(labels)
 if navs:
     counts = collections.Counter(navs.values())
