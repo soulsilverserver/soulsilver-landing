@@ -2,17 +2,38 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8" />
-<title>ÁSZF — SOULSILVER</title>
+<title>Blog — SOULSILVER</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="A SOULSILVER Marketing Agency Általános Szerződési Feltételei — szolgáltatások, megrendelés, díjazás, teljesítés, felelősség és panaszkezelés." />
-<meta name="robots" content="noindex" />
-<link rel="canonical" href="https://soulsilver.hu/aszf.html" />
+<meta name="description" content="SOULSILVER Blog — tanulj a marketingről: Google Ads, közösségi média, weboldal-sebesség, mérés és stratégia, közérthetően, magyarul." />
+<link rel="canonical" href="https://soulsilver.hu/blog.html" />
 <link rel="icon" type="image/png" href="favicon.png" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SOULSILVER" />
+<meta property="og:locale" content="hu_HU" />
+<meta property="og:title" content="SOULSILVER Blog — tanulj a marketingről" />
+<meta property="og:description" content="Google Ads, közösségi média, weboldal-sebesség, mérés és stratégia — közérthetően, magyarul." />
+<meta property="og:url" content="https://soulsilver.hu/blog.html" />
+<meta property="og:image" content="https://soulsilver.hu/img/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+  /* Blog — az oldalba ágyazva, hogy ne módosítsa a közös styles.css-t */
+  .blog-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap:var(--sp-4); margin-top:var(--sp-6); }
+  .blog-card{ display:flex; flex-direction:column; background:var(--surface, #fff); border:1px solid var(--edge); border-radius:18px; overflow:hidden; text-decoration:none; color:inherit; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .blog-card:hover{ transform:translateY(-4px); box-shadow:0 18px 40px rgba(20,30,40,.10); border-color:var(--mint); }
+  .blog-thumb{ aspect-ratio:16/9; position:relative; }
+  .blog-thumb span{ position:absolute; left:12px; bottom:12px; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:rgba(0,0,0,.32); backdrop-filter:blur(4px); padding:.3em .7em; border-radius:999px; }
+  .blog-body{ padding:var(--sp-4); display:flex; flex-direction:column; gap:.5rem; flex:1; }
+  .blog-meta{ font-family:var(--font-mono); font-size:.7rem; color:var(--ink-faint); letter-spacing:.03em; }
+  .blog-card h2{ font-size:1.15rem; font-weight:600; line-height:1.25; }
+  .blog-card p{ color:var(--ink-soft); font-size:.92rem; line-height:1.55; flex:1; }
+  .blog-more{ font-family:var(--font-mono); font-size:.78rem; color:var(--mint-deep); font-weight:600; margin-top:.3rem; }
+  .blog-lead{ max-width:60ch; color:var(--ink-soft); font-size:1.1rem; margin-top:var(--sp-3); }
+</style>
 </head>
 <body>
 <a class="skip-link" href="#tartalom">Ugrás a tartalomra</a>
@@ -29,7 +50,7 @@
     <li><a href="index.html#folyamat">Folyamat</a></li>
     <li><a href="crm.html">CRM</a></li>
     <li><a href="referenciak.html">Referenciák</a></li>
-    <li><a href="blog.html">Blog</a></li>
+    <li><a href="blog.html" aria-current="page">Blog</a></li>
     <li><a href="arak.html">Árak</a></li>
     <li><a href="index.html#kapcsolat">Kapcsolat</a></li>
   </ul>
@@ -50,55 +71,48 @@
 </div>
 
 <main id="tartalom" class="legal-main">
-  <div class="wrap legal-wrap">
-    <div class="subnav reveal is-visible"><a href="index.html">SOULSILVER</a><span class="sep">/</span><span>ÁSZF</span></div>
+  <div class="wrap">
+    <div class="subnav reveal is-visible"><a href="index.html">SOULSILVER</a><span class="sep">/</span><span>Blog</span></div>
     <div class="legal-head">
-      <div class="eyebrow">Jogi információk</div>
-      <h1>Általános Szerződési Feltételek</h1>
-      <div class="legal-updated">Hatályos: 2026. szeptember 2.</div>
+      <div class="eyebrow">Tudástár</div>
+      <h1>Blog — tanulj a marketingről</h1>
+      <p class="blog-lead">Közérthető, gyakorlati útmutatók a Google Ads-től a közösségi médiáig, a weboldal-sebességtől a mérésig. Amit itt olvasol, azt a saját munkánkban is használjuk.</p>
     </div>
 
-    <div class="legal-note">
-      <strong>Kitöltendő:</strong> a <span class="ph">[…]</span> mezőket a valós cégadatokkal és üzleti feltételekkel kell kitölteni. Ez egy általános keret-szerkezet — élesítés előtt érdemes jogi szakértővel véglegesíttetni, különösen a díjazás, elállás és felelősség pontokat.
+    <div class="blog-grid">
+      <a class="blog-card reveal" href="blog-google-ads-koltseg.html">
+        <div class="blog-thumb" style="background:linear-gradient(155deg,#0FD79A,#0A6B54);"><span>PPC · Google Ads</span></div>
+        <div class="blog-body">
+          <div class="blog-meta">2026. szeptember 4. · 6 perc olvasás</div>
+          <h2>Mennyibe kerül a Google Ads, és hogyan ne égesd el a büdzsét?</h2>
+          <p>Nincs fix ára — egy kattintásod annyiba kerül, amennyit a piac és a beállításaid megszabnak. Megmutatjuk, mi mozgatja a költséget, és hol csorog el a pénz feleslegesen.</p>
+          <span class="blog-more">Elolvasom →</span>
+        </div>
+      </a>
+
+      <a class="blog-card reveal" href="blog-kozossegi-media-strategia.html">
+        <div class="blog-thumb" style="background:linear-gradient(155deg,#6E7684,#2B2F35);"><span>Közösségi média</span></div>
+        <div class="blog-body">
+          <div class="blog-meta">2026. szeptember 4. · 7 perc olvasás</div>
+          <h2>Közösségi média stratégia: mit csinálj az első 90 napban</h2>
+          <p>A lájkok nem fizetik a számlát. Egy egyszerű, 90 napos keret, amivel a nulláról építesz olyan jelenlétet, ami tényleg ügyfeleket hoz — nem csak követőket.</p>
+          <span class="blog-more">Elolvasom →</span>
+        </div>
+      </a>
+
+      <a class="blog-card reveal" href="blog-weboldal-sebesseg-seo.html">
+        <div class="blog-thumb" style="background:linear-gradient(155deg,#0A9E77,#0D1013);"><span>Web · SEO</span></div>
+        <div class="blog-body">
+          <div class="blog-meta">2026. szeptember 4. · 5 perc olvasás</div>
+          <h2>Miért lassú a weboldalad — és miért számít a Google-nek?</h2>
+          <p>Egy lassú oldal látogatót és pénzt veszít, ráadásul a Google is hátrébb sorolja. Nézzük meg, mi lassítja a legtöbb oldalt, és mit tudsz tenni ellene.</p>
+          <span class="blog-more">Elolvasom →</span>
+        </div>
+      </a>
     </div>
 
-    <div class="legal-content">
-      <h2>1. A Szolgáltató</h2>
-      <ul>
-        <li><strong>Név:</strong> <span class="ph">[Cégnév / egyéni vállalkozó neve]</span></li>
-        <li><strong>Székhely:</strong> <span class="ph">[Székhely]</span></li>
-        <li><strong>Adószám:</strong> <span class="ph">[Adószám]</span></li>
-        <li><strong>Nyilvántartási/cégjegyzékszám:</strong> <span class="ph">[Szám]</span></li>
-        <li><strong>E-mail:</strong> <a href="mailto:info@soulsilvermarketing.com">info@soulsilvermarketing.com</a></li>
-        <li><strong>Weboldal:</strong> <a href="https://soulsilver.hu">soulsilver.hu</a></li>
-      </ul>
-
-      <h2>2. A szolgáltatások köre</h2>
-      <p>A Szolgáltató marketing- és kreatív szolgáltatásokat nyújt, így különösen: PPC hirdetéskezelés, közösségimédia-kezelés, weboldalkészítés, márkaidentitás, drónfelvétel, aftermovie és termékfotózás, valamint saját CRM-rendszer bemutatása és bevezetése. A konkrét szolgáltatás tartalmát, terjedelmét és ütemezését a felek egyedi ajánlatban/megrendelésben rögzítik.</p>
-
-      <h2>3. A megrendelés menete</h2>
-      <p>A Megrendelő a weboldalon található űrlapon, e-mailben vagy WhatsAppon veszi fel a kapcsolatot. A Szolgáltató egyedi ajánlatot ad; a szerződés a Megrendelő írásbeli (e-mailes) visszaigazolásával, illetve az ajánlat elfogadásával jön létre.</p>
-
-      <h2>4. Díjazás és fizetési feltételek</h2>
-      <p>A weboldalon feltüntetett árak <strong>tájékoztató jellegű, nettó kiindulási árak</strong>; a végleges díjat az egyedi ajánlat tartalmazza. A díj megfizetése <span class="ph">[fizetési feltételek: pl. előleg %, hátralék, fizetési határidő]</span> szerint történik, banki átutalással a <span class="ph">[bankszámlaszám]</span> számlaszámra. Késedelmes fizetés esetén a Szolgáltató a Ptk. szerinti késedelmi kamatot számíthat fel.</p>
-
-      <h2>5. Teljesítés, határidők</h2>
-      <p>A teljesítési határidőt a felek az egyedi megrendelésben rögzítik. A Szolgáltató a teljesítéshez szükséges anyagokat (pl. hozzáférések, tartalmak, jóváhagyások) a Megrendelőtől kéri; ezek késedelmes átadása a határidőt arányosan meghosszabbítja.</p>
-
-      <h2>6. Elállás, lemondás</h2>
-      <p>A már megkezdett, egyedi igény szerint nyújtott szolgáltatások esetében a lemondás feltételeit az egyedi szerződés rendezi. <span class="ph">[Lemondási / elállási feltételek]</span>. A fogyasztónak minősülő Megrendelőt megillető, jogszabály szerinti elállási jogokat a vonatkozó jogszabályok (különösen a 45/2014. (II. 26.) Korm. rendelet) szerint biztosítjuk.</p>
-
-      <h2>7. Felelősség</h2>
-      <p>A Szolgáltató a szolgáltatást a tőle elvárható gondossággal nyújtja. A hirdetési platformok (pl. Google, Meta) teljesítménye számos külső tényezőtől függ, ezért a Szolgáltató konkrét üzleti eredményt (pl. adott bevétel, konverziószám) nem garantál. A Szolgáltató felelőssége — a jogszabály által megengedett körben — a Megrendelő által ténylegesen megfizetett díj összegére korlátozódik.</p>
-
-      <h2>8. Szerzői jogok</h2>
-      <p>Az elkészült kreatív anyagokra vonatkozó felhasználási jogok a díj teljes megfizetését követően, az egyedi szerződésben meghatározott terjedelemben szállnak át a Megrendelőre. A Szolgáltató jogosult az elkészült munkákat — eltérő megállapodás hiányában — referenciaként bemutatni.</p>
-
-      <h2>9. Panaszkezelés</h2>
-      <p>Panaszaidat az <a href="mailto:info@soulsilvermarketing.com">info@soulsilvermarketing.com</a> címen jelezheted; ezekre 30 napon belül érdemben válaszolunk. Fogyasztói jogvita esetén a lakóhelyed szerint illetékes <strong>békéltető testülethez</strong> fordulhatsz.</p>
-
-      <h2>10. Vegyes rendelkezések</h2>
-      <p>A jelen ÁSZF-ben nem szabályozott kérdésekben a magyar jog, különösen a Polgári Törvénykönyv rendelkezései az irányadók. A Szolgáltató fenntartja a jogot az ÁSZF módosítására; a mindenkori hatályos változat ezen az oldalon érhető el.</p>
+    <div class="legal-note" style="margin-top:var(--sp-8);">
+      <strong>Új cikkek hamarosan.</strong> Ha van téma, amiről szívesen olvasnál, írj az <a href="mailto:info@soulsilvermarketing.com">info@soulsilvermarketing.com</a> címre — vagy nézd meg, <a href="arak.html">hogyan szerzünk ügyfelet</a>.
     </div>
   </div>
 </main>
