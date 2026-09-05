@@ -44,10 +44,17 @@ Ne hidd el vakon, amit ez a fájl ír — ellenőrizd a repó tényleges állapo
 
 ## Jelenlegi állapot
 
-**Élő:** 17 oldal. index, arak, referenciak, crm, koszonjuk, 8 szolgáltatás-oldal
+**Élő:** 22 oldal. index, arak, referenciak, crm, koszonjuk, 8 szolgáltatás-oldal
 (ppc-hirdeteskezeles, workflow-automatizalas, markaidentitas, kozossegi-media,
 weboldalkeszites, dronfelvetel, aftermovie, termekfotozas), 4 jogi oldal
-(impresszum, adatvedelem, aszf, cookie-szabalyzat).
+(impresszum, adatvedelem, aszf, cookie-szabalyzat), blog listaoldal + 4 cikk.
+
+**Blog (2026-09-04):** `blog.html` + `blog-leadbol-ugyfel.html`,
+`blog-google-ads-koltseg.html`, `blog-kozossegi-media-strategia.html`,
+`blog-weboldal-sebesseg-seo.html`. A cikkek **kötve vannak az `arak.html`-hez**:
+ugyanaz a 4 munkaóra, ugyanaz a négy lead-feltétel, ugyanaz a 80 × 6,25% = 5
+számpélda. **Ha az `arak.html` ajánlata változik, a blogot is át kell nézni** —
+egyszer már szétcsúszott (lásd Csapdák).
 
 **A site üzenete (2026-09-03-tól):** ügyfélszerzés, nem „full-service
 ügynökség". A főoldal heroja és az `arak.html` is erre épül: „Megtöltjük a

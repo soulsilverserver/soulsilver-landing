@@ -23,7 +23,8 @@ window.__PAGES = [
   'ppc-hirdeteskezeles.html', 'impresszum.html', 'adatvedelem.html', 'aszf.html',
   'cookie-szabalyzat.html', 'koszonjuk.html',
   'blog.html', 'blog-google-ads-koltseg.html',
-  'blog-kozossegi-media-strategia.html', 'blog-weboldal-sebesseg-seo.html'
+  'blog-kozossegi-media-strategia.html', 'blog-weboldal-sebesseg-seo.html',
+  'blog-leadbol-ugyfel.html'
 ];
 
 /* Amit tudatosan kihagyunk a tap-target listából:
