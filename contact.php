@@ -87,5 +87,10 @@ if (!$sent) {
     @mail($TO, $subject, $text, $headers);
 }
 
-header('Location: /koszonjuk.html');
+// A latogato azon a nyelven kapja vissza a koszonooldalt, ahonnan kuldte.
+// FEHERLISTA, nem atengedes: a $_POST-bol jovo erteket sosem tesszuk
+// kozvetlenul Location fejlecbe (fejlec-injection).
+$lang = $_POST['lang'] ?? 'hu';
+$prefix = in_array($lang, ['en', 'de', 'es'], true) ? '/' . $lang : '';
+header('Location: ' . $prefix . '/koszonjuk.html');
 exit;
