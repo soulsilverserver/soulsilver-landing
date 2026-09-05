@@ -24,14 +24,18 @@ import json
 import os
 import re
 import shutil
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 REPO = os.path.dirname(os.path.dirname(HERE))
 TRDIR = os.path.join(REPO, 'tools', 'i18n', 'translations')
 TR = os.path.join(REPO, 'tools', '_out', 'i18n')
 if not os.path.isdir(TR):
     os.makedirs(TR)
 os.chdir(REPO)
+
+import i18n_common as C   # noqa: E402
 
 LANGS = ['en', 'de', 'es']
 LOCALE = {'hu': 'hu_HU', 'en': 'en_US', 'de': 'de_DE', 'es': 'es_ES'}
@@ -42,15 +46,6 @@ PAGES = sorted(p for p in glob.glob('*.html')
                if not p.startswith('google') and not p.startswith('_'))
 LEGAL = {'impresszum.html', 'adatvedelem.html', 'aszf.html',
          'cookie-szabalyzat.html'}
-
-BLOCK = ('h1|h2|h3|h4|h5|h6|p|li|td|th|button|summary|figcaption|label|option'
-         '|blockquote|dt|dd|caption|legend')
-BLOCK_RE = re.compile(r'<(%s)\b[^>]*>((?:(?!<(?:%s)\b).)*?)</\1>' % (BLOCK, BLOCK), re.S)
-SKIP_PARENT = re.compile(r'<(script|style|svg)\b.*?</\1>', re.S)
-HAS_LETTER = re.compile(r'[A-Za-zÁÉÍÓÖŐÚÜŰáéíóöőúüű]')
-ATTRS = ('alt', 'aria-label', 'placeholder', 'title')
-META = ('description', 'og:description', 'twitter:description',
-        'og:title', 'twitter:title', 'og:image:alt', 'og:site_name')
 
 LEGAL_NOTE = {
     'en': ('<p class="legal-note"><strong>This is a courtesy translation.</strong> '
@@ -120,81 +115,20 @@ def panel_switcher(cur, page):
 
 # ---------------------------------------------------------------- forditas
 def translate(html, tr, stats):
-    holes = []
-
-    def stash(text):
-        holes.append(text)
-        return '\x01%d\x01' % (len(holes) - 1)
-
-    def get(raw):
-        """A kinyero strip()-elt kulcsot tarolt, ezert itt is strip-elunk, de a
-        korulotte levo whitespace-t visszatesszuk - kulonben elcsuszna a
-        formazas."""
-        key = raw.strip()
-        if not key:
-            return raw
-        lead = raw[:len(raw) - len(raw.lstrip())]
-        trail = raw[len(raw.rstrip()):]
-        if key in tr:
+    """A forditas maga: a kozos bejaras minden talalt egysegere megnezzuk, van-e
+    forditasunk. Ami nincs, azt valtozatlanul hagyjuk ES feljegyezzuk - igy a
+    hianyzo egysegek nem tunnek el csendben."""
+    def handler(text, kind):
+        if text in tr:
             stats['applied'] += 1
-            return lead + tr[key] + trail
-        if HAS_LETTER.search(re.sub(r'<[^>]+>', ' ', key)):
-            stats['missing'] += 1
-            stats['samples'].add(key[:80])
-        return raw
-
-    # 1. kod kimaszkolasa (soha ne forditsuk)
-    s = SKIP_PARENT.sub(lambda m: stash(m.group(0)), html)
-
-    # 2. title
-    s = re.sub(r'(<title>)(.*?)(</title>)',
-               lambda m: m.group(1) + get(m.group(2)) + m.group(3), s, flags=re.S)
-
-    # 3. meta content
-    def meta_sub(m):
-        if m.group(2) in META:
-            return m.group(1) + m.group(2) + m.group(3) + get(m.group(4)) + m.group(5)
-        return m.group(0)
-    s = re.sub(r'(<meta\s+(?:name|property)=")([^"]+)("\s+content=")([^"]*)(")',
-               meta_sub, s)
-
-    # 4. forditando attributumok
-    for a in ATTRS:
-        s = re.sub(r'(\b%s=")([^"]*)(")' % a,
-                   lambda m: m.group(1) + get(m.group(2)) + m.group(3), s)
-
-    # 5. blokk-elemek: a belso HTML-t forditjuk, majd az EGESZ elemet
-    #    kimaszkoljuk, hogy a 6. lepes ne turkaljon bele ujra
-    def block_sub(m):
-        whole = m.group(0)
-        i = m.start(2) - m.start(0)
-        j = m.end(2) - m.start(0)
-        return stash(whole[:i] + get(m.group(2)) + whole[j:])
-    s = BLOCK_RE.sub(block_sub, s)
-
-    # 6. maradek szovegcsomopontok (div/span/egyeb)
-    s = re.sub(r'(>)([^<>\x01]+)(<)',
-               lambda m: m.group(1) + get(m.group(2)) + m.group(3), s)
-
-    # 7. visszatoltes (kivulrol befele, mert a blokkok tartalmazhatnak holes-t)
-    while '\x01' in s:
-        s = re.sub(r'\x01(\d+)\x01', lambda m: holes[int(m.group(1))], s)
-    return s
+            return tr[text]
+        stats['missing'] += 1
+        stats['samples'].add('[%s] %s' % (kind, text[:90]))
+        return text
+    return C.walk(html, handler)
 
 
-def strip_i18n(s):
-    """Minden korabban beszurt i18n-darabot eltavolit.
-
-    MIERT KELL: a build a magyar oldalakba is beleir (hreflang, valaszto,
-    rejtett lang mezo). A kovetkezo futas mar ezt a - modositott - forrast
-    olvassa, es ha nem tisztitanank, az /en/ oroklone a magyar valasztot es a
-    magyar hreflanget is, a sajatja MELLE. Igy viszont a build barmilyen
-    allapotbol ugyanazt az eredmenyt adja."""
-    s = re.sub(r'\n<link rel="alternate" hreflang="[^"]*" href="[^"]*" />', '', s)
-    s = re.sub(r'\s*<details class="lang-switch">.*?</details>', '', s, flags=re.S)
-    s = re.sub(r'<div class="panel-langs">.*?</div>', '', s, flags=re.S)
-    s = re.sub(r'<input type="hidden" name="lang" value="[a-z]{2}">\s*\n\s*', '', s)
-    return s
+strip_i18n = C.strip_i18n
 
 
 def build_page(page, lang, tr, stats):
