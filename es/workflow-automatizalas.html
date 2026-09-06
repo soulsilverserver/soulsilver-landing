@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Automatización de procesos — SOULSILVER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Automatización de procesos para empresas: respuesta a leads, seguimiento de presupuestos, avisos de tareas, informes y recordatorios de facturas, todo automatizado. Más trabajo hecho con la misma gente." />
+<link rel="canonical" href="https://soulsilver.hu/es/workflow-automatizalas.html" />
+<link rel="alternate" hreflang="hu" href="https://soulsilver.hu/workflow-automatizalas.html" />
+<link rel="alternate" hreflang="en" href="https://soulsilver.hu/en/workflow-automatizalas.html" />
+<link rel="alternate" hreflang="de" href="https://soulsilver.hu/de/workflow-automatizalas.html" />
+<link rel="alternate" hreflang="es" href="https://soulsilver.hu/es/workflow-automatizalas.html" />
+<link rel="alternate" hreflang="x-default" href="https://soulsilver.hu/workflow-automatizalas.html" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SOULSILVER" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:title" content="Automatización de procesos — SOULSILVER" />
+<meta property="og:description" content="Automatización de procesos para empresas: respuesta a leads, seguimiento de presupuestos, avisos de tareas, informes y recordatorios de facturas, todo automatizado. Más trabajo hecho con la misma gente." />
+<meta property="og:url" content="https://soulsilver.hu/es/workflow-automatizalas.html" />
+<meta property="og:image" content="https://soulsilver.hu/img/og-image.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Automatización de procesos — SOULSILVER" />
+<meta name="twitter:description" content="Automatización de procesos para empresas: respuesta a leads, seguimiento de presupuestos, avisos de tareas, informes y recordatorios de facturas, todo automatizado. Más trabajo hecho con la misma gente." />
+<meta name="twitter:image" content="https://soulsilver.hu/img/og-image.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17312625266"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17312625266');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Milyen rendszerekkel működik?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A legtöbb rendszerrel, aminek van API-ja vagy webhook-ja: Google Workspace, Meta és Google Ads, számlázóprogramok, webshopok, Slack, WhatsApp, e-mail. A saját CRM-ünkkel a mélyebb integrációk is elérhetők. A felmérésen végigmegyünk azon, amit ma használsz."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mennyi idő alatt lesz kész az első workflow?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A folyamatfelmérés jellemzően egy hét, az első élő workflow ezt követően újabb egy-két hét. Szándékosan egy folyamattal kezdünk: így hamar látszik az eredmény, és a csapat is hozzászokik."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mi történik, ha elromlik egy automatizmus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Minden workflow-ba hibakezelés és értesítés kerül: ha egy lépés elhasal, arról ember kap jelzést, és a folyamat nem hal el csendben. Az üzemeltetési csomagban a hibák javítása is benne van."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kell hozzá fejlesztő vagy IT-s a cégnél?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nem. A bekötést és az üzemeltetést mi végezzük. Ami kell tőled: hozzáférés a rendszerekhez, és egy ember, aki ismeri a folyamatot, amit automatizálunk."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Mi van, ha a folyamataink rendezetlenek?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Akkor először rendbe tesszük őket. A rossz folyamat automatizálva csak gyorsabban rossz — a felmérés éppen azért van, hogy ez kiderüljön, mielőtt bármit bekötünk."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#tartalom">Ir al contenido</a>
+<div class="liquid-bg" aria-hidden="true">
+  <span class="blob blob-a"></span>
+  <span class="blob blob-b"></span>
+  <span class="blob blob-c"></span>
+  <span class="blob blob-d"></span>
+</div>
+<div class="grain-veil" aria-hidden="true"></div>
+
+<nav class="topnav glass">
+  <a class="brand" href="index.html" style="text-decoration:none;">SOULSILVER<span class="dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#munkaink">Servicios</a></li>
+    <li><a href="index.html#web">Web</a></li>
+    <li><a href="index.html#folyamat">Proceso</a></li>
+    <li><a href="crm.html">CRM</a></li>
+    <li><a href="referenciak.html">Trabajos</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="arak.html">Precios</a></li>
+    <li><a href="index.html#kapcsolat">Contacto</a></li>
+  </ul>
+    <details class="lang-switch"><summary aria-label="Nyelv / Language">ES</summary><ul><li><a href="/workflow-automatizalas.html" hreflang="hu">Magyar</a></li><li><a href="/en/workflow-automatizalas.html" hreflang="en">English</a></li><li><a href="/de/workflow-automatizalas.html" hreflang="de">Deutsch</a></li><li><span aria-current="true">Español</span></li></ul></details>
+  <div class="nav-cta">
+    <a href="index.html#kapcsolat" class="btn btn-primary" style="padding:.7em 1.3em; font-size:.88rem;">Consulta gratuita</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir el menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-panel glass" id="mobilePanel">
+  <a href="index.html#munkaink">Servicios</a>
+  <a href="index.html#web">Web</a>
+  <a href="index.html#folyamat">Proceso</a>
+  <a href="crm.html">CRM</a>
+  <a href="referenciak.html">Trabajos</a>
+  <a href="blog.html">Blog</a>
+  <a href="arak.html">Precios</a>
+  <a href="index.html#kapcsolat">Contacto</a>
+<div class="panel-langs"><a href="/workflow-automatizalas.html" hreflang="hu">Magyar</a><a href="/en/workflow-automatizalas.html" hreflang="en">English</a><a href="/de/workflow-automatizalas.html" hreflang="de">Deutsch</a></div></div>
+
+<main id="tartalom">
+  <!-- ========== PARALLAX HERO ==========
+       A háttér rétegzett gradiens (.bg-workflow a styles.css-ben), nem fotó.
+       A korábbi generált „hightech iroda" képek kikerültek: AI-klisék voltak,
+       a képernyőkön halandzsa szöveggel. -->
+  <section class="phero">
+    <div class="phero-bg bg-workflow"></div>
+    <div class="phero-scrim"></div>
+    <div class="wrap">
+      <div class="subnav"><a href="index.html">SOULSILVER</a><span class="sep">/</span><a href="index.html#munkaink">Servicios</a><span class="sep">/</span><span>Automatización de procesos</span></div>
+      <div class="phero-kicker">Servicio · Automatización de procesos</div>
+      <h1>El <em>doble</em> de trabajo, con la misma gente.</h1>
+      <p class="lead">Tu equipo no se vuelve más eficiente trabajando más horas, sino dando menos pasos manuales. Sacamos del proceso el volver a teclear, el ir detrás de la gente y el seguimiento olvidado.</p>
+      <div class="phero-actions"><a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20automatiz%C3%A1l%C3%A1s%20%E2%80%93%20folyamatfelm%C3%A9r%C3%A9s" class="btn btn-primary">Solicitar un análisis de procesos</a>
+            <a href="#kalkulator" class="btn btn-ghost">¿Qué gano con esto?</a></div>
+      <div class="phero-stats">
+        <div class="phero-stat"><b>1 semana</b><span>Análisis de procesos</span></div>
+        <div class="phero-stat"><b>2 semanas</b><span>Primer flujo en producción</span></div>
+        <div class="phero-stat"><b>0</b><span>Volver a teclear a mano</span></div>
+      </div>
+    </div>
+    <div class="phero-cue" aria-hidden="true"></div>
+  </section>
+
+  <!-- ========== A PROBLÉMA ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">El problema</div>
+        <h2>¿Por dónde se escapa el tiempo?</h2>
+        <p>No en las cosas grandes. En esos pasos de diez o veinte minutos que nadie contabiliza porque «lo apunto rápido y ya».</p>
+      </div>
+      <div class="incl-grid">
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M8 6h11M8 12h11M8 18h11"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg></div><h3>Volver a teclear a mano</h3><p>El mismo dato tres veces: llega por correo, pasa a una hoja de cálculo y luego al programa de facturación. Cada vuelta es otra oportunidad de errata.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h3>Seguimiento olvidado</h3><p>El presupuesto salió y luego nadie preguntó. El lead no se perdió porque no le interesara, sino porque nadie se puso en contacto a tiempo.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Preguntar por el estado</h3><p>«¿Cómo va esto?» — y sale el correo a todos. La respuesta ya está en el sistema, simplemente no llega sola a quien la necesita.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 4-6"/></svg></div><h3>Montar informes a mano</h3><p>Un par de horas al mes: copiar los datos publicitarios, montarlos en un documento, enviarlo. La misma secuencia, mes tras mes.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><h3>Recordatorios de pago</h3><p>Alguien tiene que darse cuenta de la factura vencida y luego escribir un correo incómodo. Normalmente tarde, a veces nunca.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div><h3>Onboarding de memoria</h3><p>Entra un cliente nuevo y la lista de doce pasos está en la cabeza de alguien. Lo que se queda fuera aparece dos semanas después.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WORKFLOW KATALÓGUS ========== -->
+  <section id="workflowok">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Catálogo de flujos</div>
+        <h2>¿Qué automatizamos exactamente?</h2>
+        <p>Todos los flujos se construyen igual: hay un <b>disparador</b>, a partir de él corre una <b>secuencia de pasos</b> y se produce un <b>resultado</b> que nadie tiene que recordar. Abre cualquiera.</p>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Captación de clientes</h3><span>2 flujos</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-lead">
+              <span class="wf-name">Lead → respuesta inmediata</span>
+              <span class="wf-tag">Correo + aviso</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-lead" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> alguien envía el formulario de contacto.</li>
+                  <li class="wf-step">El lead entra en el CRM, etiquetado por origen y campaña.</li>
+                  <li class="wf-step">Sale un correo de confirmación en menos de medio minuto — no huele a plantilla, responde a lo que ha rellenado.</li>
+                  <li class="wf-step">Al compañero responsable le llega un aviso por WhatsApp o Slack, con los datos del lead.</li>
+                  <li class="wf-step">Si nadie lo ha abierto en 15 minutos, el sistema lo escala al responsable.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Ninguna consulta se queda horas sin respuesta, y nada depende de quién haya mirado el buzón.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-ajanlat">
+              <span class="wf-name">Solicitud → presupuesto y seguimiento</span>
+              <span class="wf-tag">Documento + seguimiento</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-ajanlat" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> el estado del lead pasa a «presupuesto solicitado» en el CRM.</li>
+                  <li class="wf-step">El sistema rellena la plantilla de presupuesto con los datos del CRM y genera un PDF.</li>
+                  <li class="wf-step">El presupuesto sale por correo y se mide su apertura.</li>
+                  <li class="wf-step">Si no hay respuesta: recordatorios los días 3, 7 y 14 — cada uno con otro tono.</li>
+                  <li class="wf-step">Si responden, la secuencia de seguimiento se detiene al instante y se avisa al compañero.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>El seguimiento de presupuestos no depende de la memoria del comercial — ni molesta a quien ya ha contestado.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Gestión de proyectos</h3><span>2 flujos</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-feladat">
+              <span class="wf-name">Avisos de tareas y plazos</span>
+              <span class="wf-tag">Tarea + escalado</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-feladat" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> un proyecto cambia de fase (por ejemplo «rodaje terminado» → «postproducción»).</li>
+                  <li class="wf-step">Las tareas de esa fase se crean automáticamente, con responsable y fecha límite.</li>
+                  <li class="wf-step">El responsable recibe un aviso y un recordatorio un día antes del plazo.</li>
+                  <li class="wf-step">Si vence el plazo y la tarea sigue abierta, se avisa al jefe de proyecto.</li>
+                  <li class="wf-step">El estado del proyecto se actualiza solo — nadie tiene que preguntar.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Se acaban los correos de «¿cómo vamos?», y un retraso no aparece el día de la entrega.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-onboarding">
+              <span class="wf-name">Onboarding de clientes nuevos</span>
+              <span class="wf-tag">Checklist + accesos</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-onboarding" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> el contrato está firmado y la oportunidad pasa a «ganada».</li>
+                  <li class="wf-step">Se crea la estructura de carpetas del proyecto, con los permisos adecuados.</li>
+                  <li class="wf-step">El cliente recibe la lista de material a aportar (logos, accesos, contactos).</li>
+                  <li class="wf-step">Sale una propuesta de fecha para la reunión de arranque.</li>
+                  <li class="wf-step">Lo que falte de esa lista lo reclama el sistema — no el jefe de proyecto.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Todos los clientes reciben el mismo arranque ordenado, sea quien sea quien lleve el proyecto.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Finanzas</h3><span>2 flujos</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-szamla">
+              <span class="wf-name">Facturación y recordatorios de pago</span>
+              <span class="wf-tag">Factura + recordatorio</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-szamla" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> la entrega se marca como realizada en el proyecto.</li>
+                  <li class="wf-step">La factura se emite y se envía a partir de los datos del CRM, sin introducir nada a mano.</li>
+                  <li class="wf-step">Un recordatorio amable 8 días después del vencimiento.</li>
+                  <li class="wf-step">Un segundo recordatorio, más firme, a los 15 días.</li>
+                  <li class="wf-step">Después se escala a un responsable interno para resolverlo por teléfono.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Menos tiempo hasta el cobro, y nadie tiene que redactar un correo incómodo desde cero.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-koltes">
+              <span class="wf-name">Vigilancia del gasto publicitario</span>
+              <span class="wf-tag">Alerta</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-koltes" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> una comprobación que corre tras el cierre diario.</li>
+                  <li class="wf-step">El sistema suma el gasto de Google y Meta por cuenta.</li>
+                  <li class="wf-step">Lo compara con el presupuesto mensual y con el ritmo hasta la fecha.</li>
+                  <li class="wf-step">Si una cuenta supera el umbral, salta una alerta inmediata al gestor de campañas.</li>
+                  <li class="wf-step">Resumen semanal del estado del presupuesto, cliente por cliente.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Pasarse del presupuesto se ve el mismo día, no en la liquidación de fin de mes.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="wf-cat reveal">
+        <div class="wf-cat-head"><h3>Operativa de marketing</h3><span>4 flujos</span></div>
+        <div class="wf-list">
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-riport">
+              <span class="wf-name">Elaboración del informe de campaña</span>
+              <span class="wf-tag">Informe + envío</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-riport" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> el cierre de la semana o del mes.</li>
+                  <li class="wf-step">El sistema trae los datos de Google Ads y Meta desde las cuentas del cliente.</li>
+                  <li class="wf-step">Monta el informe con la estructura habitual, comparado con el periodo anterior.</li>
+                  <li class="wf-step">El gestor de campañas lo revisa y añade la valoración escrita.</li>
+                  <li class="wf-step">Tras la aprobación, el PDF sale al cliente.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Recopilar datos y dar formato desaparecen; lo que queda es la valoración profesional — es decir, aquello por lo que paga el cliente.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-naptar">
+              <span class="wf-name">Calendario de contenido y publicación</span>
+              <span class="wf-tag">Programación</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-naptar" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> el cliente aprueba una publicación en el calendario.</li>
+                  <li class="wf-step">La publicación se programa automáticamente en las plataformas correspondientes.</li>
+                  <li class="wf-step">Tras publicarse, la entrada del calendario pasa a «publicado».</li>
+                  <li class="wf-step">A las 48 horas los datos de rendimiento vuelven al calendario.</li>
+                  <li class="wf-step">A final de mes se ve qué tipo de contenido ha funcionado.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>De la aprobación a la publicación no hay ningún paso manual, y el aprendizaje no se pierde.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-velemeny">
+              <span class="wf-name">Petición de opiniones y reseñas</span>
+              <span class="wf-tag">Correo + bifurcación</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-velemeny" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> el proyecto está cerrado y la entrega hecha.</li>
+                  <li class="wf-step">Unos días después sale una pregunta corta: ¿qué tal ha ido?</li>
+                  <li class="wf-step">Si la respuesta es positiva, llega el enlace para dejar una reseña en Google.</li>
+                  <li class="wf-step">Si es negativa, no pide reseña pública: lanza un aviso interno.</li>
+                  <li class="wf-step">El comentario queda registrado en la ficha del cliente en el CRM.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Más reseñas públicas, y el descontento te llega a ti antes que a una publicación pública.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wf-item">
+            <button class="wf-trigger" type="button" aria-expanded="false" aria-controls="wf-szinkron">
+              <span class="wf-name">Sincronización de datos entre sistemas</span>
+              <span class="wf-tag">Integración</span>
+              <svg class="wf-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="wf-panel" id="wf-szinkron" hidden>
+              <div class="wf-panel-inner">
+                <ol class="wf-steps">
+                  <li class="wf-step"><b>Disparador:</b> cambia un dato en cualquiera de los sistemas conectados.</li>
+                  <li class="wf-step">Los registros relacionados se actualizan entre el CRM, el programa de facturación y las cuentas publicitarias.</li>
+                  <li class="wf-step">Ante un conflicto no sobrescribe a ciegas: avisa.</li>
+                  <li class="wf-step">Los cambios quedan registrados y son trazables.</li>
+                  <li class="wf-step">Una revisión mensual busca discrepancias entre los sistemas.</li>
+                </ol>
+                <div class="wf-result"><b>Resultado</b>Un dato se introduce una vez y aparece igual en todas partes.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== EGY WORKFLOW ANATÓMIÁJA ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Cómo está construido</div>
+        <h2>La anatomía de un flujo de trabajo.</h2>
+        <p>Así es el proceso de respuesta a leads. Un disparador, un punto de decisión, acciones en paralelo y, al final, un aviso más una red de seguridad por si algo se atasca.</p>
+      </div>
+      <div class="wf-anatomy reveal">
+        <svg viewBox="0 0 710 260" role="img" aria-labelledby="wfDiagTitle wfDiagDesc">
+          <title id="wfDiagTitle">Cómo está construido el flujo de respuesta a leads</title>
+          <desc id="wfDiagDesc">El envío del formulario pone en marcha el proceso. El sistema comprueba si se trata de un contacto nuevo, registra el lead en el CRM y envía el correo de confirmación en paralelo. Después avisa al compañero responsable y, si en 15 minutos no ha pasado nada, lo escala al responsable.</desc>
+          <defs>
+            <marker id="wfArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="var(--chrome-2)"/>
+            </marker>
+          </defs>
+
+          <g fill="none" stroke="var(--chrome-2)" stroke-width="1.6" marker-end="url(#wfArrow)">
+            <path d="M126 140H142"/>
+            <path d="M264 140H274C280 140 280 70 286 70"/>
+            <path d="M264 140H274C280 140 280 210 286 210"/>
+            <path d="M420 70H430C436 70 436 140 442 140"/>
+            <path d="M420 210H430C436 210 436 140 442 140"/>
+            <path d="M558 140H574" stroke-dasharray="5 4"/>
+          </g>
+
+          <g font-family="var(--font-body)" font-size="12.5">
+            <g>
+              <rect x="8" y="110" width="118" height="60" rx="12" fill="var(--mint)" stroke="var(--mint-deep)" stroke-width="1.5"/>
+              <text x="67" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--mint-ink)">DISPARADOR</text>
+              <text x="67" y="152" text-anchor="middle" font-weight="700" fill="var(--mint-ink)">Formulario enviado</text>
+            </g>
+            <g>
+              <rect x="146" y="110" width="118" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="205" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">CONDICIÓN</text>
+              <text x="205" y="152" text-anchor="middle" font-weight="700" fill="var(--ink)">¿Contacto nuevo?</text>
+            </g>
+            <g>
+              <rect x="286" y="40" width="134" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="353" y="64" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">ACCIÓN</text>
+              <text x="353" y="82" text-anchor="middle" font-weight="700" fill="var(--ink)">CRM: registrar el lead</text>
+            </g>
+            <g>
+              <rect x="286" y="180" width="134" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="353" y="204" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">ACCIÓN</text>
+              <text x="353" y="222" text-anchor="middle" font-weight="700" fill="var(--ink)">Correo de confirmación</text>
+            </g>
+            <g>
+              <rect x="442" y="110" width="116" height="60" rx="12" fill="var(--surface-strong)" stroke="var(--edge-strong)" stroke-width="1.5"/>
+              <text x="500" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">AVISO</text>
+              <text x="500" y="152" text-anchor="middle" font-weight="700" fill="var(--ink)">Se avisa al compañero</text>
+            </g>
+            <g>
+              <rect x="578" y="110" width="124" height="60" rx="12" fill="none" stroke="var(--chrome-3)" stroke-width="1.5" stroke-dasharray="5 4"/>
+              <text x="640" y="134" text-anchor="middle" font-family="var(--font-mono)" font-size="8.5" letter-spacing="1" fill="var(--ink-faint)">RED DE SEGURIDAD</text>
+              <text x="640" y="152" text-anchor="middle" font-weight="700" fill="var(--ink)">15 min → escala</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p class="wf-anatomy-note">Diagrama ancho — en pantallas estrechas se desplaza en horizontal</p>
+    </div>
+  </section>
+
+  <!-- ========== ROI KALKULÁTOR ========== -->
+  <section id="kalkulator">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Calculadora</div>
+        <h2>Haz el cálculo con tus propios números.</h2>
+        <p>Indica cuántas personas hacen tareas administrativas repetitivas en tu empresa y cuánto tiempo les lleva. La calculadora usa tus datos — no lleva ninguna promesa dentro.</p>
+      </div>
+
+      <div class="calc reveal">
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label for="wfPeople">¿Cuántas personas hacen administración repetitiva?<span class="calc-val" id="wfPeopleVal">3 pers.</span></label>
+            <input type="range" id="wfPeople" min="1" max="20" step="1" value="3">
+            <div class="calc-range" aria-hidden="true"><span>1 persona</span><span>20 personas</span></div>
+            <p class="calc-hint">No solo administrativos — cualquiera que copie datos o escriba recordatorios.</p>
+          </div>
+          <div class="calc-field">
+            <label for="wfHours">¿Cuánto tiempo al día por persona?<span class="calc-val" id="wfHoursVal">1,5 h</span></label>
+            <input type="range" id="wfHours" min="0.5" max="4" step="0.5" value="1.5">
+            <div class="calc-range" aria-hidden="true"><span>0,5 h</span><span>4 h</span></div>
+            <p class="calc-hint">La suma de esos pasos de diez o veinte minutos en un día normal de trabajo.</p>
+          </div>
+          <div class="calc-field">
+            <label for="wfCost">Coste bruto por hora<span class="calc-val" id="wfCostVal">4 500 HUF</span></label>
+            <input type="range" id="wfCost" min="2000" max="12000" step="500" value="4500">
+            <div class="calc-range" aria-hidden="true"><span>2 000 HUF</span><span>12 000 HUF</span></div>
+            <p class="calc-hint">El coste total para la empresa, por hora.</p>
+          </div>
+        </div>
+
+        <div class="calc-out">
+          <div class="calc-eyebrow">Capacidad liberada</div>
+          <div class="calc-big"><span id="wfHoursMonth">0</span> <small>h / mes</small></div>
+          <ul class="calc-rows">
+            <li><span>Al año</span><b id="wfHoursYear">0 h</b></li>
+            <li><span>En coste salarial / mes</span><b id="wfCostMonth">0 HUF</b></li>
+            <li><span>En coste salarial / año</span><b id="wfCostYear">0 HUF</b></li>
+          </ul>
+          <p class="calc-fte">Equivale a la jornada completa de <b id="wfFte">0</b> personas — esa es la capacidad que se libera para asumir nuevos trabajos.</p>
+        </div>
+      </div>
+
+      <!-- A gorbe a fenti formula kirajzolva. A JS a csuszkakra elve
+           ujrarajzolja; JS nelkul az alapallapot (3 fo, 1,5 ora) latszik,
+           ami egyezik a kalkulator kezdoertekeivel. -->
+      <div class="chart-card reveal">
+        <div class="chart-head">
+          <div>
+            <div class="chart-title">Capacidad liberada en función del número de personas</div>
+            <div class="chart-sub">h / mes · los deslizadores mueven el marcador en directo</div>
+          </div>
+        </div>
+        <div class="chart-scroll chart-desktop">
+          <svg viewBox="0 0 520 236" class="roi" data-roi="1" data-px0="46" data-px1="502" data-py0="16" data-py1="190" role="img" aria-labelledby="roi-t roi-d">
+            <title id="roi-t">Capacidad liberada en función del número de personas</title>
+            <desc id="roi-d">Cuantas más personas hagan la administración repetitiva, más horas se liberan cada mes. Los valores exactos los muestra la calculadora junto al gráfico.</desc>
+            <g class="roi-grid">
+              <line x1="46" y1="190.0" x2="502" y2="190.0"/>
+              <line x1="46" y1="146.5" x2="502" y2="146.5"/>
+              <line x1="46" y1="103.0" x2="502" y2="103.0"/>
+              <line x1="46" y1="59.5" x2="502" y2="59.5"/>
+              <line x1="46" y1="16.0" x2="502" y2="16.0"/>
+            </g>
+            <g class="roi-ylab">
+              <text x="39" y="193.2" text-anchor="end">0</text>
+              <text x="39" y="149.7" text-anchor="end">125</text>
+              <text x="39" y="106.2" text-anchor="end">250</text>
+              <text x="39" y="62.7" text-anchor="end">375</text>
+              <text x="39" y="19.2" text-anchor="end">500</text>
+            </g>
+            <path class="roi-area" d="M46.0 190.0 L46.0 182.3 L70.0 174.7 L94.0 167.0 L94.0 190.0 Z"/>
+            <path class="roi-line" d="M46.0 182.3 L70.0 174.7 L94.0 167.0 L118.0 159.3 L142.0 151.6 L166.0 144.0 L190.0 136.3 L214.0 128.6 L238.0 120.9 L262.0 113.3 L286.0 105.6 L310.0 97.9 L334.0 90.2 L358.0 82.6 L382.0 74.9 L406.0 67.2 L430.0 59.6 L454.0 51.9 L478.0 44.2 L502.0 36.5"/>
+            <circle class="roi-dot" cx="94.0" cy="167.0" r="5"/>
+            <text class="roi-lab" x="104.0" y="159.0">66 h / mes</text>
+            <g class="roi-axis">
+              <line x1="46" y1="190" x2="502" y2="190"/>
+              <text x="46.0" y="206" text-anchor="middle">1</text>
+              <text x="142.0" y="206" text-anchor="middle">5</text>
+              <text x="262.0" y="206" text-anchor="middle">10</text>
+              <text x="382.0" y="206" text-anchor="middle">15</text>
+              <text x="502.0" y="206" text-anchor="middle">20</text>
+              <text class="roi-unit" x="274" y="223" text-anchor="middle">personas con administración repetitiva</text>
+            </g>
+          </svg>
+        </div>
+        <div class="chart-scroll chart-mobile">
+          <svg viewBox="0 0 240 172" class="roi roi-compact" data-roi="1" data-px0="40" data-px1="234" data-py0="10" data-py1="130" role="img" aria-labelledby="roi-m-t roi-m-d">
+            <title id="roi-m-t">Capacidad liberada en función del número de personas</title>
+            <desc id="roi-m-d">Cuantas más personas hagan la administración repetitiva, más horas se liberan cada mes. Los valores exactos los muestra la calculadora junto al gráfico.</desc>
+            <g class="roi-grid">
+              <line x1="40" y1="130.0" x2="234" y2="130.0"/>
+              <line x1="40" y1="100.0" x2="234" y2="100.0"/>
+              <line x1="40" y1="70.0" x2="234" y2="70.0"/>
+              <line x1="40" y1="40.0" x2="234" y2="40.0"/>
+              <line x1="40" y1="10.0" x2="234" y2="10.0"/>
+            </g>
+            <g class="roi-ylab">
+              <text x="33" y="133.2" text-anchor="end">0</text>
+              <text x="33" y="103.2" text-anchor="end">125</text>
+              <text x="33" y="73.2" text-anchor="end">250</text>
+              <text x="33" y="43.2" text-anchor="end">375</text>
+              <text x="33" y="13.2" text-anchor="end">500</text>
+            </g>
+            <path class="roi-area" d="M40.0 130.0 L40.0 124.7 L50.2 119.4 L60.4 114.1 L60.4 130.0 Z"/>
+            <path class="roi-line" d="M40.0 124.7 L50.2 119.4 L60.4 114.1 L70.6 108.8 L80.8 103.5 L91.1 98.2 L101.3 93.0 L111.5 87.7 L121.7 82.4 L131.9 77.1 L142.1 71.8 L152.3 66.5 L162.5 61.2 L172.7 55.9 L182.9 50.6 L193.2 45.3 L203.4 40.0 L213.6 34.7 L223.8 29.5 L234.0 24.2"/>
+            <circle class="roi-dot" cx="60.4" cy="114.1" r="5"/>
+            <text class="roi-lab" x="70.4" y="106.1">66 h / mes</text>
+            <g class="roi-axis">
+              <line x1="40" y1="130" x2="234" y2="130"/>
+              <text x="40.0" y="146" text-anchor="middle">1</text>
+              <text x="80.8" y="146" text-anchor="middle">5</text>
+              <text x="131.9" y="146" text-anchor="middle">10</text>
+              <text x="182.9" y="146" text-anchor="middle">15</text>
+              <text x="234.0" y="146" text-anchor="middle">20</text>
+              <text class="roi-unit" x="137" y="163" text-anchor="middle">personas en administración</text>
+            </g>
+          </svg>
+        </div>
+        <div class="chart-key">
+          <span><i class="k-dot"></i>Tu configuración</span>
+          <span>La línea muestra todo el rango de 1 a 20 personas; el relleno llega hasta el número actual.</span>
+        </div>
+      </div>
+
+      <p class="calc-formula reveal">horas liberadas / mes = personas × horas al día × 21 días laborables × 0,7 &nbsp;·&nbsp; el 0,7 es la proporción que se supone automatizable</p>
+      <p class="calc-note reveal">La calculadora usa los datos introducidos y es orientativa. El ahorro real depende de tus procesos y de los sistemas que uses — eso es lo que muestra con precisión el análisis de procesos.</p>
+    </div>
+  </section>
+
+  <!-- ========== MODELLEZETT SZÁMPÉLDA ==========
+       FONTOS: ez NEM valós ügyfél adata. A "SZÁMPÉLDA" címke és a lezáró
+       jegyzet nem távolítható el — kitalált konkrét eredmény valós esetként
+       megtévesztő kereskedelmi gyakorlat (Fttv., UCPD). Ha lesz valós,
+       dokumentált eset ügyfél-hozzájárulással, akkor cserélhető. -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Ejemplo numérico</div>
+        <h2>¿Qué significa esto en la práctica?</h2>
+        <p>Un escenario modelado con valores típicos para que se vea la lógica — no son datos de ningún cliente concreto.</p>
+      </div>
+
+      <div class="model-case reveal">
+        <div class="model-case-in">
+          <span class="model-badge">Ejemplo numérico · escenario modelado</span>
+          <h3>Un equipo de 8 personas, 2 de ellas dedicadas sobre todo a administración</h3>
+          <p>El punto de partida: cada día se va el tiempo de dos personas en responder leads, seguir presupuestos, hacer informes y mandar recordatorios de facturas. Son esos cuatro procesos los que automatizamos.</p>
+
+          <div class="model-grid">
+            <div class="model-box">
+              <div class="model-k">Carga administrativa</div>
+              <div class="model-v">−70%</div>
+              <p>En el modelo, estos son los pasos de los cuatro procesos que corren sin intervención humana.</p>
+            </div>
+            <div class="model-box">
+              <div class="model-k">Capacidad liberada</div>
+              <div class="model-v">≈1,4 ETC</div>
+              <p>El 70 % del tiempo de dos personas — que no es un recorte de plantilla, sino mano de obra que se puede reasignar.</p>
+            </div>
+            <div class="model-box">
+              <div class="model-k">Trabajos asumibles</div>
+              <div class="model-v">≈+30%</div>
+              <p>Si la capacidad liberada se traslada a ventas y a la prestación del servicio, sin ampliar plantilla.</p>
+            </div>
+          </div>
+
+          <p class="model-disclaimer">Ejemplo modelado con valores típicos, no son datos de ningún cliente concreto. El ≈+30 % se deriva de que los ≈1,4 equivalentes a jornada completa liberados suponen ~17 % del tiempo de trabajo de un equipo de 8 personas y, reasignados a trabajo que genera valor en lugar de a administración, producen proporcionalmente más resultado. Tu caso depende de tus procesos; eso es lo que mide el análisis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MIT NEM AUTOMATIZÁLUNK ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Límites</div>
+        <h2>Lo que no automatizamos.</h2>
+        <p>Una automatización es buena porque sabemos dónde hay que parar.</p>
+      </div>
+      <div class="incl-grid">
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg></div><h3>Decisiones creativas</h3><p>Cuál debe ser el mensaje, cómo debe ser la imagen, cómo suena la marca — eso es cosa de personas. La automatización, como mucho, lo lleva donde toca.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Negociación con clientes</h3><p>Manejo de objeciones, precios, situaciones delicadas. Aquí una respuesta automática cuesta más de lo que aporta.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M10.3 3.6a2 2 0 0 1 3.4 0l7.3 12.6a2 2 0 0 1-1.7 3H4.7a2 2 0 0 1-1.7-3z"/><path d="M12 9v4M12 17h.01"/></svg></div><h3>Un proceso desordenado</h3><p>Un mal proceso automatizado solo es malo más rápido. Primero lo ordenamos y después conectamos algo.</p></div>
+        <div class="incl-card reveal"><div class="incl-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg></div><h3>Enviar sin revisar</h3><p>Lo que llega al cliente mantiene una aprobación humana. El informe se monta solo — pero no sale sin leerlo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOLYAMAT ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Proceso</div>
+        <h2>Cómo trabajamos.</h2>
+        <p>Empezamos por un proceso, no por toda la empresa. Así el resultado se ve pronto y el equipo se va acostumbrando.</p>
+      </div>
+      <div class="steprow">
+        <div class="stepbox reveal"><div class="stepnum">01</div><h3>Análisis de procesos</h3><p>Repasamos cómo funciona hoy cada cosa y dónde se va el tiempo. Normalmente una semana.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">02</div><h3>Mapa de flujos</h3><p>Recibes qué merece la pena automatizar, en qué orden y qué aporta cada cosa.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">03</div><h3>Piloto</h3><p>Un proceso puesto en marcha en real — el de mayor ganancia y menor riesgo.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">04</div><h3>Puesta en marcha y formación</h3><p>El equipo aprende qué ocurre solo y qué sigue en sus manos. Gestión de errores y avisos configurados.</p></div>
+        <div class="stepbox reveal"><div class="stepnum">05</div><h3>Medición y ajuste</h3><p>Comprobamos si realmente ha ahorrado tiempo y desde ahí pasamos al siguiente proceso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ÁRAK ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">Precios</div>
+        <h2>Paquetes transparentes.</h2>
+        <p>Los precios son puntos de partida orientativos — el presupuesto exacto depende del número de procesos y de los sistemas a conectar.</p>
+      </div>
+      <div class="price-grid">
+        <div class="price-card reveal">
+          <div class="price-name">Diagnóstico</div>
+          <div class="price-amount">90&nbsp;000&nbsp;HUF<small> desde</small></div>
+          <div class="price-sub">Análisis y mapa de flujos</div>
+          <ul class="price-feat">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Análisis de procesos con entrevistas</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Mapa de flujos con prioridades</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Ahorro estimado por proceso</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Se descuenta si seguimos adelante</li>
+          </ul>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20%E2%80%93%20Felt%C3%A1r%C3%A1s" class="btn btn-ghost btn-block">Pedir presupuesto</a>
+        </div>
+        <div class="price-card featured reveal">
+          <div class="price-badge">Popular</div>
+          <div class="price-name">Un flujo</div>
+          <div class="price-amount">180&nbsp;000&nbsp;HUF<small> desde</small></div>
+          <div class="price-sub">Un proceso, puesto en marcha en real</div>
+          <ul class="price-feat">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Un proceso automatizado por completo</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Integración de sistemas y pruebas</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Gestión de errores y avisos</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Formación para el equipo</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>30 días de seguimiento</li>
+          </ul>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20%E2%80%93%20Egy%20workflow" class="btn btn-primary btn-block">Quiero este</a>
+        </div>
+        <div class="price-card reveal">
+          <div class="price-name">Paquete completo</div>
+          <div class="price-amount">490&nbsp;000&nbsp;HUF<small> desde</small></div>
+          <div class="price-sub">4–6 flujos, con mantenimiento</div>
+          <ul class="price-feat">
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>4–6 procesos automatizados</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Sincronización de datos entre sistemas</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Descripciones de proceso documentadas</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Mantenimiento mensual desde 39&nbsp;000&nbsp;HUF/mes</li>
+            <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Revisión trimestral</li>
+          </ul>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20%E2%80%93%20Teljes%20csomag" class="btn btn-ghost btn-block">Pedir presupuesto</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GYIK ========== -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="eyebrow">FAQ</div>
+        <h2>Preguntas frecuentes.</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal"><h3>¿Con qué sistemas funciona?</h3><p>Con la mayoría de sistemas que tengan API o webhook: Google Workspace, Meta y Google Ads, programas de facturación, tiendas online, Slack, WhatsApp, correo. Con nuestro propio CRM también son posibles integraciones más profundas. En el análisis repasamos lo que usas hoy.</p></div>
+        <div class="faq-item reveal"><h3>¿Cuánto tarda el primer flujo en estar listo?</h3><p>El análisis de procesos suele llevar una semana, y el primer flujo en producción otra o dos más. Empezamos a propósito por un solo proceso: así el resultado se ve pronto y el equipo se acostumbra.</p></div>
+        <div class="faq-item reveal"><h3>¿Qué pasa si una automatización se rompe?</h3><p>Cada flujo lleva gestión de errores y avisos: si un paso falla, se avisa a una persona y el proceso no muere en silencio. El paquete de mantenimiento incluye la reparación de fallos.</p></div>
+        <div class="faq-item reveal"><h3>¿Hace falta un desarrollador o alguien de IT en la empresa?</h3><p>No. La integración y el mantenimiento los hacemos nosotros. Lo que necesitamos de ti: acceso a los sistemas y una persona que conozca el proceso que vamos a automatizar.</p></div>
+        <div class="faq-item reveal"><h3>¿Y si nuestros procesos son un caos?</h3><p>Entonces primero los ordenamos. Un mal proceso automatizado solo es malo más rápido — el análisis está precisamente para que eso salga a la luz antes de conectar nada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="page-cta">
+    <div class="wrap">
+      <div class="sec-head reveal" style="text-align:center;">
+        <div class="eyebrow">Primer paso</div>
+        <h2>Empecemos por un análisis de procesos.</h2>
+        <p>Miramos dónde se va el tiempo en tu empresa y qué merece la pena automatizar primero. Si no encontramos un ahorro que tenga sentido, también te lo diremos.</p>
+        <div style="display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-top:var(--sp-4);">
+          <a href="index.html#kapcsolat" class="btn btn-primary">Consulta gratuita</a>
+          <a href="mailto:info@soulsilvermarketing.com?subject=Workflow%20automatiz%C3%A1l%C3%A1s%20%E2%80%93%20folyamatfelm%C3%A9r%C3%A9s" class="btn btn-ghost">Escribir un correo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="index.html" style="text-decoration:none;">SOULSILVER<span class="dot">.</span></a>
+        <p style="color:var(--ink-soft); font-size:.92rem; margin-top:.8rem; max-width:32ch;">Agencia de marketing full-service — soluciones creativas, resultados medibles.</p>
+      </div>
+      <div>
+        <h3>Servicios</h3>
+        <ul>
+          <li><a href="ppc-hirdeteskezeles.html">Publicidad PPC</a></li>
+          <li><a href="workflow-automatizalas.html">Automatización de procesos</a></li>
+          <li><a href="markaidentitas.html">Identidad de marca</a></li>
+          <li><a href="kozossegi-media.html">Redes sociales</a></li>
+          <li><a href="weboldalkeszites.html">Diseño web</a></li>
+          <li><a href="dronfelvetel.html">Imágenes con dron</a></li>
+          <li><a href="aftermovie.html">Aftermovie</a></li>
+          <li><a href="termekfotozas.html">Fotografía de producto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Empresa</h3>
+        <ul>
+          <li><a href="referenciak.html">Trabajos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="arak.html">Precios</a></li>
+          <li><a href="crm.html">CRM</a></li>
+          <li><a href="index.html#kapcsolat">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <ul>
+          <li><a href="mailto:info@soulsilvermarketing.com">info@soulsilvermarketing.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 SOULSILVER Marketing Agency</span>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><img src="/img/logos/instagram.svg" alt="Instagram" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="LinkedIn"><img src="/img/logos/linkedin.svg" alt="LinkedIn" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="TikTok"><img src="/img/logos/tiktok.svg" alt="TikTok" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="YouTube"><img src="/img/logos/youtube.svg" alt="YouTube" width="17" height="17" loading="lazy"></a>
+        <a href="#" aria-label="Facebook"><img src="/img/logos/facebook.svg" alt="Facebook" width="17" height="17" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-bar glass" id="cookieBar">
+  <p>Usamos cookies para mejorar la experiencia y medir el tráfico.</p>
+  <div class="cookie-actions">
+    <button class="btn-ghost" id="cookieReject">Rechazar</button>
+    <button class="btn-primary" id="cookieAccept">Aceptar</button>
+  </div>
+</div>
+
+<script src="/app.js" defer></script>
+</body>
+</html>

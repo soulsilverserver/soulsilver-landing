@@ -39,6 +39,11 @@ for page in pages:
         path = u.split('#')[0].split('?')[0]
         if not path:
             continue
+        # A gyoker-abszolut ut (/en/arak.html, /styles.css) a SITE gyokerehez
+        # kepest ertendo, nem a fajlrendszerehez. A nyelvvalasztó es a nyelvi
+        # valtozatok eszkoz-utjai ilyenek - a vezeto / nelkul kell keresni.
+        if path.startswith('/'):
+            path = path[1:]
         if not os.path.exists(path):
             add(page, 'MISSING', path)
 

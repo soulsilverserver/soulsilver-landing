@@ -1575,3 +1575,21 @@
   border:1px solid var(--edge); border-left:3px solid var(--mint-deep);
   border-radius:10px; background:var(--surface-2, rgba(0,0,0,.03));
   font-size:.92rem; color:var(--ink-soft); }
+
+/* ---------- Tobbnyelvu layout-biztonsag  (TOBBNYELVU BIZTONSAG) ----------
+   A CSS grid `1fr` valojaban minmax(auto, 1fr), es az `auto` also hatara a
+   tartalom min-content szelessege. Egyetlen hosszu, torhetetlen szo ezert
+   szetfeszitheti a savot a konteneren tul — a magyar szoveggel ez nem jott elo,
+   a nemet osszetett szavakkal (Wochenperformance, Kampagnendaten) igen: a
+   .feature-grid savja 303px lett egy 257px-es konteneren, 22px tulcsordulassal.
+   A min-width:0 engedi a savot zsugorodni, az overflow-wrap pedig a szot torni.
+   Ez nem a nemetre szol kulon: barmelyik nyelv barmikor hozhat hosszabb szot. */
+.feature-grid > *, .bento-grid > *, .price-grid > *,
+.svc-table td, .svc-table th, .wf-list > *, .step-grid > *{ min-width:0; }
+
+.feature-tile, .price-card, .bento-overlay, .dash-label,
+.wf-name, .wf-tag, .calc-field label{ overflow-wrap:break-word; }
+
+/* A dashboard-makett cimkeje fix szelessegu dobozban ul; nemetul a
+   "Wochenperformance" 156px-et kert 141px helyett. Itt a torest engedjuk. */
+.dash-label{ overflow-wrap:anywhere; }

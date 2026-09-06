@@ -6,6 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="Ügyfeleket szerzünk, nem követőket. Kampányt építünk, ami konkrét ajánlatkéréseket hoz — a lead-célszámot leírjuk a szerződésbe." />
 <link rel="canonical" href="https://soulsilver.hu/" />
+<link rel="alternate" hreflang="hu" href="https://soulsilver.hu/" />
+<link rel="alternate" hreflang="en" href="https://soulsilver.hu/en/" />
+<link rel="alternate" hreflang="de" href="https://soulsilver.hu/de/" />
+<link rel="alternate" hreflang="es" href="https://soulsilver.hu/es/" />
+<link rel="alternate" hreflang="x-default" href="https://soulsilver.hu/" />
 <link rel="icon" type="image/png" href="favicon.png" />
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -68,6 +73,7 @@
     <li><a href="arak.html">Árak</a></li>
     <li><a href="#kapcsolat">Kapcsolat</a></li>
   </ul>
+    <details class="lang-switch"><summary aria-label="Nyelv / Language">HU</summary><ul><li><span aria-current="true">Magyar</span></li><li><a href="/en/" hreflang="en">English</a></li><li><a href="/de/" hreflang="de">Deutsch</a></li><li><a href="/es/" hreflang="es">Español</a></li></ul></details>
   <div class="nav-cta">
     <a href="#kapcsolat" class="btn btn-primary" style="padding:.7em 1.3em; font-size:.88rem;">Ingyenes konzultáció</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menü megnyitása" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -82,7 +88,7 @@
   <a href="blog.html">Blog</a>
   <a href="arak.html">Árak</a>
   <a href="#kapcsolat">Kapcsolat</a>
-</div>
+<div class="panel-langs"><a href="/en/" hreflang="en">English</a><a href="/de/" hreflang="de">Deutsch</a><a href="/es/" hreflang="es">Español</a></div></div>
 
 <main id="tartalom">
   <!-- HERO -->
@@ -426,11 +432,14 @@
           <h2 style="margin-top:.6rem;">Iratkozz fel — havi egy email, amiben tényleg van tartalom.</h2>
         </div>
         <div>
-          <form class="news-form" id="newsForm">
-            <input type="email" required placeholder="te@ceged.hu" aria-label="Email cím" id="newsEmail">
+          <form class="news-form" id="newsForm" action="newsletter.php" method="POST">
+            <input type="email" name="email" required placeholder="te@ceged.hu" aria-label="Email cím" id="newsEmail" autocomplete="email">
+            <input type="hidden" name="lang" value="hu">
+            <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;">
             <button type="submit" class="btn btn-primary">Feliratkozom</button>
           </form>
           <div class="news-status" id="newsStatus" role="status"></div>
+          <p class="contact-consent" style="margin-top:.5rem;">A feliratkozással elfogadod az <a href="adatvedelem.html">adatkezelési tájékoztatót</a>. Bármikor leiratkozhatsz.</p>
         </div>
       </div>
     </div>
@@ -456,7 +465,8 @@
           <input type="email" name="email" id="cfEmail" placeholder="Email címed (opcionális)" autocomplete="email">
           <label class="visually-hidden" for="cfMessage">Miben segíthetünk?</label>
           <textarea name="message" id="cfMessage" placeholder="Miben segíthetünk?"></textarea>
-          <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="hidden" name="lang" value="hu">
+            <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn-primary btn-block">Üzenet küldése</button>
           <p class="contact-consent">Az „Üzenet küldése" gombra kattintva hozzájárulsz, hogy megadott adataidat kizárólag a kapcsolatfelvételhez használjuk fel. Részletek az <a href="adatvedelem.html">Adatkezelési tájékoztatóban</a>.</p>
           <div class="form-status" id="cfStatus" role="status"></div>

@@ -66,15 +66,32 @@
     });
   }
 
-  /* ---------- newsletter (visual only) ---------- */
+  /* ---------- newsletter (Resend backend, inline visszajelzés) ---------- */
   var newsForm = document.getElementById('newsForm');
   var newsStatus = document.getElementById('newsStatus');
   if(newsForm && newsStatus){
     newsForm.addEventListener('submit', function(e){
       e.preventDefault();
-      var email = document.getElementById('newsEmail').value;
-      newsStatus.textContent = 'Feliratkozva: ' + email + ' — köszönjük!';
-      newsForm.querySelector('input').value = '';
+      newsStatus.style.color = '';
+      newsStatus.textContent = 'Küldés…';
+      var data = new FormData(newsForm);
+      data.append('ajax', '1');
+      fetch(newsForm.getAttribute('action') || 'newsletter.php', { method:'POST', body:data })
+        .then(function(r){ return r.json().catch(function(){ return { ok:r.ok }; }); })
+        .then(function(res){
+          if(res && res.ok){
+            newsStatus.textContent = 'Feliratkozva — köszönjük! 🎉';
+            newsForm.reset();
+            if(typeof gtag === 'function'){ gtag('event', 'newsletter_signup', { value:1.0, currency:'HUF' }); }
+          } else {
+            newsStatus.style.color = '#c0392b';
+            newsStatus.textContent = (res && res.msg) || 'Hiba történt, próbáld újra.';
+          }
+        })
+        .catch(function(){
+          newsStatus.style.color = '#c0392b';
+          newsStatus.textContent = 'Hálózati hiba — próbáld újra később.';
+        });
     });
   }
 
@@ -412,12 +429,28 @@
     var AUTOMATIZALHATO = 0.7;  /* feltételezett arány — a lapon jelölve */
     var HAVI_MUNKAORA = 168;    /* 1 fő teljes munkaideje / hó */
 
+    /* A szamformazas az OLDAL NYELVET koveti, nem fixen magyar: ez az app.js
+       mind a negy nyelvi valtozatban ugyanaz a fajl, es fix hu-HU eseten az
+       angol oldalon is "1,4" es "4 500" jelenne meg "1.4" es "4,500" helyett. */
+    var LOCALE = {hu:'hu-HU', en:'en-GB', de:'de-DE', es:'es-ES'}[
+      (document.documentElement.lang || 'hu').slice(0, 2)] || 'hu-HU';
+
     /* A hu-HU alapbol NEM csoportositja a negyjegyu szamokat ("6000"),
        ezert useGrouping:'always' — igy egyezik a HTML-ben levo kezdoertekkel
        ("4 500 Ft"). Regi bongeszo ezt egyszeruen figyelmen kivul hagyja. */
-    var nf0 = new Intl.NumberFormat('hu-HU', {maximumFractionDigits:0, useGrouping:'always'});
-    var nf1 = new Intl.NumberFormat('hu-HU', {minimumFractionDigits:1, maximumFractionDigits:1});
-    var nf2 = new Intl.NumberFormat('hu-HU', {minimumFractionDigits:2, maximumFractionDigits:2});
+    /* A mertekegysegek futasidoben keletkeznek, ezert nem mennek at a
+       forditason — itt kell nyelvenkent megadni oket. A penznem mind a negy
+       nyelven forint marad: ez a tenylegesen szamlazott penznem. */
+    var U = {
+      hu: {fo:' fő', ora:' óra', penz:' Ft'},
+      en: {fo:' people', ora:' h', penz:' HUF'},
+      de: {fo:' Pers.', ora:' Std.', penz:' HUF'},
+      es: {fo:' pers.', ora:' h', penz:' HUF'}
+    }[(document.documentElement.lang || 'hu').slice(0, 2)] || {fo:' fő', ora:' óra', penz:' Ft'};
+
+    var nf0 = new Intl.NumberFormat(LOCALE, {maximumFractionDigits:0, useGrouping:'always'});
+    var nf1 = new Intl.NumberFormat(LOCALE, {minimumFractionDigits:1, maximumFractionDigits:1});
+    var nf2 = new Intl.NumberFormat(LOCALE, {minimumFractionDigits:2, maximumFractionDigits:2});
     /* egesz ora eseten ne irjunk ki tizedest ("2 ora", nem "2,0 ora") */
     function oraFmt(v){ return (v % 1 === 0) ? nf0.format(v) : nf1.format(v); }
     /* 1 fo alatt egy tizedes "0,0"-t adna, ami ertelmetlen — ott ket tizedes */
@@ -453,14 +486,14 @@
       var costMonth = hoursMonth * cost;
       var fte = hoursMonth / HAVI_MUNKAORA;
 
-      if(out.peopleVal) out.peopleVal.textContent = nf0.format(people) + ' fő';
-      if(out.hoursVal) out.hoursVal.textContent = oraFmt(hours) + ' óra';
-      if(out.costVal) out.costVal.textContent = nf0.format(cost) + ' Ft';
+      if(out.peopleVal) out.peopleVal.textContent = nf0.format(people) + U.fo;
+      if(out.hoursVal) out.hoursVal.textContent = oraFmt(hours) + U.ora;
+      if(out.costVal) out.costVal.textContent = nf0.format(cost) + U.penz;
 
       if(out.hoursMonth) out.hoursMonth.textContent = nf0.format(hoursMonth);
-      if(out.hoursYear) out.hoursYear.textContent = nf0.format(hoursYear) + ' óra';
-      if(out.costMonth) out.costMonth.textContent = nf0.format(costMonth) + ' Ft';
-      if(out.costYear) out.costYear.textContent = nf0.format(costMonth * 12) + ' Ft';
+      if(out.hoursYear) out.hoursYear.textContent = nf0.format(hoursYear) + U.ora;
+      if(out.costMonth) out.costMonth.textContent = nf0.format(costMonth) + U.penz;
+      if(out.costYear) out.costYear.textContent = nf0.format(costMonth * 12) + U.penz;
       if(out.fte) out.fte.textContent = fteFmt(fte);
     }
 
@@ -548,6 +581,11 @@
       return step * 10;
     }
 
+    /* A jelolo cimkejenek egysege: ugyanaz a fajl fut mind a negy nyelven. */
+    var ROI_UNIT = {hu:' óra / hó', en:' h / month', de:' Std. / Monat',
+                    es:' h / mes'}[(document.documentElement.lang || 'hu').slice(0,2)]
+                   || ' óra / hó';
+
     function drawOne(svg, people, hours){
       var px0 = +svg.getAttribute('data-px0');
       var px1 = +svg.getAttribute('data-px1');
@@ -588,7 +626,7 @@
       if(dot){ dot.setAttribute('cx', mx.toFixed(1)); dot.setAttribute('cy', my.toFixed(1)); }
       var lab = svg.querySelector('.roi-lab');
       if(lab){
-        lab.textContent = nf0.format(Math.round(val(people))) + ' óra / hó';
+        lab.textContent = nf0.format(Math.round(val(people))) + ROI_UNIT;
         lab.setAttribute('y', (my - 8).toFixed(1));
 
         /* A cimke ne folyjon ki a plotbol. Fix aranyu kuszob nem mukodik: a
