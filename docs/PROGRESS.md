@@ -44,7 +44,7 @@ Ne hidd el vakon, amit ez a fájl ír — ellenőrizd a repó tényleges állapo
 
 ## Jelenlegi állapot
 
-**Élő:** 22 oldal. index, arak, referenciak, crm, koszonjuk, 8 szolgáltatás-oldal
+**Élő:** 22 magyar oldal + 3 nyelvi változat (**88 oldal**). index, arak, referenciak, crm, koszonjuk, 8 szolgáltatás-oldal
 (ppc-hirdeteskezeles, workflow-automatizalas, markaidentitas, kozossegi-media,
 weboldalkeszites, dronfelvetel, aftermovie, termekfotozas), 4 jogi oldal
 (impresszum, adatvedelem, aszf, cookie-szabalyzat), blog listaoldal + 4 cikk.
@@ -61,6 +61,14 @@ egyszer már szétcsúszott (lásd Csapdák).
 naptárad." Az ajánlat egy garanciamechanizmus — a lead-célszám a **szerződésben**
 van, nem a weboldalon (lásd Csapdák: miért nem hirdetünk 80 leadet).
 
+**Négy nyelven (2026-09-05-től):** magyar (gyökér) · `/en/` · `/de/` · `/es/`.
+A fordítás **generált**, nem kézzel írt: a forrás a magyar oldal, a szótárak a
+`tools/i18n/translations/<nyelv>/*.json` fájlokban vannak, a build pedig a
+`tools/i18n/i18n_build.py`. **Soha ne szerkeszd közvetlenül az `/en/`,
+`/de/`, `/es/` HTML-eket** — a következő build felülírja őket. Ha szöveg
+változik: írd át a magyart, futtasd az `i18n_extract.py`-t, fordítsd le az új
+egységeket, majd `i18n_build.py`. A `i18n_check.py` megmondja, mi hiányzik.
+
 **Mérve és rendben:**
 
 - 0px vízszintes túlcsordulás 320 / 375 / 414 / 768 / 1280px-en, mind a 17 oldalon
@@ -69,6 +77,10 @@ van, nem a weboldalon (lásd Csapdák: miért nem hirdetünk 80 leadet).
 - az `app.js` mindenhol végig lefut (jelzőbója: a `.wa-float` gomb létrejön)
 - nincs törött belső link, halott horgony, duplikált `id`, `alt` nélküli kép
 - az árak egyeznek mind a négy helyen (lásd Csapdák)
+- mind a 88 oldal 0px túlcsordulással, 320/375/414/1280px-en
+- egyik nyelvi oldalon sincs magyar szöveg (`őű` karakter-ellenőrzés)
+- a hreflang kölcsönös: mind a 88 oldalon pontosan 5 sor (hu/en/de/es/x-default)
+- a kalkulátor számformázása és mértékegységei az oldal nyelvét követik
 - az `arak.html` árazása kártyák + igazi táblázat (a korábbi ártartomány-
   diagramok kikerültek: a sáv semmit nem mondott, amit a szám nem, a csomagok
   tartalma viszont egyáltalán nem volt az oldalon)
@@ -143,6 +155,18 @@ csendben elnémítja.** Az árazás átépítésekor a `.price-grid` helyére
 könnyen összemosódik a valódi hibával. Most sorszámot is ellenőriz (9 sor), és
 figyelmeztet, ha nem annyit olvas be. Ha átírod az árazás markupját, futtasd le
 és nézd meg, hogy a „tabla" oszlop nem üres-e.
+
+**A CSS grid `1fr` nem véd a túlcsordulástól.** A `1fr` valójában
+`minmax(auto, 1fr)`, és az `auto` alsó határa a tartalom min-content
+szélessége — egyetlen hosszú, törhetetlen szó szétfeszítheti a sávot a
+konténeren túl. Magyarul ez nem jött elő, németül igen: a `.feature-grid`
+sávja 303px lett egy 257px-es konténerben. A rács-elemekre `min-width:0` kell.
+Négy nyelven bármelyik nyelv bármikor hozhat hosszabb szót — ez nem német-specifikus.
+
+**A JS-ben összefűzött szöveg NEM megy át a fordításon.** A kalkulátor
+mértékegységei (`+ ' Ft'`, `+ ' óra'`) futásidőben keletkeznek, ezért a
+kinyerő nem látja őket, és magyarul mentek volna ki mind a három idegen nyelvű
+oldalra. Ha új futásidejű szöveget írsz az `app.js`-be, tedd az `U` szótárba.
 
 **Az SVG-jelölő címkéjét nem lehet fix arányú küszöbbel a plotban tartani.**
 A ROI-görbe két változatban van (520 és 240 egység széles viewBox), és
