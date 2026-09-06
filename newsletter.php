@@ -19,31 +19,6 @@ $FROM = $cfg['from'] ?? 'SOULSILVER weboldal <noreply@soulsilver.hu>';
 $TO   = $cfg['to']   ?? 'info@soulsilvermarketing.com';
 $AUDIENCE = $cfg['resend_audience_id'] ?? '';
 
-// --- IDEIGLENES DIAGNOSZTIKA (token-védett) — futtatás után eltávolítandó ---
-if (($_POST['diag'] ?? '') === 'a7f3k9x2') {
-    header('Content-Type: application/json; charset=UTF-8');
-    $out = ['key_present' => ($KEY !== ''), 'curl' => function_exists('curl_init')];
-    // list
-    $ch = curl_init('https://api.resend.com/audiences');
-    curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15, CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY]]);
-    $lr = curl_exec($ch); $out['list_code'] = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
-    $out['list_body'] = substr((string) $lr, 0, 400);
-    // create
-    $ch = curl_init('https://api.resend.com/audiences');
-    curl_setopt_array($ch, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15, CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY, 'Content-Type: application/json'], CURLOPT_POSTFIELDS => json_encode(['name' => 'SOULSILVER hirlevel'])]);
-    $cr = curl_exec($ch); $out['create_code'] = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
-    $out['create_body'] = substr((string) $cr, 0, 400);
-    $cd = json_decode((string) $cr, true); $aid = $cd['id'] ?? '';
-    if ($aid) {
-        $ch = curl_init('https://api.resend.com/audiences/' . rawurlencode($aid) . '/contacts');
-        curl_setopt_array($ch, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15, CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY, 'Content-Type: application/json'], CURLOPT_POSTFIELDS => json_encode(['email' => 'diag@soulsilver.hu', 'unsubscribed' => false])]);
-        $ar = curl_exec($ch); $out['contact_code'] = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE); curl_close($ch);
-        $out['contact_body'] = substr((string) $ar, 0, 400);
-    }
-    echo json_encode($out);
-    exit;
-}
-
 $isAjax = isset($_POST['ajax']) || (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') !== '');
 
 function respond($ok, $isAjax, $msg = '') {
