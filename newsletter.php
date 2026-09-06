@@ -46,18 +46,42 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, $isAjax, 'Érvénytelen email cím.');
 }
 
-// --- 1) Opcionális: felvétel a Resend Audience-be (ha be van állítva) ---
-if ($AUDIENCE !== '' && $KEY !== '' && function_exists('curl_init')) {
-    $ch = curl_init('https://api.resend.com/audiences/' . rawurlencode($AUDIENCE) . '/contacts');
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY, 'Content-Type: application/json'],
-        CURLOPT_POSTFIELDS => json_encode(['email' => $email, 'unsubscribed' => false]),
-        CURLOPT_TIMEOUT => 15,
-    ]);
-    curl_exec($ch);
-    curl_close($ch);
+// --- 1) Audience (lista): config-beli id, vagy a "SOULSILVER hirlevel" lista
+//        automatikus megkeresése/létrehozása, majd a feliratkozó felvétele. ---
+$audId = $AUDIENCE;
+if ($KEY !== '' && function_exists('curl_init')) {
+    if ($audId === '') {
+        // meglévő azonos nevű lista?
+        $ch = curl_init('https://api.resend.com/audiences');
+        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15,
+            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY]]);
+        $ld = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+        if (!empty($ld['data'])) {
+            foreach ($ld['data'] as $a) {
+                if (($a['name'] ?? '') === 'SOULSILVER hirlevel') { $audId = $a['id']; break; }
+            }
+        }
+        // ha nincs, létrehozzuk
+        if ($audId === '') {
+            $ch = curl_init('https://api.resend.com/audiences');
+            curl_setopt_array($ch, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15,
+                CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY, 'Content-Type: application/json'],
+                CURLOPT_POSTFIELDS => json_encode(['name' => 'SOULSILVER hirlevel'])]);
+            $cd = json_decode(curl_exec($ch), true);
+            curl_close($ch);
+            $audId = $cd['id'] ?? '';
+        }
+    }
+    // feliratkozó felvétele a listára
+    if ($audId !== '') {
+        $ch = curl_init('https://api.resend.com/audiences/' . rawurlencode($audId) . '/contacts');
+        curl_setopt_array($ch, [CURLOPT_POST => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15,
+            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $KEY, 'Content-Type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode(['email' => $email, 'unsubscribed' => false])]);
+        curl_exec($ch);
+        curl_close($ch);
+    }
 }
 
 // --- 2) Értesítő email az ügynökségnek (mindig) ---
