@@ -150,5 +150,9 @@
  "Beállítás": "Setup",
  "Konverzió": "Conversion",
  "Írok emailt": "Send an e-mail",
- "2 hét": "2 weeks"
+ "2 hét": "2 weeks",
+ "<strong>Székhely:</strong> Regiposta utca 10, 2481 Velence": "<strong>Registered address:</strong> Regiposta utca 10, 2481 Velence",
+ "<strong>Adószám:</strong> 91718613-1-27": "<strong>Tax number:</strong> 91718613-1-27",
+ "<strong>Cégjegyzék-/nyilvántartási szám:</strong> 61773671": "<strong>Company / registration number:</strong> 61773671",
+ "<strong>Képviselő:</strong> Bartek Dávid": "<strong>Represented by:</strong> Bartek Dávid"
 }

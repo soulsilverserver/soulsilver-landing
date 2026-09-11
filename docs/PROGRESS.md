@@ -87,6 +87,13 @@ egységeket, majd `i18n_build.py`. A `i18n_check.py` megmondja, mi hiányzik.
 - a workflow-oldal ROI-kalkulátora **működik**: kitöltött csúszkasáv, min/max
   címkék, élő jelölő a görbén, és a címke egyik szélen sem csúszik ki
 
+**Jogi oldalak cégadata kitöltve (2026-09-11):** impresszum, adatvédelem, ÁSZF
+— Bartek Dávid e.v., 91718613-1-27, cégjegyzék/nyilv. szám 61773671, székhely
+Regiposta utca 10, 2481 Velence, telefon +36 20 260 7810 (ugyanaz az e.v., ami
+a proteinbazis.com-ot is üzemelteti). Mind a 4 nyelven (a `tools/i18n`
+szótárakba is bekerült, nem csak a magyar forrásba — lásd Nyitott döntések #4
+a még hiányzó ÁSZF üzleti feltételekről).
+
 **Nem pusholt commitok lehetnek** — ellenőrizd a fenti git paranccsal.
 
 ---
@@ -98,6 +105,7 @@ egységeket, majd `i18n_build.py`. A `i18n_check.py` megmondja, mi hiányzik.
 | 1 | **Saját fotók a heroba?** A szolgáltatás-oldalak heroja most rétegzett gradiens. A generált fotók kikerültek (AI-klisék, halandzsa szöveggel). | A Drive `REFERENCIÁK/Fénykép` mappájából a **saját anyag** — drón lapra valódi drónfotó stb. A gradiens marad fallbacknek. |
 | 2 | **OG-kép** | A mostani `img/og-image.jpg` **1200×1335, portré**. Az Open Graph 1200×630-at vár, így a megosztásokból levágja a „SOUL SILVER" és a „MARKETING AGENCY" feliratot. Javaslat: 1200×630 a site dizájnjából. |
 | 3 | **Mint akcentus szövegként** | `--mint-deep` (`#0A9E77`) világos háttéren **2,98:1** → megbukik a WCAG AA 4,5:1-en. Javaslat: külön `--mint-text: #087B5D` (4,58:1) csak a szöveges használatra; grafikai elemként a mostani marad (ott a 3:1 elég). 22 helyen érinti. |
+| 4 | **Az ÁSZF üzleti feltételei** (2026-09-11 óta nyitott). A cégadatok ki vannak töltve (Bartek Dávid e.v.), de a fizetési feltételek (előleg %, hátralék, határidő), a bankszámlaszám és a lemondási/elállási feltételek még `[…]` placeholderek — lásd `aszf.html` „Kitöltendő" doboz. | A user adja meg ezeket; addig jogilag hiányos az ÁSZF, ezt ne töltsd ki kitalált adattal. |
 
 ---
 

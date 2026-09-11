@@ -14,7 +14,6 @@
  "Jogi dokumentumok": "Rechtliche Dokumente",
  "Lásd még: <a href=\"adatvedelem.html\">Adatkezelési tájékoztató</a> · <a href=\"cookie-szabalyzat.html\">Cookie-szabályzat</a> · <a href=\"aszf.html\">ÁSZF</a>.": "Siehe auch: <a href=\"adatvedelem.html\">Datenschutzerklärung</a> · <a href=\"cookie-szabalyzat.html\">Cookie-Richtlinie</a> · <a href=\"aszf.html\">AGB</a>.",
  "mezőket a valós szolgáltatói adatokkal kell kitölteni.": "Felder müssen mit den tatsächlichen Angaben zum Dienstanbieter ausgefüllt werden.",
-
  "Cookie-szabályzat — SOULSILVER": "Cookie-Richtlinie — SOULSILVER",
  "A SOULSILVER Marketing Agency cookie- (süti-) szabályzata: milyen sütiket használunk, milyen célból, és hogyan kezelheted a hozzájárulásodat.": "Die Cookie-Richtlinie der SOULSILVER Marketing Agency: welche Cookies wir verwenden, zu welchem Zweck und wie du deine Einwilligung verwaltest.",
  "1. Mi az a süti (cookie)?": "1. Was ist ein Cookie?",
@@ -37,5 +36,7 @@
  "4. Sütik kezelése a böngésződben": "4. Cookies im Browser verwalten",
  "A legtöbb böngészőben be tudod állítani, hogy egyáltalán ne fogadjon sütiket, vagy törölni tudod a már eltárolt sütiket. A pontos lépések böngészőnként eltérnek (Chrome, Firefox, Safari, Edge) — keresd a „Beállítások → Adatvédelem / Sütik\" menüpontot. Fontos: a szükséges sütik letiltása esetén az oldal egyes funkciói nem működnek megfelelően.": "In den meisten Browsern kannst du einstellen, gar keine Cookies zu akzeptieren, oder bereits gespeicherte Cookies löschen. Die genauen Schritte unterscheiden sich je Browser (Chrome, Firefox, Safari, Edge) — suche nach „Einstellungen → Datenschutz / Cookies“. Wichtig: Wenn du notwendige Cookies blockierst, funktionieren einzelne Funktionen der Seite nicht richtig.",
  "5. További információ": "5. Weitere Informationen",
- "A személyes adatok kezeléséről bővebben az <a href=\"adatvedelem.html\">Adatkezelési tájékoztatóban</a> olvashatsz. Kérdés esetén írj az <a href=\"mailto:info@soulsilvermarketing.com\">info@soulsilvermarketing.com</a> címre.": "Mehr zur Verarbeitung personenbezogener Daten liest du in unserer <a href=\"adatvedelem.html\">Datenschutzerklärung</a>. Bei Fragen schreib an <a href=\"mailto:info@soulsilvermarketing.com\">info@soulsilvermarketing.com</a>."
+ "A személyes adatok kezeléséről bővebben az <a href=\"adatvedelem.html\">Adatkezelési tájékoztatóban</a> olvashatsz. Kérdés esetén írj az <a href=\"mailto:info@soulsilvermarketing.com\">info@soulsilvermarketing.com</a> címre.": "Mehr zur Verarbeitung personenbezogener Daten liest du in unserer <a href=\"adatvedelem.html\">Datenschutzerklärung</a>. Bei Fragen schreib an <a href=\"mailto:info@soulsilvermarketing.com\">info@soulsilvermarketing.com</a>.",
+ "<strong>Név / cégnév:</strong> Bartek Dávid e.v.": "<strong>Name / Firmenname:</strong> Bartek Dávid e.v.",
+ "<strong>Telefon:</strong> +36 20 260 7810": "<strong>Telefon:</strong> +36 20 260 7810"
 }
