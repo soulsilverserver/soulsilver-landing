@@ -6,22 +6,34 @@ nem kell visszaolvasni a beszélgetést.
 
 ---
 
-## 1. Google Ads: 2 hirdetéscsoport hiányzik (ez a legsürgősebb)
+## 1. Google Ads: hirdetéscsoportok — KÉSZ (2026-09-11)
 
 **Kampány:** „Marketing Ügynökség - Search - HU", `campaignId=24188369439`
 **Fiók:** `ocid=7364900281`
 **Létrehozás URL-je:**
 `https://ads.google.com/aw/adgroups/new/search?campaignId=24188369439&ocid=7364900281`
 
-### KÉSZ ✅ — „Ügyfélszerzés" hirdetéscsoport
+### KÉSZ ✅ — mind a 3 niche hirdetéscsoport
 
-Létrejött 2026-09-11-én, RSA-val együtt elmentve. Végső URL:
-`https://soulsilver.hu/ugyfelszerzes.html`, megjelenítési útvonal: `/ugyfelszerzes`.
+2026-09-11-én mindhárom létrejött, RSA-val (15 címsor + 4 leírás) együtt elmentve.
+A hirdetéscsoport-lista számlálója `4/1–4.`, mindegyik „Jogosult".
 
-### HIÁNYZIK ❌ — „Fogászati marketing"
+| Hirdetéscsoport | Végső URL | Megjelenítési útvonal |
+|---|---|---|
+| Ügyfélszerzés | `/ugyfelszerzes.html` | `/ugyfelszerzes` |
+| Fogászati marketing | `/fogaszati-marketing.html` | `/fogaszati/marketing` |
+| Építőipari marketing | `/epitoipari-marketing.html` | `/epitoipari/marketing` |
+
+**Nyitott ellenőrzés:** a két új hirdetés a létrehozás után „Függőben" (jóváhagyásra
+vár), ezért a **Hirdetés ereje** oszlop még üres. Néhány óra múlva vissza kell
+nézni a `https://ads.google.com/aw/ads?campaignId=24188369439&ocid=7364900281`
+oldalon, hogy legalább „Jó" lett-e. Ha „Gyenge" marad, a leggyorsabb emelés:
+több ad group-kulcsszó beleírása a címsorokba.
+
+### Az eredeti szövegek (ha újra kellenek) — „Fogászati marketing"
 
 - **Végső URL:** `https://soulsilver.hu/fogaszati-marketing.html`
-- **Megjelenítési útvonal 1:** `fogaszati-marketing`
+- **Megjelenítési útvonal:** `fogaszati` / `marketing` (mezőnként max. 15 kar.)
 - **Kulcsszavak** (soronként, ahogy a beviteli mezőbe kell illeszteni):
 
 ```
@@ -63,10 +75,10 @@ Minden érdeklődőt 30 másodpercen belül visszajelzünk. Kevesebb elveszett p
 Ingyenes felmérés a rendelődre. Megnézzük, hány új páciens fér még be.
 ```
 
-### HIÁNYZIK ❌ — „Építőipari marketing"
+### Az eredeti szövegek — „Építőipari marketing"
 
 - **Végső URL:** `https://soulsilver.hu/epitoipari-marketing.html`
-- **Megjelenítési útvonal 1:** `epitoipari-marketing`
+- **Megjelenítési útvonal:** `epitoipari` / `marketing` (mezőnként max. 15 kar.)
 - **Kulcsszavak:**
 
 ```
@@ -129,14 +141,29 @@ Ingyenes kapacitás-felmérés: megnézzük, mennyi munkát bírsz még elválla
 6. A „Keresési kifejezés egyeztetése (BÉTA)" maradjon **„Csak a kulcsszavak és
    az egyezési típusok használata"** — ez tiltja a széles automatikus
    kiterjesztést, ami a 4 000 Ft/nap büdzsénél pénzt égetne.
+7. **A megjelenítési útvonal mezője legfeljebb 15 karakter**, útvonalanként.
+   A `fogaszati-marketing` (19) és az `epitoipari-marketing` (20) ezért nem fér
+   bele — a mentés néma hibával elbukik, és a wizard visszadobja a hirdetés-
+   szerkesztőbe („Ez az érték túl hosszú"). Megoldás: két mezőre bontani
+   (`fogaszati` + `marketing`). Ez semmit nem ront, a megjelenő URL
+   `soulsilver.hu/fogaszati/marketing` lesz.
+8. A 2. lépés végén a **„Mentés és folytatás" gomb gyakran a látható terület
+   alatt van**, és az egérgörgő nem mindig görgeti a belső konténert. Bevált
+   fogás: `javascript_tool`-lal `scrollIntoView({block:'center'})`, majd a
+   visszakapott `getBoundingClientRect()`-ből számolt koordinátára kattintani
+   (a CSS-koordinátát **1,225-tel kell szorozni**, ez a screenshot-frame
+   aránya). A hirdetéskártyát előbb a **„Kész"** gombbal kell lezárni.
 
-### Ellenőrzés a végén
+### Ellenőrzés
 
-- A hirdetéscsoport-lista alján a számláló `4/1–4.` legyen (1. hirdetéscsoport +
-  a 3 niche).
-- Minden új hirdetésnél nézd meg a **Hirdetés ereje** értékét. A cél legalább
-  „Jó". Az előző körben az emelte ki a „Gyenge"-ből, hogy **az ad group saját
-  kulcsszavai belekerültek a címsorokba** — a fenti listák ezt már tartalmazzák.
+- ✅ A hirdetéscsoport-lista alján a számláló `4/1–4.` (1. hirdetéscsoport +
+  a 3 niche), mind „Jogosult".
+- ⏳ **Hirdetés ereje**: a két új hirdetés még „Függőben", az érték üres. A cél
+  legalább „Jó". Az előző körben az emelte ki a „Gyenge"-ből, hogy **az ad group
+  saját kulcsszavai belekerültek a címsorokba** — a fenti listák ezt már
+  tartalmazzák. A wizardban a mérő végig „Gyenge"-t mutatott, de ott a
+  „népszerű kulcsszavak" feltétel új hirdetéscsoportnál forgalmi adat híján
+  nem tud teljesülni — ez nem azonos a mentés utáni, valódi értékkel.
 - A landing oldalak élnek (2026-09-11-én mind a 3-ra 200-as válasz jött):
   `/ugyfelszerzes.html`, `/fogaszati-marketing.html`, `/epitoipari-marketing.html`.
 
