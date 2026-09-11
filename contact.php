@@ -30,6 +30,14 @@ if (trim($_POST['website'] ?? '') !== '') {
     exit;
 }
 
+// --- Idő-csapda: a JS az oldalbetöltés óta eltelt ms-et küldi a beküldéskor.
+// Hiányzó/túl gyors érték (JS-t nem futtató vagy azonnal posztoló bot) => csendben eldobjuk.
+$elapsedMs = (int) ($_POST['ts'] ?? -1);
+if ($elapsedMs < 1200) {
+    header('Location: /index.html');
+    exit;
+}
+
 $name    = trim($_POST['name'] ?? '');
 $phone   = trim($_POST['phone'] ?? '');
 $email   = trim($_POST['email'] ?? '');

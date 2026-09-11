@@ -66,6 +66,16 @@
     });
   }
 
+  /* ---------- kapcsolati űrlap: idő-csapda a honeypot mellé (bot-szűrés) ---------- */
+  var contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    var cfLoadTime = Date.now();
+    var cfTsField = document.getElementById('cfTs');
+    contactForm.addEventListener('submit', function(){
+      if(cfTsField){ cfTsField.value = String(Date.now() - cfLoadTime); }
+    });
+  }
+
   /* ---------- newsletter (Resend backend, inline visszajelzés) ---------- */
   var newsForm = document.getElementById('newsForm');
   var newsStatus = document.getElementById('newsStatus');
