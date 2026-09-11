@@ -1,6 +1,6 @@
 # SOULSILVER — állapot és átvétel
 
-Utolsó frissítés: 2026-09-02
+Utolsó frissítés: 2026-09-11
 
 > **Ha új sessionként veszed át:** ez a fájl a kiindulás. Olvasd végig a
 > „Kezdd itt" és a „Csapdák" szakaszt, mielőtt bármit módosítasz — a Csapdák
@@ -215,6 +215,21 @@ ettől. Hosszabb Python-kódot **írj fájlba** (Write tool), és úgy futtasd.
 **A `styles.css` és az `app.js` a böngésző cache-éből jön**, ha csak a HTML-en
 van cache-buster. Mérés előtt:
 `await fetch('/styles.css',{cache:'reload'})` és ugyanez az `app.js`-re.
+
+**Karbantartás mód (2026-09-11-től létezik).** A gyökérben lévő `.htaccess`
++ `karbantartas.html` egy kapcsolható "site offline" módot ad: ha a
+`.maintenance` fájl létezik a gyökérben, minden látogató a
+`karbantartas.html`-t kapja 503-mal, kivéve akinél megvan az
+`ss_preview` süti (`?preview=<token>`-nel állítható be egyszer, a token
+az `.htaccess`-ben, 24 órára szól). **Alapállapotban a `.maintenance`
+fájl NEM létezik** — az `.htaccess` ekkor semmit nem csinál, minden
+oldal simán megy. Kapcsolás: hozz létre/törölj egy üres `.maintenance`
+fájlt, commit + push (a hosting nem érti a repo-n kívüli fájlokat, ez a
+fájl is a repóban van, tehát a git history-ban látszik, mikor volt be-
+és kikapcsolva). **`.htaccess`-t módosítva mindig ellenőrizd rögtön
+push után, hogy az oldal él-e** — egy szintaxishiba az EGÉSZ siten
+500-as hibát okozhat, nem csak egy oldalon, és ezt sem a `php -l`, sem
+semmilyen helyi eszköz nem szűri ki (nincs Apache telepítve helyben).
 
 ---
 

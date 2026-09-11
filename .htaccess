@@ -1,0 +1,29 @@
+# ============================================================
+# SOULSILVER — karbantartás mód
+#
+# BE:  hozz létre egy üres ".maintenance" fájlt a gyökérben, commit + push.
+# KI:  töröld a ".maintenance" fájlt, commit + push.
+#
+# Amíg aktív, minden látogató a karbantartas.html-t látja (503-as
+# státusszal). Előnézet karbantartás alatt (Te vagy a fejlesztő):
+# nyisd meg egyszer
+#   https://soulsilver.hu/?preview=MF5sJsPnofjyXwhDjodWxtOR
+# ez beállít egy sütit 24 órára, utána szabadon böngészhetsz.
+# ============================================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{QUERY_STRING} (^|&)preview=MF5sJsPnofjyXwhDjodWxtOR(&|$)
+  RewriteRule ^ - [CO=ss_preview:1:%{HTTP_HOST}:1440:/]
+
+  RewriteCond %{DOCUMENT_ROOT}/.maintenance -f
+  RewriteCond %{HTTP_COOKIE} !ss_preview=1
+  RewriteCond %{REQUEST_URI} !^/karbantartas\.html$
+  RewriteRule ^ - [E=SS_MAINT:1,R=503,L]
+</IfModule>
+
+ErrorDocument 503 /karbantartas.html
+
+<IfModule mod_headers.c>
+  Header always set Retry-After "3600" env=SS_MAINT
+</IfModule>
