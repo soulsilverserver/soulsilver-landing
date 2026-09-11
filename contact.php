@@ -43,6 +43,12 @@ $phone   = trim($_POST['phone'] ?? '');
 $email   = trim($_POST['email'] ?? '');
 $message = trim($_POST['message'] ?? '');
 
+// Melyik landing oldalrol jott a lead (kampany-attribucio).
+// SZIGORU feherlista: a subject fejlecbe is bekerul, ezert sorveg-karakter
+// semmikeppen nem maradhat benne (mail() header-injection).
+$forras = preg_replace('/[^A-Za-z0-9 _-]/', '', $_POST['forras'] ?? '');
+$forras = substr(trim($forras), 0, 40);
+
 if ($name === '' || $phone === '') {
     header('Location: /index.html?hiba=hianyos#kapcsolat');
     exit;
@@ -51,10 +57,12 @@ if ($name === '' || $phone === '') {
 // Email csak akkor kerül fejlécbe/reply_to-ba, ha érvényes (injection ellen).
 $email = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
 
-$subject = 'Uj megkereses a soulsilver.hu kapcsolatfelveteli urlaprol';
+$subject = 'Uj megkereses a soulsilver.hu kapcsolatfelveteli urlaprol'
+         . ($forras !== '' ? ' [' . $forras . ']' : '');
 $text = "Nev: $name\n"
       . "Telefon: $phone\n"
       . ($email !== '' ? "Email: $email\n" : '')
+      . ($forras !== '' ? "Forras: $forras\n" : '')
       . "\nUzenet:\n$message\n";
 
 $sent = false;

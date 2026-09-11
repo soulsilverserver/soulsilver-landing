@@ -42,9 +42,18 @@ LOCALE = {'hu': 'hu_HU', 'en': 'en_US', 'de': 'de_DE', 'es': 'es_ES'}
 LANGNAME = {'hu': 'Magyar', 'en': 'English', 'de': 'Deutsch', 'es': 'Español'}
 BASE = 'https://soulsilver.hu/'
 
+# Nem forditando oldalak: rendszeroldal + magyar piacra szolo niche landingek.
+# (Az .htaccess mindig a gyokerbeli karbantartas.html-t szolgalja ki; a niche
+#  landingek pedig magyar Google Ads hirdetesekhez keszultek.)
+NEM_FORDITANDO = {
+    'karbantartas.html',
+    'ugyfelszerzes.html',
+    'fogaszati-marketing.html',
+    'epitoipari-marketing.html',
+}
 PAGES = sorted(p for p in glob.glob('*.html')
                if not p.startswith('google') and not p.startswith('_')
-               and p != 'karbantartas.html')
+               and p not in NEM_FORDITANDO)
 LEGAL = {'impresszum.html', 'adatvedelem.html', 'aszf.html',
          'cookie-szabalyzat.html'}
 

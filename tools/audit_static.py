@@ -9,6 +9,12 @@ os.chdir(ROOT)
 # nem szabad hibaként jeleznie (nincs benne nav, canonical, app.js).
 pages = sorted(p for p in glob.glob('*.html')
                if not p.startswith('google') and not p.startswith('_'))
+
+# Szandekosan onallo oldal: sajat inline CSS, nincs nav / app.js / canonical.
+# A karbantartas.html-t az .htaccess szolgalja ki 503 kozben, amikor a tobbi
+# statikus fajl eppen nem elerheto - ezert nem fugghet kulso CSS-tol/JS-tol.
+ONALLO_OLDALAK = {'karbantartas.html'}
+
 problems = collections.OrderedDict()
 
 
@@ -73,15 +79,17 @@ for page in pages:
             add(page, 'TAG IMBALANCE', '%s: %d nyito / %d zaro' % (tag, o, c))
 
     # --- 6. app.js / styles.css bekotve? ---
-    if 'app.js' not in html:
-        add(page, 'NO APP.JS', '-')
-    if 'styles.css' not in html:
-        add(page, 'NO STYLES', '-')
+    if page not in ONALLO_OLDALAK:
+        if 'app.js' not in html:
+            add(page, 'NO APP.JS', '-')
+        if 'styles.css' not in html:
+            add(page, 'NO STYLES', '-')
 
     # --- 7. canonical egyezik a fajlnevvel? ---
     m = re.search(r'<link rel="canonical" href="([^"]+)"', html)
     if not m:
-        add(page, 'NO CANONICAL', '-')
+        if page not in ONALLO_OLDALAK:
+            add(page, 'NO CANONICAL', '-')
     else:
         want = 'https://soulsilver.hu/' + ('' if page == 'index.html' else page)
         if m.group(1) != want:
@@ -116,7 +124,7 @@ if navs:
 # A koszonjuk.html-en SZANDEKOSAN nincs menu, csak a logo: ez a konverzio-
 # visszaigazolo oldal, ahol minden tovabbi link elterelne. A logo visszavisz a
 # fooldalra, tobb navigacio nem kell.
-NAVLESS_OK = {'koszonjuk.html'}
+NAVLESS_OK = {'koszonjuk.html'} | ONALLO_OLDALAK
 for page in pages:
     if page not in navs and page not in NAVLESS_OK:
         add(page, 'NO NAV', '-')
@@ -125,8 +133,11 @@ for page in pages:
 sm = io.open('sitemap.xml', encoding='utf-8').read()
 listed = set(re.findall(r'<loc>https://soulsilver\.hu/([^<]*)</loc>', sm))
 listed = {(l or 'index.html') for l in listed}
+# Szandekosan NINCS a sitemapban: koszono oldal (nem belepesi pont) es a
+# karbantartas-oldal (noindex, csak 503 kozben szolgaljuk ki).
+SITEMAP_KIVETEL = {'koszonjuk.html', 'karbantartas.html'}
 for page in pages:
-    if page in ('koszonjuk.html',) or page.startswith('google'):
+    if page in SITEMAP_KIVETEL or page.startswith('google'):
         continue
     if page not in listed:
         add('sitemap.xml', 'NOT IN SITEMAP', page)
