@@ -43,7 +43,8 @@ LANGNAME = {'hu': 'Magyar', 'en': 'English', 'de': 'Deutsch', 'es': 'Español'}
 BASE = 'https://soulsilver.hu/'
 
 PAGES = sorted(p for p in glob.glob('*.html')
-               if not p.startswith('google') and not p.startswith('_'))
+               if not p.startswith('google') and not p.startswith('_')
+               and p != 'karbantartas.html')
 LEGAL = {'impresszum.html', 'adatvedelem.html', 'aszf.html',
          'cookie-szabalyzat.html'}
 
