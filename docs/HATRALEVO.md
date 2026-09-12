@@ -496,6 +496,57 @@ a főoldalon kötött ki abban a hitben, hogy elküldte. Most fail-open, és a
 hibás beküldés visszamegy a saját landing oldalára látható hibaüzenettel.
 A csendes eldobások a `lead-drop.log`-ba kerülnek (gitignore-olt).
 
+### Végpontos teszt (2026-09-12) — a mérés bizonyítottan működik
+
+Valódi beküldés az építőipari landingről: átirányítás `/koszonjuk.html`-re
+(nem `?hiba=`), a `lead-drop.log` létre sem jött (semmit nem ettek meg a
+szűrők), a `forras` mező `epitoipari-marketing`, és a `dataLayer`-ben
+elsült a `conversion` a helyes címkével:
+`AW-17312625266/i8xVCJzouOscEPLkpr9A`.
+
+**Figyelmeztetés a mérési adatokra:** ez a teszt 1 nem valódi konverziót
+adott a fiókhoz (a korábbi 14 mellé).
+
+**Csapda, amibe belefutottunk:** a böngészőpanel hálózati naplója egyetlen
+Google-kérést sem mutatott, és elsőre úgy tűnt, a konverzió nem sül el.
+A panel egyszerűen nem rögzíti a külső domainek kéréseit — a `dataLayer`-t
+kell nézni, nem a network tabot.
+
+## 9b. Consent Mode v2 — KÉSZ (2026-09-12)
+
+**A hiba:** a cookie-sáv látszólag hozzájárulást kezelt, de a Google-mérést
+nem gátolta. A fenti teszt során az **„Elutasítom"-ra kattintva is elsült**
+a lead-konverzió. GDPR-kockázat, egy marketingügynökség saját oldalán
+különösen kínos.
+
+**A megoldás:** Consent Mode v2 mind az 55 mért oldalon (16 magyar forrás +
+39 generált fordítás, `tools/i18n/i18n_build.py`-jal újraépítve).
+
+- A fejléc-snippetben `consent default` **minden tiltva**, `wait_for_update: 500`.
+  Ez a `config` **előtt** fut — különben a tag már a tiltás előtt sütizne.
+- A korábbi döntés visszaállítása is a **fejlécben** van, nem az app.js-ben:
+  egy visszatérő, elfogadó látogatónál különben a mérés az app.js
+  betöltődéséig tiltva maradna, és a gyors konverziók elvesznének.
+- Az `app.js` `consentJelzes()`-e a sáv válaszára küld `consent update`-et.
+
+**Ellenőrizve élesben, mindhárom eset:**
+
+| Eset | `google_tag_data.ics` |
+|---|---|
+| Nincs döntés | minden `denied` |
+| „Elutasítom" | minden `update=false` + kimegy a `consent update` |
+| „Elfogadom" | minden `update=true` |
+| Visszatérő elfogadó | sorrend: `consent default` → `consent update` → `js` → `config` → `conversion` |
+
+**Ára, amivel számolni kell:** aki elutasítja a sütiket, annak a konverziója
+nem mérhető. A Google konverzió-modellezése ezt részben pótolná, de ahhoz
+sokkal nagyobb forgalom kell, mint ami most van. Vagyis a mért konverziószám
+ezentúl **alulbecsül** — ez nem hiba, hanem a jogszerű működés ára.
+
+**Cache-csapda:** a böngésző az `app.js`-t sokáig cache-eli. Az első
+elutasítás-teszt azért látszott hibásnak, mert a fül még a régi app.js-t
+futtatta. Ellenőrzésnél `fetch('/app.js',{cache:'reload'})` után újratölteni.
+
 ---
 
 ## 10. Lead form eszköz — KÉSZ (2026-09-12)
