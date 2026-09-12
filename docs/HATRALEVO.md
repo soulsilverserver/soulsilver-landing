@@ -156,9 +156,34 @@ egy napig látszódhat a kikapcsolás után is.
 ### Eszközmegoszlás — a mobil dominál
 
 Kattintások: **mobil 84,1%**, számítógép 13,6%, táblagép 2,3%.
-Ez azért számít, mert a 375 px széles nézetben az építőipari hero fotóján a
-munkás teljesen kikerül a vágásból (lásd 5. pont) — a látogatók
-háromnegyede ezt látja.
+
+### Mobil hero javítva (2026-09-12)
+
+**A hiba:** 375 px-es nézetben az építőipari hero fotóján csak a bal széli
+daru látszott — a munkás és a STOP-tábla teljesen kimaradt. A kattintások
+84%-a mobilról jön, tehát ezt látta a látogatók többsége.
+
+**A mérés, ami megmagyarázta:** a hero doboz mobilon **375×1304**, vagyis
+0.29 arányú, a fotó viszont 1.5. A `background-size:cover` emiatt a kép
+szélességének mindössze **19%-át** mutatja (1600-ból 307 px), és a
+`background-position:left center` mellett ez pont a daru volt.
+
+**A megoldás:** a pozíció kikerült az oldal inline stílusából a
+`styles.css`-be (`.phero-bg--epitoipar`), mert médialekérdezés kell hozzá:
+
+| Nézet | `background-position` | Mi látszik |
+|---|---|---|
+| Asztali (>900px) | `left center` | munkás balra + teljes tábla jobbra |
+| Mobil (≤900px) | `29% center` | a munkás arca, sisak és mellény |
+
+**Amit megfontoltunk és elvetettünk:** a tábla középre állítása (`65%`) —
+ott csak egy nagy piros folt látszik levágott betűkkel, rosszabb, mint a
+daru. Portré vágás készítése sem járható: az alany 1169 px széles az 1600-ból,
+ez semmilyen álló képarányba nem fér bele a 1067 px-es magasságból.
+
+**Ami nyitva maradt:** a hero **1304 px magas** egy 812 px-es kijelzőn, ebből
+431 px puszta margó. Ez önmagában UX-probléma (másfél képernyőnyi görgetés a
+következő szekcióig), de már layout-átszabás, nem képvágás.
 
 ### Ami még nyitott a forgalomnál
 
