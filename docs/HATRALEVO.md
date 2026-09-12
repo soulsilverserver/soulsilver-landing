@@ -1,8 +1,28 @@
 # Ami hátra van — átadási jegyzet
 
-Állapot dátuma: **2026-09-11**. Ez a fájl önmagában elég ahhoz, hogy egy új
-munkamenet folytassa a munkát: minden konkrét szöveg, kulcsszó és URL benne van,
-nem kell visszaolvasni a beszélgetést.
+Állapot dátuma: **2026-09-12**.
+
+---
+
+## 0. A LEGFONTOSABB: nem a mérés a szűk keresztmetszet, hanem a forgalom
+
+A kampány **30 nap alatt 145 megjelenítést** kapott, és a Google maga írja ki a
+diagnosztikában: *„A kampány az elmúlt héten nem tudta elkölteni az átlagos napi
+költségkeret nagy részét."* 145 megjelenítésből néhány kattintás lesz, abból
+pedig statisztikailag nulla lead. **Amíg ez nem változik, semmilyen kreatív,
+eszköz vagy konverziós finomhangolás nem fog leadet hozni** — ezt előbb kell
+rendezni, mint bármi mást.
+
+A „12 konverzió" sem valódi lead: a mérés szerint mind **2026. aug. 30–31-én**
+keletkezett (akkor épült az űrlap, tehát teszt-beküldések), és azóta **egyetlen
+tag-ping sem érkezett**. Google szövege: *„Conversion has not received tag pings
+in the last 7 days."*
+
+Amin érdemes dolgozni, sorrendben:
+1. Miért korlátozott a megjelenés (ajánlattételi stratégia / licit / minőségi
+   pontszám / túl szűk kulcsszavak).
+2. Több releváns kulcsszó és szélesebb egyezés, kontrollált negatívokkal.
+3. Csak ezután: kreatív és eszközök.
 
 ---
 
@@ -270,3 +290,73 @@ ffmpeg -i "YOUTOPIAxSARA LANDRY.mov" -vf "scale=1280:-2,fps=30" -c:v libx264 -pr
 - **Nincs staging.** A Hostinger a `main` branch minden pushát azonnal élesíti a
   soulsilver.hu-n. Commitolni bátran lehet, **pusholni csak akkor, ha a user
   kéri**.
+
+
+---
+
+## 7. Konverziómérés — javítva (2026-09-12)
+
+**Volt:** a „Potenciális ügyfél űrlapjának beküldése" cél **„Beavatkozást
+igényel"** állapotban állt, mert az azonos nevű konverziós művelet
+**„Rosszul beállított"** volt (utolsó rögzített konverzió: 2026. aug. 31.,
+azóta nincs tag-ping). Ráadásul **két elsődleges művelet** mérte ugyanazt az
+űrlapbeküldést, tehát minden lead duplán számított a Smart Biddingnek.
+
+**Most:** a célon belül a jól működő **„Kapcsolatfelvételi űrlap"** (Aktív,
+egy konverzió / kattintás, 90 nap) maradt az **egyetlen elsődleges** művelet,
+a hibás auto-művelet **másodlagos** (csak megfigyelés) lett. Mindkét fiókszintű
+cél állapota most **Aktív**.
+
+### Ami még nyitott a konverzióknál
+
+- **Két „WhatsApp kattintás" művelet „Eltávolítva" állapotban**, mégis
+  elsődlegesnek jelölve. Az `app.js` a `HlTICL_g_OscEPLkpr9A` címkére küld —
+  ellenőrizni kell, hogy ez az **Aktív** „WhatsApp kattintás (1)" művelethez
+  tartozik-e, vagy az egyik eltávolítotthoz. Ha az utóbbi, a WhatsApp-
+  kattintások a semmibe mennek.
+- **Kibővített konverziók:** a Google jelzi, hogy *„Beállítási problémákat
+  találtunk"*. Vagy rendbe kell tenni, vagy kikapcsolni.
+- Az `app.js` saját kommentje szerint a kattintás-szándék **másodlagos** kellene
+  legyen, de a „WhatsApp kattintás (1)" jelenleg **elsődleges**. Érdemes
+  másodlagosra tenni, hogy a licitálás a tényleges űrlapbeküldésre menjen.
+
+---
+
+## 8. A hirdetési kép — feltöltés elakadt (2026-09-12)
+
+A művezetős STOP-táblás kép elkészült és be van vágva a `img/ads/` mappába
+(1200×1200, 1200×628, 1080×1350 + mester). A Google Ads képeszközhöz való
+feltöltése **nem sikerült**: a két fájl felkerült a kampány képtárába
+(2/20), de a mentés `„Hiba történt. Kérjük, próbálja újra később."` üzenettel
+elbukott, és a „Mentés" gomb végig inaktív maradt.
+
+A valószínű ok ugyanaz, amit a Google a feltöltő űrlapon ki is ír:
+
+> „A képeknek meg kell felelniük a Google Ads minőségi követelményeinek.
+> **Emblémafedvények, szövegfedvények**, GIF-ek, valamint homályos és rosszul
+> körbevágott képek **nem használhatók**."
+
+A képen mindkettő rajta van: a tábla nagy feliratos felülete és a mellényen a
+SOULSILVER logó. (Vitatható, hogy egy *lefényképezett* tábla „szövegfedvény"-e,
+de a mentés következetesen elbukott.)
+
+**Ahol viszont működni fog, és érdemes használni:**
+- **Meta (Facebook/Instagram)** — ott a szövegfedvény megengedett; az 1080×1350
+  vágat készen van erre.
+- Az `epitoipari-marketing.html` hero-képeként.
+- Organikus közösségi posztokhoz.
+
+**Nyitott döntés a usernek:** a Google feltöltés közben felkínálta az
+**AI-címkézést** („Elemek áttekintése"). A kép AI-generált, és egyes régiókban
+jogszabály írhatja elő a megjelölést. Ez üzleti/jogi döntés — nem állítottam be.
+
+---
+
+## 9. Űrlap-hardening — kész (2026-09-12)
+
+Lásd a `2474609` commitot. Az idő-csapda eddig a hiányzó/0 `ts` értéket is
+eldobta, pedig az nem bot-jel, hanem az alapértelmezett mezőérték — ha az
+`app.js` nem futott le, egy valódi érdeklődő űrlapja nyom nélkül eltűnt, ő meg
+a főoldalon kötött ki abban a hitben, hogy elküldte. Most fail-open, és a
+hibás beküldés visszamegy a saját landing oldalára látható hibaüzenettel.
+A csendes eldobások a `lead-drop.log`-ba kerülnek (gitignore-olt).
