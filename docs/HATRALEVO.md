@@ -547,8 +547,11 @@ email se jelentsen elveszett leadet.
    A Hostinger a pushból automatikusan élesre teszi.
 2. **A kulcs felvétele a szerveren** — hPanel → File Manager →
    `public_html/config.php` (vagy a felette lévő mappa), új sor:
-   `'google_lead_key' => 'Xgyx8aY6VzrWX704ViRtTX8hMZ-9eAdB',`
-   E nélkül a végpont **mindenre 401-et ad** — ez szándékos.
+   `'google_lead_key' => '<a kulcs>',`
+   **A kulcs sehol nincs a repóban** (publikus), csak a config.php-ban és a
+   Google Ads mezőjében él. Ha elveszne, generálj újat mindkét helyre:
+   `php -r "echo bin2hex(random_bytes(16));"` (max. 50 karakter).
+   Kulcs nélkül a végpont **mindenre 401-et ad** — ez szándékos.
 3. **A webhook mentése az Adsben.** A mezők helye: Eszközök → az eszköz
    ceruza ikonja → „Potenciális ügyfelek exportálása" → „Egyéb
    adatintegrálási opciók" → Webhook-URL + Kulcs.
