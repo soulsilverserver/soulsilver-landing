@@ -727,6 +727,11 @@
     background-attachment:fixed;
     background-color:#0A0C0F;
   }
+  /* Építőipari landing hero — melyik képrészlet látszik.
+     Azért van itt és nem az oldal inline stílusában, mert médialekérdezés
+     kell hozzá. Asztali nézetben a doboz közel négyzetes, ott a `left`
+     jó: balra a munkás, jobbra a tábla. */
+  .phero-bg--epitoipar{ background-position:left center; }
   .phero-scrim{
     position:absolute; inset:0; z-index:-1; pointer-events:none;
     background:
@@ -764,6 +769,14 @@
   @media (max-width:900px){
     .phero-bg{ background-attachment:scroll; }
     .phero{ min-height:auto; }
+    /* Mobilon a hero doboz ~375×1304, vagyis 0.29 arányú, a fotó viszont
+       1.5. A `cover` emiatt a kép szélességének mindössze 19%-át mutatja
+       (1600-ból 307 px). `left center` mellett ez pont a bal széli daru
+       volt: a munkás és a STOP-tábla teljesen kimaradt a képből — pedig a
+       kattintások 84%-a mobilról jön. A 29% a munkás arcára állítja a
+       látható sávot. A táblát (65%) szándékosan NEM választottuk: ott
+       csak egy nagy piros folt látszik levágott betűkkel. */
+    .phero-bg--epitoipar{ background-position:29% center; }
     /* 176px felso terkoz utan mobilon ~350px ures sav volt a nav es a
        morzsamenu kozott. A .topnav alja 106px-nel van, 136px ad ~30px levegot. */
     .phero .wrap{ padding-top:calc(var(--sp-16) + .5rem); padding-bottom:var(--sp-6); }
