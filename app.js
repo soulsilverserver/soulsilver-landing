@@ -66,6 +66,26 @@
     });
   }
 
+  /* ---------- kapcsolati űrlap: hibaüzenet a szerverről ----------
+     A contact.php a sikertelen beküldést ?hiba=... paraméterrel küldi vissza
+     ARRA az oldalra, ahonnan jött. Enélkül a látogató némán a főoldalon kötött
+     ki, és azt hitte, elment az üzenet — ez néma lead-vesztés volt. */
+  (function(){
+    var m = /[?&]hiba=([a-z]+)/.exec(window.location.search);
+    if(!m) return;
+    var box = document.getElementById('cfStatus');
+    if(!box) return;
+    var uzenetek = {
+      hianyos:  'Hiányzik a neved vagy a telefonszámod — mindkettő kell, hogy vissza tudjunk jelezni.',
+      tulgyors: 'Túl gyorsan érkezett a beküldés, ezért nem ment át. Kérlek próbáld újra.'
+    };
+    box.textContent = uzenetek[m[1]] || 'Az üzenet nem ment el. Kérlek próbáld újra, vagy írj WhatsAppon.';
+    box.classList.add('is-error');
+    var first = document.getElementById('cfName');
+    if(first){ first.focus({preventScroll:true}); }
+    box.scrollIntoView({block:'center', behavior:'smooth'});
+  })();
+
   /* ---------- kapcsolati űrlap: idő-csapda a honeypot mellé (bot-szűrés) ---------- */
   var contactForm = document.getElementById('contactForm');
   if(contactForm){

@@ -18,6 +18,46 @@ $RESEND_API_KEY = getenv('RESEND_API_KEY') ?: ($cfg['resend_api_key'] ?? '');
 $FROM = $cfg['from'] ?? 'SOULSILVER weboldal <noreply@soulsilver.hu>';
 $TO   = $cfg['to']   ?? 'info@soulsilvermarketing.com';
 
+/**
+ * Ahova a hibas beküldest visszakuldjuk. Korabban mindig a fooldalra ment,
+ * igy egy /epitoipari-marketing.html-rol indulo erdeklodo elvesztette a
+ * kampany-uzenetet es a sajat urlapjat is. A Referer-t NEM engedjuk at
+ * nyersen (fejlec-injection es nyilt atiranyitas ellen): csak a sajat
+ * hosztunkrol szarmazo, sima .html utvonalat fogadjuk el.
+ */
+function vissza_az_urlaphoz($hiba = '')
+{
+    $cel = '/index.html';
+    $ref = $_SERVER['HTTP_REFERER'] ?? '';
+    if ($ref !== '') {
+        $p = parse_url($ref);
+        $sajat = $_SERVER['HTTP_HOST'] ?? '';
+        if (!empty($p['host']) && $p['host'] === $sajat
+            && !empty($p['path']) && preg_match('#^(/(en|de|es))?/[A-Za-z0-9_-]+\.html$#', $p['path'])) {
+            $cel = $p['path'];
+        }
+    }
+    return $cel . ($hiba !== '' ? '?hiba=' . rawurlencode($hiba) : '') . '#kapcsolat';
+}
+
+/**
+ * A csendben eldobott beküldeseket naplozzuk. Enelkul nem lehet megmondani,
+ * hogy "nem jon a lead" azert van-e, mert senki nem ir, vagy azert, mert a
+ * szuroink eszik meg oket. A fajl gitignore-olt, es nem tartalmaz uzenetet.
+ */
+function lead_drop_log($ok, $reszlet = '')
+{
+    $sor = sprintf(
+        "%s\t%s\t%s\tref=%s\tua=%s\n",
+        date('c'),
+        $ok,
+        (string) $reszlet,
+        substr($_SERVER['HTTP_REFERER'] ?? '-', 0, 120),
+        substr($_SERVER['HTTP_USER_AGENT'] ?? '-', 0, 120)
+    );
+    @file_put_contents(__DIR__ . '/lead-drop.log', $sor, FILE_APPEND | LOCK_EX);
+}
+
 // --- Csak POST ---
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /index.html#kapcsolat');
@@ -26,15 +66,29 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // --- Honeypot: bot kiszűrése (csendben eldobjuk, konverzió nélkül) ---
 if (trim($_POST['website'] ?? '') !== '') {
+    lead_drop_log('honeypot');
     header('Location: /index.html');
     exit;
 }
 
 // --- Idő-csapda: a JS az oldalbetöltés óta eltelt ms-et küldi a beküldéskor.
-// Hiányzó/túl gyors érték (JS-t nem futtató vagy azonnal posztoló bot) => csendben eldobjuk.
-$elapsedMs = (int) ($_POST['ts'] ?? -1);
-if ($elapsedMs < 1200) {
-    header('Location: /index.html');
+//
+// FONTOS: ez korabban MINDEN 1200 ms alatti erteket eldobott, a hianyzo/0
+// erteket is. Csakhogy a 0 nem bot-jel: az a mezo alapertelmezett erteke,
+// es pontosan 0 marad akkor is, ha az app.js barmiert nem fut le (halozati
+// hiba, reklamblokkolo, regi cache). Ilyenkor egy valodi erdeklodo urlapja
+// nyom nelkul eltunt, o meg a fooldalon kotott ki abban a hitben, hogy
+// elkuldte. Egy kimaradt lead tobbe kerul, mint egy spam email, ezert itt
+// most szandekosan "fail open" a szabaly:
+//   - ts hianyzik vagy 0  => ATENGEDJUK, de megjeloljuk a targyban
+//   - 0 < ts < 1200       => valodi sebesseg-jel, eldobjuk (ehhez futott a JS)
+// A csendes eldobas ettol fuggetlenul naplozodik, hogy lassuk, mennyi van.
+$tsRaw     = $_POST['ts'] ?? '';
+$elapsedMs = (int) $tsRaw;
+$tsHianyzik = ($tsRaw === '' || $elapsedMs === 0);
+if (!$tsHianyzik && $elapsedMs < 1200) {
+    lead_drop_log('ido-csapda', $elapsedMs);
+    header('Location: ' . vissza_az_urlaphoz('tulgyors'));
     exit;
 }
 
@@ -50,7 +104,7 @@ $forras = preg_replace('/[^A-Za-z0-9 _-]/', '', $_POST['forras'] ?? '');
 $forras = substr(trim($forras), 0, 40);
 
 if ($name === '' || $phone === '') {
-    header('Location: /index.html?hiba=hianyos#kapcsolat');
+    header('Location: ' . vissza_az_urlaphoz('hianyos'));
     exit;
 }
 
@@ -58,7 +112,8 @@ if ($name === '' || $phone === '') {
 $email = filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : '';
 
 $subject = 'Uj megkereses a soulsilver.hu kapcsolatfelveteli urlaprol'
-         . ($forras !== '' ? ' [' . $forras . ']' : '');
+         . ($forras !== '' ? ' [' . $forras . ']' : '')
+         . ($tsHianyzik ? ' [ts-hianyzik]' : '');
 $text = "Nev: $name\n"
       . "Telefon: $phone\n"
       . ($email !== '' ? "Email: $email\n" : '')

@@ -508,6 +508,12 @@
   .contact-form input::placeholder, .contact-form textarea::placeholder{ color:var(--ink-faint); }
   .contact-form textarea{ min-height:110px; }
   .contact-form .form-status{ font-family:var(--font-mono); font-size:.8rem; color:var(--mint-deep); min-height:1.2em; }
+  /* Hibás beküldés: nem elég a szöveg színe — a mint és a piros közti
+     különbség egy futó pillantásnál elsikkad, ezért kap saját sávot is. */
+  .contact-form .form-status.is-error{
+    color:#B3261E; background:#FDECEA; border-left:3px solid #B3261E;
+    padding:.55rem .7rem; border-radius:6px; line-height:1.45;
+  }
   .contact-form .hp-field{ position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; opacity:0; overflow:hidden; pointer-events:none; }
   .contact-consent{ font-size:.74rem; color:var(--ink-faint); line-height:1.45; margin-top:.1rem; }
 
