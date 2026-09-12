@@ -7,18 +7,27 @@
  * gitignore-olt config.php-ban van (lásd config.example.php).
  */
 
-/** config.php betöltése — előbb a public_html FÖLÖTTI mappából (biztonságosabb). */
+/**
+ * config.php betöltése. Előbb a public_html FÖLÖTTI mappából (biztonságosabb),
+ * utána a mappából.
+ *
+ * FONTOS: az első HASZNÁLHATÓ fájlt vesszük, nem az első létezőt. Egy félbe-
+ * maradt feltöltésből ottfelejtett üres `../config.php` különben némán elnyomná
+ * a jó fájlt, és az oldal kulcsok nélkül futna — pontosan úgy viselkedve,
+ * mintha a config sehol nem lenne. (2026-09-12-én pont ez történt.)
+ */
 function ss_config(): array
 {
     static $cfg = null;
     if ($cfg !== null) return $cfg;
-    $cfg = [];
-    if (is_file(__DIR__ . '/../config.php')) {
-        $cfg = require __DIR__ . '/../config.php';
-    } elseif (is_file(__DIR__ . '/config.php')) {
-        $cfg = require __DIR__ . '/config.php';
+
+    foreach ([__DIR__ . '/../config.php', __DIR__ . '/config.php'] as $f) {
+        if (!is_file($f) || !is_readable($f)) continue;
+        $c = @require $f;
+        if (is_array($c) && $c !== []) { $cfg = $c; return $cfg; }
+        ss_log('config: a(z) ' . $f . ' nem használható (üres vagy nem tömböt ad vissza), lépek tovább');
     }
-    if (!is_array($cfg)) $cfg = [];
+    $cfg = [];
     return $cfg;
 }
 
