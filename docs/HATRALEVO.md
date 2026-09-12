@@ -168,22 +168,49 @@ daru látszott — a munkás és a STOP-tábla teljesen kimaradt. A kattintások
 szélességének mindössze **19%-át** mutatja (1600-ból 307 px), és a
 `background-position:left center` mellett ez pont a daru volt.
 
-**A megoldás:** a pozíció kikerült az oldal inline stílusából a
-`styles.css`-be (`.phero-bg--epitoipar`), mert médialekérdezés kell hozzá:
+**Első kísérlet (átmeneti):** `background-position:29% center` mobilon — ez
+a munkás arcára állította a látható sávot. Működött, de a STOP-tábla
+kimaradt, és a szöveg a világos mellényre esett.
 
-| Nézet | `background-position` | Mi látszik |
-|---|---|---|
-| Asztali (>900px) | `left center` | munkás balra + teljes tábla jobbra |
-| Mobil (≤900px) | `29% center` | a munkás arca, sisak és mellény |
+**A végleges megoldás: saját álló kép mobilra, és NEM `cover`-rel.**
 
-**Amit megfontoltunk és elvetettünk:** a tábla középre állítása (`65%`) —
-ott csak egy nagy piros folt látszik levágott betűkkel, rosszabb, mint a
-daru. Portré vágás készítése sem járható: az alany 1169 px széles az 1600-ból,
-ez semmilyen álló képarányba nem fér bele a 1067 px-es magasságból.
+- `img/hero-epitoipari-mobil.jpg` — ChatGPT-vel generált 1024×1536-os álló
+  felvétel, alá **sötét kiegészítés toldva 1024×2100-ra**. A fotó alja eleve
+  majdnem fekete (fényerő 11–19), a kiegészítés pedig pontosan a
+  `.phero-bg` háttérszínére (`#0A0C0F`) van kikeverve — a varratnál mért
+  fényerő-ugrás **0,38**, vagyis láthatatlan.
+- `background-size:100% auto` + `center top` + **`no-repeat`**: a kép teljes
+  szélességben, természetes magassággal ül a hero tetején, alatta a
+  háttérszín viszi tovább a sötétet. **Egyáltalán nincs vágás** — a
+  kompozíció pont az, amit a generátor adott. A `no-repeat` kötelező:
+  enélkül a kép függőlegesen csempézne.
+- `.phero--epitoipar .wrap{ padding-top:200px }` — a szöveg a kép alá kerül.
+  375 px-en a munkás 305 px-ig tart; 136 px-es padding mellett a morzsamenü
+  beleolvadt a sárga mellénybe.
 
-**Ami nyitva maradt:** a hero **1304 px magas** egy 812 px-es kijelzőn, ebből
-431 px puszta margó. Ez önmagában UX-probléma (másfél képernyőnyi görgetés a
-következő szekcióig), de már layout-átszabás, nem képvágás.
+| Nézet | Kép | Méretezés | Pozíció |
+|---|---|---|---|
+| Asztali (>900px) | `hero-epitoipari.jpg` (fekvő) | `cover`, `fixed` | `left center` |
+| Mobil/tablet (≤900px) | `hero-epitoipari-mobil.jpg` (álló) | `100% auto`, `no-repeat` | `center top` |
+
+**Két csapda, amibe belefutottunk:**
+
+1. **Cascade.** A `.phero--epitoipar .wrap` szabálynak a `.phero .wrap`
+   **után** kell állnia a médialekérdezésen belül — azonos a specificitás,
+   tehát a sorrend dönt. Először elé került, és némán hatástalan maradt.
+2. **A padding mértéke.** 320 px-nél a CTA gomb 894 px-re csúszott, a
+   hajtás viszont 812 — a gomb eltűnt a képernyőről. 200 px az egyensúly:
+   a morzsamenü 328-nál már a mellény alatt van, a gomb pedig 774-nél még
+   látszik.
+
+**Amit elvetettünk:** a fekvő fotóból portré vágás — az alany 1169 px széles
+az 1600-ból, ez semmilyen álló képarányba nem fér bele az 1067 px-es
+magasságból. A meglévő 4:5-ös Meta-vágás is pont ezért csonkolja a tábla
+szövegét.
+
+**Ami nyitva maradt:** a hero **1368 px magas** egy 812 px-es kijelzőn. Ez
+önmagában UX-kérdés (a következő szekcióig másfél képernyőnyi görgetés), de
+már layout-átszabás, nem képvágás.
 
 ### Ami még nyitott a forgalomnál
 
