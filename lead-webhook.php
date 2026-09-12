@@ -40,11 +40,18 @@ $KEY  = ss_cfg('google_lead_key');
  */
 function wh_log($ok, $reszlet = '')
 {
-    @file_put_contents(
-        __DIR__ . '/lead-webhook.log',
-        sprintf("%s\t%s\t%s\n", date('c'), $ok, $reszlet),
-        FILE_APPEND | LOCK_EX
-    );
+    $sor = sprintf("%s\t%s\t%s\n", date('c'), $ok, $reszlet);
+    // A public_html FOLE irunk elsokent. Korabban ide, a gyokerbe ment, es a
+    // webszerver simán kiszolgalta: a /lead-webhook.log 200-zal valaszolt, es
+    // lead-neveket, email-cimeket, telefonszamokat adott ki barkinek.
+    // A helyi tartalek csak vegszukseg (ott a .htaccess zarja el).
+    foreach ([__DIR__ . '/../lead-webhook.log', __DIR__ . '/lead-webhook.log'] as $f) {
+        if (@file_put_contents($f, $sor, FILE_APPEND | LOCK_EX) !== false) {
+            @chmod($f, 0600);
+            return;
+        }
+    }
+    error_log('SOULSILVER lead-webhook: ' . $sor);
 }
 
 function wh_valasz($kod, $uzenet)

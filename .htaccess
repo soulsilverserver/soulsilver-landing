@@ -27,3 +27,23 @@ ErrorDocument 503 /karbantartas.html
 <IfModule mod_headers.c>
   Header always set Retry-After "3600" env=SS_MAINT
 </IfModule>
+
+# ============================================================
+# Naplók és konfigurációs minták elzárása
+#
+# A lead-webhook.php és a contact.php naplója a public_html-be került, a
+# webszerver pedig kiszolgálta: a /lead-webhook.log 200-zal válaszolt, és
+# lead-neveket, e-mail-címeket, telefonszámokat adott ki bárkinek.
+# A naplók már a public_html FÖLÉ íródnak, de ez a szabály elzárja a
+# korábban odakerült fájlokat is — és véd, ha egy naplózás valaha
+# visszaesne a helyi tartalékra.
+# ============================================================
+<FilesMatch "\.(log|bak|sql|ini|sh|md)$">
+  Require all denied
+</FilesMatch>
+
+# A config.example.php ártalmatlan (csak helykitöltők), de semmi keresnivalója
+# a böngészőben. A config.php-t sosem szolgálja ki a szerver PHP-ként.
+<Files "config.example.php">
+  Require all denied
+</Files>

@@ -55,7 +55,16 @@ function lead_drop_log($ok, $reszlet = '')
         substr($_SERVER['HTTP_REFERER'] ?? '-', 0, 120),
         substr($_SERVER['HTTP_USER_AGENT'] ?? '-', 0, 120)
     );
-    @file_put_contents(__DIR__ . '/lead-drop.log', $sor, FILE_APPEND | LOCK_EX);
+    // A public_html FOLE irunk elsokent: a gyokerbe kerulo .log fajlokat a
+    // webszerver kiszolgalja (a lead-webhook.log-nal ez elo is fordult),
+    // ez a naplo pedig referert es user-agentet tartalmaz.
+    foreach ([__DIR__ . '/../lead-drop.log', __DIR__ . '/lead-drop.log'] as $f) {
+        if (@file_put_contents($f, $sor, FILE_APPEND | LOCK_EX) !== false) {
+            @chmod($f, 0600);
+            return;
+        }
+    }
+    error_log('SOULSILVER lead-drop: ' . $sor);
 }
 
 // --- Csak POST ---
