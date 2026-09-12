@@ -104,6 +104,62 @@ alakokat **nem** fogják meg — a „minta” nem blokkolja a „mintát”, ez
 került fel külön az „állás” és az „állások” is. Egy hónap múlva újra át
 kell nézni a keresési kifejezéseket és pótolni a toldalékos változatokat.
 
+### Keresési partnerek kikapcsolva (2026-09-12) — ez volt a legnagyobb tétel
+
+A fiókdiagnosztika kapcsán megnéztük a Hálózatok bontást, és kiderült:
+
+| Hálózat | Kattintás | Költség | Átl. CPC |
+|---|---|---|---|
+| Google-keresés | 20,5% (9) | 39,5% (3 504 Ft) | 390 Ft |
+| **Keresési partnerek webhelyei** | **79,5% (35)** | **60,5% (5 366 Ft)** | 153 Ft |
+
+**A kattintások négyötöde nem a Google keresőből jött**, hanem harmadik feles
+partneroldalakról. Ez egyben magyarázat mindenre, ami eddig gyanús volt: az
+angol „online promotion" típusú kifejezésekre, a 100% fölötti CTR-ekre, a 14
+fantom-konverzióra és arra, hogy 47 kattintásból nulla valódi lead lett.
+
+**Beállítva:** „Google keresési partnerek szerepeltetése" kikapcsolva
+(Kampánybeállítások → Hálózatok). A Google figyelmeztetett, hogy „a legtöbb
+hirdető szerepelteti" — a fenti adat ismeretében szándékosan figyelmen kívül
+hagyva. Friss betöltésen ellenőrizve: a Hálózatok sor már csak
+**„Google Keresési Hálózat"**.
+
+Fontos: a Hálózatok **riport-kártya** továbbra is mutatja a 20,5/79,5
+megoszlást — az a múltbeli 30 nap adata, nem a beállítás.
+
+### Bővített konverziók kikapcsolva (2026-09-12)
+
+A diagnosztika ezt jelezte hibaként. Az ok: a bővített konverzió akkor
+működik, ha a konverzió pillanatában kap ügyféladatot — a `koszonjuk.html`-en
+viszont nincs semmi, az űrlap tartalma nem utazik át a redirecten, és nincs
+mit kiolvasni sem. Be volt kapcsolva, de nulla lefedettséggel.
+
+**Döntés (a felhasználóé): nem adunk adatot a Google-nek.** Az alternatíva az
+lett volna, hogy az e-mailt átvisszük a köszönőoldalra és elküldjük — egy
+nappal a Consent Mode bevezetése után ez visszalépés lett volna.
+
+Kikapcsolva a `Célok → Konverziók → Konverzióbeállítások` alatt **mindkettő**:
+
+- „Bővített konverziók" → **Még nincs beállítva**
+- „A potenciális ügyfelek szerzésére irányuló kibővített konverziók" → **Még nincs beállítva**
+
+A Google jelezte, hogy ettől az offline lead-mérés a **GCLID**-re vált
+személyes adat helyett — ez pont a kívánt irány.
+
+**A „+1 probléma" a diagnosztikában** („Az új ajánlattételi stratégia tanulási
+fázisban van") **nem hiba**: a saját licitváltásunk okozza, 1–2 hét alatt
+magától elmúlik. Ettől „Használható (korlátozott)" a kampány állapota.
+
+**A diagnosztika nem valós idejű** — a bővített konverziós figyelmeztetés még
+egy napig látszódhat a kikapcsolás után is.
+
+### Eszközmegoszlás — a mobil dominál
+
+Kattintások: **mobil 84,1%**, számítógép 13,6%, táblagép 2,3%.
+Ez azért számít, mert a 375 px széles nézetben az építőipari hero fotóján a
+munkás teljesen kikerül a vágásból (lásd 5. pont) — a látogatók
+háromnegyede ezt látja.
+
 ### Ami még nyitott a forgalomnál
 
 1. **Keresési kifejezések az új hirdetéscsoportokra** — jelenleg mind a 81
