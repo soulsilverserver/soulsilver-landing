@@ -17,8 +17,12 @@ node_modules/
 _phero_transform.py
 soulsilver_hero_*.jpg
 
-# Titkos konfiguráció (Resend API kulcs) — SOHA ne kerüljön a repóba
+# Titkos konfiguráció (Resend + Stripe kulcsok) — SOHA ne kerüljön a repóba.
+# A .bak is: a setup-keys.sh minden mentés előtt készít egyet, és ugyanazok
+# az éles kulcsok vannak benne.
 config.php
+config.php.bak.*
+config.php.tmp*
 _overflow-test.html
 tools/_out/
 
