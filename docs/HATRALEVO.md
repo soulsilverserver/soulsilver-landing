@@ -360,3 +360,97 @@ eldobta, pedig az nem bot-jel, hanem az alapértelmezett mezőérték — ha az
 a főoldalon kötött ki abban a hitben, hogy elküldte. Most fail-open, és a
 hibás beküldés visszamegy a saját landing oldalára látható hibaüzenettel.
 A csendes eldobások a `lead-drop.log`-ba kerülnek (gitignore-olt).
+
+---
+
+## 10. Lead form eszköz — kitöltve, ÁSZF-elfogadásra vár (2026-09-12)
+
+A „Potenciális ügyfél űrlapja" eszköz végig ki van töltve a kampányon
+(`campaignId=24188369439`), **de nem menthető**, mert a Google ezt írja:
+
+> „A potenciális ügyfelekhez tartozó új űrlapbővítmények létrehozásához fogadja
+> el az Általános Szerződési Feltételeket." → *A feltételek megtekintése és elfogadása*
+
+**Ezt a usernek kell elfogadnia** — szerződéses feltétel, Claude nem fogadja el
+helyette. Utána már csak a Mentés gomb hiányzik.
+
+Megnyitó URL:
+`https://ads.google.com/aw/adextensions/new?campaignId=24188369439&ocid=7364900281&placeholderType=40&assetFieldType=17&legacy=false`
+
+### A beállított tartalom (ha újra kell írni)
+
+| Mező | Érték |
+|---|---|
+| Főcím (30) | Ügyfeleket szerzünk neked |
+| Vállalkozás neve (25) | SOULSILVER Marketing |
+| Leírás (200) | Ingyenes kapacitás-felmérés: megnézzük, hány új ügyfél fér még be hozzád, és mennyiért hozzuk őket. Fix célszám a szerződésben. |
+| Kérdések | Teljes név, E-mail, Telefonszám (telefon-ellenőrzés KI — csökkentené a volument) |
+| Egyéni kérdések nyelve | **magyar** (alapból angol volt!) |
+| Adatvédelmi URL | https://soulsilver.hu/adatvedelem.html |
+| Elküldési üzenet főcím (30) | Köszönjük! Hamarosan hívunk. |
+| Elküldési üzenet leírás | 24 órán belül jelentkezünk telefonon vagy emailben. Addig is nézd meg, kiknek hoztunk már ügyfelet. |
+| CTA a hirdetésen | **Ajánlat kérése** |
+| CTA leírása (30) | Ingyenes kapacitás-felmérés |
+| CTA URL (beküldés után) | https://soulsilver.hu/referenciak.html |
+
+### Ami még nincs beállítva
+
+- **Lead-kézbesítés.** Integráció nélkül a leadeket **kézzel kell letölteni**
+  CSV-ben a Google Adsből, és **30 nap után törlődnek**. A űrlapon van
+  „Potenciális ügyfelek exportálása" szekció: HubSpot / Google Sheets /
+  Mailchimp / Salesforce / **webhook**. Egy webhook a soulsilver.hu-ra lenne a
+  jó megoldás, hogy a lead azonnal emailben is megérkezzen.
+- **Háttérkép** a lead formon (van rá mező) — ide esetleg befér a STOP-táblás
+  kép, ha a képeszközbe nem megy át.
+
+---
+
+## 11. Google Ads UI — hibanapló (amibe belefutottunk)
+
+Ezek konkrét, újra előforduló akadályok. Aki folytatja, ezekkel számoljon.
+
+**Környezet**
+1. **Ha a Chrome ablak kicsinyítve van, semmi nem működik**: `innerWidth` 0 lesz,
+   a Google Ads virtualizált táblái **nem renderelnek semmit**, a screenshot
+   `Cannot take screenshot with 0 width` hibával elszáll, és a `resize_window`
+   sikert jelez, de nem csinál semmit. Ellenőrzés: `javascript_tool` →
+   `innerWidth`. Megoldás: a usernek vissza kell állítania az ablakot.
+2. **`Page.captureScreenshot timed out after 30000ms`** — a nehéz Ads oldalakon
+   gyakori, nem valódi hiba. Várj 8 másodpercet és próbáld újra.
+3. **`javascript_tool` blokkolódhat**: `[BLOCKED: Cookie/query string data]`,
+   ha a kód tömegesen olvas `href`-eket vagy query stringet. Kerüld.
+
+**URL-ek**
+4. **404-et adnak** (ne használd): `/aw/conversions/summary`,
+   `/aw/assets?campaignId=`, `/aw/assetsandextensions/associations`.
+5. **Működnek**: `/aw/conversions/all`,
+   `/aw/assetreport/associations?campaignId=…&assetType=…`,
+   `/aw/adextensions/new?campaignId=…&placeholderType=…&assetFieldType=…`.
+6. **placeholderType / assetFieldType párok**: Kép = **48 / 59**,
+   Potenciális ügyfél űrlapja = **40 / 17**, Hívás = **2 / 42**.
+
+**Konverziók**
+7. **Az elsődleges/másodlagos NEM állítható** a konverziós lista „Elsődleges"
+   szövegén — az csak tooltip-target, nem link. A sor **ceruza ikonja csak a
+   nevet** szerkeszti. A tömeges „Szerkesztés" menü csak Engedélyezés /
+   Eltávolítás. A **konverzió részletoldala csak olvasható**.
+   **A működő útvonal:** Célok → Összegzés → „Cél szerkesztése" → a
+   „Konverziós művelet optimalizálása" sor kibontása → soronkénti legördülő →
+   Mentés.
+
+**Űrlapok**
+8. **Soha ne gépelj szabadon és ne nyomj `ctrl+a`-t** az Ads mezőibe: globális
+   billentyűparancsot süt el (`G`+`Y` = Javaslatok) és elnavigál. Helyette
+   `read_page` → `ref_N` → `form_input`.
+9. **Legördülő opció kiválasztása:** a `find`-ból kapott `ref` kattintása gyakran
+   nem fog. A képernyőkoordinátás kattintás igen — de **könnyen elcsúszik egy
+   sorral**, ezért utána mindig ellenőrizd a kiválasztott értéket (nálunk
+   „Ajánlat kérése" helyett „Bemutató kérése" lett elsőre).
+10. **A címsor- és leíráslisták virtualizáltak**: egyszerre 4–9 mező van a
+    DOM-ban. Ciklus: `form_input` a láthatókra → `scroll` → új `read_page`.
+
+**Képeszköz**
+11. A mentés következetesen `„Hiba történt. Kérjük, próbálja újra később."`
+    hibával elbukott, és a képválasztó **Mentés gombja végig inaktív maradt**,
+    hiába volt 2 kép feltöltve a kampány képtárába. Lásd a 8. pontot: a
+    legvalószínűbb ok a szöveg-/embléma-fedvény tilalma.
