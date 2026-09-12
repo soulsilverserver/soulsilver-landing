@@ -148,9 +148,18 @@ használandó).
   kell, vagy egy második rendezvény-kártya kellene, itt van bőven választék.
   Van egy `Kowalsky Meg a Vega-Egy Világon Át |Koncertfelvétel|-Móri Bornapok.MOV`
   is (720 MB) — másik Kowalsky-anyag, nem használtuk.
-- A Videók/`GYM` és Videók/`Zenés Videó klip` mappákat **nem néztem meg** —
-  ha ezek meglévő ügyfelek, akiknek jelenleg nincs kártyája, új referencia-
-  kártya lehet belőlük.
+- A Videók/`GYM` mappa tartalma: `Alfa gym.mp4`, `ALFA_PSYCHIQUE.mov`,
+  `ALFA.mp4`, `Alfa(1).mp4` (135–263 MB egyenként) + a Fénykép/`Alfa_Psychique`
+  mappában 6 db profi portréfotó. **Bizonytalan, hogy ez valódi edzőtermi
+  ügyfélmunka-e, vagy egy személyes márka/artist-portré sorozat** — a
+  fotók stílusa (autóban ülő, hosszú hajú férfi portré, nem edzőtermi
+  felvétel) nem egyértelműen "gym"-tartalom. **Nem raktam fel kártyaként**,
+  amíg nincs egyértelmű megerősítés, mi ez pontosan és kell-e rá kártya.
+- A Videók/`Zenés Videó klip` mappában egyetlen fájl van:
+  `rdvisualizer.mp4` (90 MB, 1912×1080, 2:10 perc) — elvont, erősen
+  stilizált fekete-fehér klip (közeli, felismerhetetlen részletek), nincs
+  benne azonosítható márkanév vagy logó. **Nem raktam fel kártyaként**,
+  mert nem világos, melyik ügyfélhez tartozik.
 - A Videók/`Goat` mappában sok további nyers klip van (`1212(5).MOV` stb.,
   20–175 MB egyenként) — a `goat benidorm shakira.mov` mellett további
   variáció készíthető, ha kell.
