@@ -322,29 +322,77 @@ cél állapota most **Aktív**.
 
 ---
 
-## 8. A hirdetési kép — feltöltés elakadt (2026-09-12)
+## 8. A hirdetési kép — a fiók nem tud képeszközt fogadni (2026-09-12)
 
-A művezetős STOP-táblás kép elkészült és be van vágva a `img/ads/` mappába
-(1200×1200, 1200×628, 1080×1350 + mester). A Google Ads képeszközhöz való
-feltöltése **nem sikerült**: a két fájl felkerült a kampány képtárába
-(2/20), de a mentés `„Hiba történt. Kérjük, próbálja újra később."` üzenettel
-elbukott, és a „Mentés" gomb végig inaktív maradt.
+A művezetős STOP-táblás kép elkészült és be van vágva az `img/ads/` mappába
+(1200×1200, 1200×628, 1080×1350 + mester). A Google Ads képeszközbe **nem megy
+be**, de nem a képpel van baj.
 
-A valószínű ok ugyanaz, amit a Google a feltöltő űrlapon ki is ír:
+### Amit a diagnózis kizárt
+
+A Google a feltöltésnél maga sorolta be a fájlokat, tehát elfogadta őket:
+
+| Fájl | Google besorolása |
+|---|---|
+| `stop-epitoipar-1200x1200.jpg` | **Négyzet (1:1)** |
+| `stop-epitoipar-1200x628.jpg` | **Vízszintes (1,91:1)** |
+
+Méret, méretarány, fájlméret, formátum: mind rendben. A képek bekerülnek a
+kampány képtárába és kiválaszthatók.
+
+**Első buktató (megoldva):** a feltöltött kép nem automatikusan van
+*kiválasztva*. Rá kell kattintani a bélyegképre a „Javasolt" / „Legutóbbi
+eszközök" rácsban — csak ekkor ugrik a számláló `(1/20)`-ra és válik aktívvá
+a picker „Mentés" gombja. Enélkül a gomb végig szürke marad, és úgy tűnik,
+mintha a feltöltés bukott volna el.
+
+### Ahol tényleg elhasal
+
+A **végső mentésnél**, a szülő űrlap „Mentés" gombjánál. Hálózati szinten:
+a `CampaignAssetService.Mutate` hívás **HTTP 200-at ad vissza**, tehát a kérés
+átmegy, de a válasz hibát tartalmaz, és a felület csak ennyit ír ki:
+`„Hiba történt. Kérjük, próbálja újra később."`
+
+Reprodukálható **egyetlen, szabályos négyzetes képpel is**.
+
+**A döntő jel:** a kampány eszköz-listájában (`/aw/assetreport/associations`)
+**nincs is „Kép" szűrőcsempe**. Ott van a Vállalkozás neve, Vállalati logó,
+Belső link, Főcím, Leírás, Szöveges felelősségkizárás, Kiemelés, Strukturált
+kódrészlet, Hívás, Potenciális ügyfél űrlapja, Üzenet, Hely, Ár, Alkalmazás,
+Promóció — **kép nincs**. A „+" menü felkínálja a képfeltöltő űrlapot
+(`placeholderType=48&assetFieldType=59`), de a fiók nem tud képeszközt tárolni.
+
+### A legvalószínűbb ok
+
+**A fiók még nem jogosult képeszközre.** A Google a keresési kampányok
+képeszközéhez fiókszintű előfeltételeket szab: a fiók kora, tiszta
+szabálykövetési előzmény, és egy minimális összköltés-küszöb. Ez a fiók pár
+hetes, és 30 nap alatt **6 212 Ft**-ot költött — ettől nagyságrendekkel van
+elmaradva.
+
+Ezt a küszöböt NEM láttuk a felületen kiírva, ez a Google dokumentált
+feltétele. Ha biztosra kell menni: a Google Ads ügyfélszolgálata egy kérdéssel
+megmondja, jogosult-e a fiók képeszközre.
+
+### A szövegfedvény-szabály ettől függetlenül él
+
+A feltöltő űrlap kiírja:
 
 > „A képeknek meg kell felelniük a Google Ads minőségi követelményeinek.
 > **Emblémafedvények, szövegfedvények**, GIF-ek, valamint homályos és rosszul
 > körbevágott képek **nem használhatók**."
 
 A képen mindkettő rajta van: a tábla nagy feliratos felülete és a mellényen a
-SOULSILVER logó. (Vitatható, hogy egy *lefényképezett* tábla „szövegfedvény"-e,
-de a mentés következetesen elbukott.)
+SOULSILVER logó. Vitatható, hogy egy *lefényképezett* tábla „szövegfedvény"-e,
+de ha a fiók később jogosulttá válik, számítani kell elutasításra.
 
 **Ahol viszont működni fog, és érdemes használni:**
-- **Meta (Facebook/Instagram)** — ott a szövegfedvény megengedett; az 1080×1350
-  vágat készen van erre.
+- **Meta (Facebook/Instagram)** — ott a szövegfedvény megengedett; az
+  `img/ads/stop-epitoipar-1080x1350.jpg` vágat készen van erre.
 - Az `epitoipari-marketing.html` hero-képeként.
 - Organikus közösségi posztokhoz.
+- A **lead form háttérképeként** (van rá mező a lead form űrlapon) — ez még
+  nincs kipróbálva, és más eszköztípus, tehát más elbírálás alá eshet.
 
 **Nyitott döntés a usernek:** a Google feltöltés közben felkínálta az
 **AI-címkézést** („Elemek áttekintése"). A kép AI-generált, és egyes régiókban
@@ -451,7 +499,12 @@ Ezek konkrét, újra előforduló akadályok. Aki folytatja, ezekkel számoljon.
     DOM-ban. Ciklus: `form_input` a láthatókra → `scroll` → új `read_page`.
 
 **Képeszköz**
-11. A mentés következetesen `„Hiba történt. Kérjük, próbálja újra később."`
-    hibával elbukott, és a képválasztó **Mentés gombja végig inaktív maradt**,
-    hiába volt 2 kép feltöltve a kampány képtárába. Lásd a 8. pontot: a
-    legvalószínűbb ok a szöveg-/embléma-fedvény tilalma.
+11. A képválasztó **„Mentés" gombja addig szürke marad, amíg rá nem kattintasz
+    a bélyegképre** — a feltöltés önmagában nem jelent kiválasztást. A számláló
+    `(0/20)` → `(1/20)` váltása az árulkodó jel.
+12. Ha a bélyegkép ki van választva és a szülő űrlap mégis
+    `„Hiba történt. Kérjük, próbálja újra később."`-t ír: a
+    `CampaignAssetService.Mutate` HTTP **200**-at ad vissza hibás payloaddal.
+    Ilyenkor NE a képet kezdd cserélgetni — nézd meg, van-e egyáltalán „Kép"
+    szűrőcsempe a kampány eszköz-listájában. Ha nincs, a fiók nem jogosult
+    képeszközre. Lásd a 8. pontot.
