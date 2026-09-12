@@ -529,9 +529,10 @@ Megnyitó URL:
 | CTA leírása (30) | Ingyenes kapacitás-felmérés |
 | CTA URL (beküldés után) | https://soulsilver.hu/referenciak.html |
 
-### Lead-kézbesítés — a kód KÉSZ, a bekapcsolás 2 kézi lépésen múlik
+### Lead-kézbesítés — ÉLES (2026-09-12)
 
-**Állapot: az eszköz 2026-09-12-re „Jogosult"** (átment az ellenőrzésen).
+**Az eszköz „Jogosult", a webhook elmentve és végponttól végpontig tesztelve.**
+Minden lead-form beküldés azonnal e-mailben érkezik; nem kell CSV-t letölteni.
 
 Miért kell: integráció nélkül a leadeket kézzel kell CSV-ben letölteni, és a
 Google **30 nap után törli** őket. Senki nem kap értesítést.
@@ -541,26 +542,45 @@ kulccsal hitelesít (`hash_equals`), emailt küld (Resend, tartalék `mail()`),
 és még a küldés ELŐTT naplóz a `lead-webhook.log`-ba, hogy egy sikertelen
 email se jelentsen elveszett leadet.
 
-**Még hátra van (kézi lépések, ebben a sorrendben):**
+**Beállítás (ha újra kellene):**
 
-1. **Push** — a commit kész, de a session nem tudta pusholni (engedély).
-   A Hostinger a pushból automatikusan élesre teszi.
-2. **A kulcs felvétele a szerveren** — hPanel → File Manager →
-   `public_html/config.php` (vagy a felette lévő mappa), új sor:
-   `'google_lead_key' => '<a kulcs>',`
-   **A kulcs sehol nincs a repóban** (publikus), csak a config.php-ban és a
-   Google Ads mezőjében él. Ha elveszne, generálj újat mindkét helyre:
+1. Push → a Hostinger automatikusan élesíti a `lead-webhook.php`-t.
+2. `'google_lead_key' => '<kulcs>',` a szerver `config.php`-jába.
+   **A kulcs sehol nincs a repóban** (az publikus), csak a `config.php`-ban és
+   a Google Ads mezőjében él. Új kulcs mindkét helyre egyszerre:
    `php -r "echo bin2hex(random_bytes(16));"` (max. 50 karakter).
    Kulcs nélkül a végpont **mindenre 401-et ad** — ez szándékos.
-3. **A webhook mentése az Adsben.** A mezők helye: Eszközök → az eszköz
-   ceruza ikonja → „Potenciális ügyfelek exportálása" → „Egyéb
-   adatintegrálási opciók" → Webhook-URL + Kulcs.
+3. Ads: Eszközök → az eszköz ceruza ikonja → „Potenciális ügyfelek
+   exportálása" → „Egyéb adatintegrálási opciók" → Webhook-URL + Kulcs →
+   **Tesztadatok küldése** → Mentés.
    URL: `https://soulsilver.hu/lead-webhook.php`
 
-**Buktató, amibe belefutottunk:** a Google **nem enged menteni**, amíg a
-tesztadat-küldés sikeresen le nem fut („Küldjön tesztadatokat a webhook
-beállításának ellenőrzése érdekében"). Ezért az 1. és 2. lépés kötelezően
-előbb jön. Élesedés-ellenőrzés: `curl -I https://soulsilver.hu/lead-webhook.php`
+**Buktató:** a Google **nem enged menteni**, amíg a tesztadat-küldés
+sikeresen le nem fut („Küldjön tesztadatokat a webhook beállításának
+ellenőrzése érdekében"). Ezért az 1. és 2. lépés kötelezően előbb jön.
+
+**Ellenőrzés (2026-09-12, mind lefutott):**
+
+| Teszt | Eredmény |
+|---|---|
+| `GET /lead-webhook.php` | 405 (csak POST) |
+| POST hibás JSON-nal | 400 |
+| POST rossz kulccsal | 401 |
+| POST jó kulccsal, `is_test` | **200** `{"status":"ok"}` |
+| Ads „Tesztadatok küldése" | **„Tesztadatok elküldve."** |
+| Mentés utáni újratöltés | URL 38 kar. + kulcs 32 kar. a helyén |
+
+**Fontos a jövőre:** a `bin/setup-keys.sh` nulláról írja újra a `config.php`-t.
+Korábban nem ismerte a `google_lead_key`-t, tehát egy futtatás **letörölte
+volna** — és a leadek némán elálltak volna. Most megőrzi a meglévőt, és csak
+akkor generál újat, ha még nincs (a képernyőre is kiírja).
+
+**Hiba, amit a rebase fogott el:** a `lead-webhook.php` először a `contact.php`
+**régi** config-betöltőjét másolta (első LÉTEZŐ fájl). Egy párhuzamos session
+épp akkor javította ezt `ss_config()`-ra (első HASZNÁLHATÓ fájl), mert egy
+ottfelejtett üres `../config.php` némán elnyomta a jót. A régi mintával a
+webhook kulcs nélkül maradt volna → 401 minden leadre. Most a közös
+`ss_config()`-ot használja.
 — 2026-09-12-én még 404 volt.
 
 ### A leadek kézi letöltése (CSV)
