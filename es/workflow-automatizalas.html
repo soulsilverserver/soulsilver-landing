@@ -34,6 +34,33 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+
+  /* Consent Mode v2 — alapértelmezésben MINDEN tiltva, amíg a látogató nem dönt.
+     Korábban a mérés a cookie-sáv válaszától függetlenül futott: az „Elutasítom”
+     után is elsült a konverzió. A default-ot a config ELŐTT kell kiadni, mert
+     különben a tag már a tiltás előtt beállítja a sütiket. */
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'wait_for_update': 500
+  });
+
+  /* A korábbi döntést itt, a fejlécben állítjuk vissza — nem az app.js-ben.
+     Egy visszatérő, korábban elfogadó látogatónál különben a mérés az app.js
+     betöltődéséig tiltva maradna, és a gyors konverziók elvesznének. */
+  try {
+    if (localStorage.getItem('soulsilver_cookie_choice') === 'accepted') {
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
+      });
+    }
+  } catch (e) {}
+
   gtag('js', new Date());
 
   gtag('config', 'AW-17312625266');
@@ -107,6 +134,7 @@
     <li><a href="referenciak.html">Trabajos</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a href="arak.html">Precios</a></li>
+    <li><a href="/fizetes.php">Fizetés</a></li>
     <li><a href="index.html#kapcsolat">Contacto</a></li>
   </ul>
     <details class="lang-switch"><summary aria-label="Nyelv / Language">ES</summary><ul><li><a href="/workflow-automatizalas.html" hreflang="hu">Magyar</a></li><li><a href="/en/workflow-automatizalas.html" hreflang="en">English</a></li><li><a href="/de/workflow-automatizalas.html" hreflang="de">Deutsch</a></li><li><span aria-current="true">Español</span></li></ul></details>
@@ -123,6 +151,7 @@
   <a href="referenciak.html">Trabajos</a>
   <a href="blog.html">Blog</a>
   <a href="arak.html">Precios</a>
+  <a href="/fizetes.php">Fizetés</a>
   <a href="index.html#kapcsolat">Contacto</a>
 <div class="panel-langs"><a href="/workflow-automatizalas.html" hreflang="hu">Magyar</a><a href="/en/workflow-automatizalas.html" hreflang="en">English</a><a href="/de/workflow-automatizalas.html" hreflang="de">Deutsch</a></div></div>
 

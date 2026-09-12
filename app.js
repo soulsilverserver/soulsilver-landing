@@ -134,8 +134,24 @@
   function setChoice(v){
     try{ localStorage.setItem(COOKIE_KEY, v); }catch(e){}
   }
+  /* Consent Mode v2: a sáv válasza vezérli a Google mérését.
+     A fejlécben minden 'denied' az alapértelmezés, itt csak engedélyezünk,
+     illetve elutasításkor megerősítjük a tiltást. E nélkül a mérés a válasz
+     ELLENÉRE futott: 2026-09-12-én egy teszt során az „Elutasítom” után is
+     elsült a lead-konverzió. */
+  function consentJelzes(valasz){
+    if(typeof gtag !== 'function') return;
+    var allapot = (valasz === 'accepted') ? 'granted' : 'denied';
+    gtag('consent', 'update', {
+      'ad_storage': allapot,
+      'ad_user_data': allapot,
+      'ad_personalization': allapot,
+      'analytics_storage': allapot
+    });
+  }
+
   if(cookieBar){
-    var hideBar = function(v){ setChoice(v); cookieBar.classList.remove('show'); document.body.classList.remove('has-cookiebar'); };
+    var hideBar = function(v){ setChoice(v); consentJelzes(v); cookieBar.classList.remove('show'); document.body.classList.remove('has-cookiebar'); };
     if(!getChoice()){
       setTimeout(function(){ cookieBar.classList.add('show'); document.body.classList.add('has-cookiebar'); }, 900);
     }
