@@ -22,7 +22,7 @@ esac
 B=$'\033[1m'; DIM=$'\033[2m'; G=$'\033[32m'; Y=$'\033[33m'; R=$'\033[31m'; N=$'\033[0m'
 
 # ─────────── meglévő értékek (nem íródnak ki) ───────────
-old_resend=''; old_from=''; old_to=''; old_pk=''; old_sk=''; old_whsec=''
+old_resend=''; old_from=''; old_to=''; old_pk=''; old_sk=''; old_whsec=''; old_glk=''
 if [ -f "$CFG" ] && command -v php >/dev/null 2>&1; then
   while IFS=$'\t' read -r k v; do
     case "$k" in
@@ -32,11 +32,12 @@ if [ -f "$CFG" ] && command -v php >/dev/null 2>&1; then
       stripe_publishable_key) old_pk="$v" ;;
       stripe_secret_key)      old_sk="$v" ;;
       stripe_webhook_secret)  old_whsec="$v" ;;
+      google_lead_key)        old_glk="$v" ;;
     esac
   done < <(php -r '
     $c = @require $argv[1];
     if (!is_array($c)) $c = [];
-    foreach (["resend_api_key","from","to","stripe_publishable_key","stripe_secret_key","stripe_webhook_secret"] as $k) {
+    foreach (["resend_api_key","from","to","stripe_publishable_key","stripe_secret_key","stripe_webhook_secret","google_lead_key"] as $k) {
       echo $k, "\t", (isset($c[$k]) ? str_replace(["\n","\t"], "", (string)$c[$k]) : ""), "\n";
     }' "$CFG" 2>/dev/null)
 fi
@@ -201,6 +202,22 @@ resend="$ANSWER"
 ask_plain "5/6 — Email feladó (from)" "${old_from:-SOULSILVER weboldal <noreply@soulsilver.hu>}"; from="$ANSWER"
 ask_plain "6/6 — Értesítések címzettje (to)" "${old_to:-info@soulsilvermarketing.com}"; to="$ANSWER"
 
+# ─────────── Google Ads lead form kulcs ───────────
+# Ezt NEM kérdezzük meg: gépi kulcs, nem a felhasználó találja ki. A meglévőt
+# megtartjuk — ha felülírnánk, a Google Adsben beállított kulcs elcsúszna tőle,
+# és a webhook némán 401-gyel dobna el MINDEN beérkező leadet. Újat csak akkor
+# generálunk, ha még nincs.
+glk="$old_glk"
+glk_uj=0
+if [ -z "$glk" ]; then
+  if command -v php >/dev/null 2>&1; then
+    glk="$(php -r 'echo bin2hex(random_bytes(16));')"
+  else
+    glk="$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+  fi
+  glk_uj=1
+fi
+
 # ─────────── írás ───────────
 if [ -f "$CFG" ]; then
   bak="$CFG.bak.$(date +%Y%m%d-%H%M%S)"
@@ -228,10 +245,20 @@ tmp="$CFG.tmp.$$"
   echo "    // ÁFA-kulcs a nettó árakra (0.27 = 27%) és a saját domain"
   echo "    'afa_kulcs'              => 0.27,"
   echo "    'site_url'               => 'https://soulsilver.hu',"
+  echo ""
+  echo "    // Google Ads lead form webhook — ugyanennek kell állnia az Ads"
+  echo "    // eszköz \"Kulcs\" mezőjében is, különben a lead-webhook.php eldobja."
+  echo "    'google_lead_key'        => '$(php_esc "$glk")',"
   echo "];"
 } > "$tmp"
 chmod 600 "$tmp"
 mv "$tmp" "$CFG"
+
+if [ "$glk_uj" = "1" ]; then
+  printf '\n%sÚj Google Ads lead form kulcs készült:%s %s\n' "$Y" "$N" "$glk"
+  printf '%sÍrd be a Google Adsben is: Eszközök > a lead form eszköz > Potenciális\n' "$DIM"
+  printf 'ügyfelek exportálása > Egyéb adatintegrálási opciók > Kulcs.%s\n' "$N"
+fi
 
 # ─────────── ellenőrzés + összefoglaló ───────────
 php_ok="?"

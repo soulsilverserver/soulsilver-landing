@@ -529,13 +529,49 @@ Megnyitó URL:
 | CTA leírása (30) | Ingyenes kapacitás-felmérés |
 | CTA URL (beküldés után) | https://soulsilver.hu/referenciak.html |
 
+### Lead-kézbesítés — a kód KÉSZ, a bekapcsolás 2 kézi lépésen múlik
+
+**Állapot: az eszköz 2026-09-12-re „Jogosult"** (átment az ellenőrzésen).
+
+Miért kell: integráció nélkül a leadeket kézzel kell CSV-ben letölteni, és a
+Google **30 nap után törli** őket. Senki nem kap értesítést.
+
+**Elkészült:** `lead-webhook.php` — fogadja a Google POST-ját, megosztott
+kulccsal hitelesít (`hash_equals`), emailt küld (Resend, tartalék `mail()`),
+és még a küldés ELŐTT naplóz a `lead-webhook.log`-ba, hogy egy sikertelen
+email se jelentsen elveszett leadet.
+
+**Még hátra van (kézi lépések, ebben a sorrendben):**
+
+1. **Push** — a commit kész, de a session nem tudta pusholni (engedély).
+   A Hostinger a pushból automatikusan élesre teszi.
+2. **A kulcs felvétele a szerveren** — hPanel → File Manager →
+   `public_html/config.php` (vagy a felette lévő mappa), új sor:
+   `'google_lead_key' => 'Xgyx8aY6VzrWX704ViRtTX8hMZ-9eAdB',`
+   E nélkül a végpont **mindenre 401-et ad** — ez szándékos.
+3. **A webhook mentése az Adsben.** A mezők helye: Eszközök → az eszköz
+   ceruza ikonja → „Potenciális ügyfelek exportálása" → „Egyéb
+   adatintegrálási opciók" → Webhook-URL + Kulcs.
+   URL: `https://soulsilver.hu/lead-webhook.php`
+
+**Buktató, amibe belefutottunk:** a Google **nem enged menteni**, amíg a
+tesztadat-küldés sikeresen le nem fut („Küldjön tesztadatokat a webhook
+beállításának ellenőrzése érdekében"). Ezért az 1. és 2. lépés kötelezően
+előbb jön. Élesedés-ellenőrzés: `curl -I https://soulsilver.hu/lead-webhook.php`
+— 2026-09-12-én még 404 volt.
+
+### A leadek kézi letöltése (CSV)
+
+Eszközök → Eszközök → a lead form sorában, az eszköz neve alatt **két link**:
+
+- **CSV** — a nyers leadek (név, email, telefon, válaszok).
+- **CSV CRM-nél** — ugyanaz + `gclid`, offline konverzió-importáláshoz.
+
+Közvetlen URL:
+`https://ads.google.com/aw/assetreport/associations?ocid=7364900281&campaignId=24188369439&assetType=17`
+
 ### Ami még nincs beállítva
 
-- **Lead-kézbesítés.** Integráció nélkül a leadeket **kézzel kell letölteni**
-  CSV-ben a Google Adsből, és **30 nap után törlődnek**. A űrlapon van
-  „Potenciális ügyfelek exportálása" szekció: HubSpot / Google Sheets /
-  Mailchimp / Salesforce / **webhook**. Egy webhook a soulsilver.hu-ra lenne a
-  jó megoldás, hogy a lead azonnal emailben is megérkezzen.
 - **Háttérkép** a lead formon (van rá mező) — ide esetleg befér a STOP-táblás
   kép, ha a képeszközbe nem megy át.
 

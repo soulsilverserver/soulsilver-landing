@@ -43,4 +43,16 @@ return [
     // A saját domain — a Stripe ide irányít vissza fizetés után.
     // Szándékosan nem a Host fejlécből, mert azt a látogató hamisíthatja.
     'site_url' => 'https://soulsilver.hu',
+
+    // ───── Google Ads lead form ─────
+    // A lead form webhook megosztott kulcsa. Ugyanezt kell beírni a Google
+    // Adsben az eszköz „Webhook" mezői közé (Kulcs). A lead-webhook.php ezzel
+    // ellenőrzi, hogy tényleg a Google küldte a leadet — e nélkül bárki tudna
+    // ide hamis leadet POST-olni.
+    //
+    // Ez a fájl PUBLIKUS, ezért itt csak helykitöltő áll. A valódi kulcsot a
+    // bin/setup-keys.sh generálja a config.php-ba, vagy kézzel:
+    //     php -r "echo bin2hex(random_bytes(16));"
+    // Max. 50 karakter lehet (a Google mezője ennyit enged).
+    'google_lead_key' => 'ide_egy_hosszu_veletlen_string',
 ];
