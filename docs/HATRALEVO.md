@@ -4,27 +4,64 @@
 
 ---
 
-## 0. A LEGFONTOSABB: nem a mérés a szűk keresztmetszet, hanem a forgalom
+## 0. A forgalmi fojtás — DIAGNOSZTIZÁLVA ÉS JAVÍTVA (2026-09-12)
 
-A kampány **30 nap alatt 145 megjelenítést** kapott, és a Google maga írja ki a
-diagnosztikában: *„A kampány az elmúlt héten nem tudta elkölteni az átlagos napi
-költségkeret nagy részét."* 145 megjelenítésből néhány kattintás lesz, abból
-pedig statisztikailag nulla lead. **Amíg ez nem változik, semmilyen kreatív,
-eszköz vagy konverziós finomhangolás nem fog leadet hozni** — ezt előbb kell
-rendezni, mint bármi mást.
+### A mért állapot
 
-A „12 konverzió" sem valódi lead: a mérés szerint mind **2026. aug. 30–31-én**
-keletkezett (akkor épült az űrlap, tehát teszt-beküldések), és azóta **egyetlen
-tag-ping sem érkezett**. Google szövege: *„Conversion has not received tag pings
-in the last 7 days."*
+| | |
+|---|---|
+| Napi keret | 4 000 Ft → 30 napra 120 000 Ft |
+| Ebből elköltve | **8 870 Ft = 7%** |
+| Ajánlattételi stratégia (volt) | **Cél CPA, 375,55 Ft** |
+| Tényleges költség/konverzió | **634 Ft** |
+| Megjelenítés / 30 nap | 227 |
+| Kattintás / átl. CPC | 44 / 202 Ft |
 
-Amin érdemes dolgozni, sorrendben:
-1. Miért korlátozott a megjelenés (ajánlattételi stratégia / licit / minőségi
-   pontszám / túl szűk kulcsszavak).
-2. Több releváns kulcsszó és szélesebb egyezés, kontrollált negatívokkal.
-3. Csak ezután: kreatív és eszközök.
+**Nem a költségkeret volt a szűk keresztmetszet** — a pénz 93%-a ott maradt.
 
----
+### Az ok
+
+A Cél CPA 376 Ft volt, a valóság 634 Ft — a tényleges konverziós költség
+**69%-kal a cél fölött**. Ilyenkor a Smart Bidding csak a legolcsóbb aukciókba
+száll be, a többit kihagyja. Innen a 227 megjelenítés olyan általános egyezésű
+kulcsszavakon, mint „marketing cég" és „weboldal marketing", amiknek bőven van
+keresésük.
+
+**A csapda:** ezt a 376 Ft-os célt arra a 14 konverzióra kalibrálta a rendszer,
+amiről kiderült, hogy nem valódi lead (aug. 30–31-i teszt-beküldések). A licit
+tehát egy kitalált számhoz igazodott.
+
+### Amit átállítottunk (2026-09-12)
+
+**Cél CPA → „Kattintások maximalizálása", max CPC-korlát 400 Ft.**
+
+Indok: a Cél CPA gépi tanulásra épül, ahhoz valódi konverziós adat kell — most
+pontosan **egy** ilyen van („Kapcsolatfelvételi űrlap"). Egy adatpontból nem
+lehet tanulni. Előbb forgalom kell, abból valódi űrlapbeküldés.
+
+**Visszatérési terv:** 15–30 valódi konverzió után vissza Cél CPA-ra, reális,
+**3 000–8 000 Ft** körüli célszámmal (ennyi egy ügynökségi lead, nem 376 Ft).
+A Google a váltáskor figyelmeztet, hogy „több konverziót érhet el, ha a
+konverziókra koncentrál" — ez most szándékosan figyelmen kívül hagyva, mert
+nincs mire optimalizálni.
+
+### A 3 új hirdetéscsoport: 0 megjelenítés
+
+Mindhárom **„Jogosult"** (jóváhagyva, nincs elutasítás), de nulla forgalom.
+Kifejezés- és pontos egyezésű kulcsszavaik havi 10–50 keresésű kifejezésekre
+mennek. A fojtott licittel együtt ez strukturálisan nulla. Ha a
+licit-átállítás után sem indulnak be, a következő lépés a tágabb egyezés
+vagy tágabb kifejezések — kontrollált negatívokkal.
+
+### Ami még nyitott a forgalomnál
+
+1. **Negatív kulcsszavak: nulla van.** 4 000 Ft/nap mellett általános
+   egyezéssel ez védené a pénzt. Ezt még senki nem nézte meg.
+2. **Keresési kifejezések riportja** az új hirdetéscsoportokra.
+3. Földrajzi célzás és időzítés — nem ellenőrizve.
+4. A CTR feltűnően magas (19–36%) és a konverziós arány 31,8% — ekkora
+   mintán lehet zaj, de érdemes a keresési kifejezéseknél ránézni, nem
+   érvénytelen forgalomról van-e szó.
 
 ## 1. Google Ads: hirdetéscsoportok — KÉSZ (2026-09-11)
 
