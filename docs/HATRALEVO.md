@@ -53,15 +53,65 @@ mennek. A fojtott licittel együtt ez strukturálisan nulla. Ha a
 licit-átállítás után sem indulnak be, a következő lépés a tágabb egyezés
 vagy tágabb kifejezések — kontrollált negatívokkal.
 
+### Keresési kifejezések + kizáró kulcsszavak — KÉSZ (2026-09-12)
+
+A kampány teljes élettartama (2025. júl. 6. – 2026. szept. 12.): **47 kattintás,
+231 megjelenítés, 9 046 Ft**, 81 különböző keresési kifejezés.
+
+**A fő felfedezés: a pénz kétharmada angol nyelvű, általános kifejezésekre ment.**
+
+| Keresési kifejezés | Katt. | Költség |
+|---|---|---|
+| online promotion | 10 | 1 485 Ft |
+| marketing online | 5 | 784 Ft |
+| e business marketing | 4 | 532 Ft |
+| brand promotion | 3 | 266 Ft |
+| online shopping / online store marketing | 4 | 611 Ft |
+| további angol általános | ~5 | ~860 Ft |
+| **összesen** | **~31** | **~4 540 Ft — a költés 64%-a** |
+
+Egyik sem egy magyar KKV-tulajdonos keresése. Ehhez jött 396 Ft egy
+**álláskeresőtől** („marketing ügynökség állás”), plusz a tanuló-típusú
+keresések (swot elemzés, marketing terv minta, marketing kampány lépései,
+buyer persona, keresőoptimalizálás tanfolyam, social media manager képzés).
+
+**A célközönség mindössze 2 keresésben jelent meg:** „marketing ceg” és
+„marketing ügynökség” — 1-1 kattintás, 399 és 390 Ft. A valódi piac tehát
+pont a most beállított **400 Ft-os max CPC** környékén van. Ez utólag
+igazolja a licit-átállítást.
+
+**Megjegyzés a 14 konverzióról:** mind a 14 ezekre a kifejezésekre oszlik el
+(online promotion 4, marketing online 3, marketing programs 2, online store
+marketing 2, digital promotion 1, platform marketing 1, **marketing ügynökség
+állás 1**). Mivel a postaládába egyetlen valódi megkeresés sem érkezett,
+ezek nem valódi leadek. További gyanú-jel: több sor CTR-je 100% fölött van
+(brand promotion 150%, online marketing 200%), ami érvénytelen forgalomra
+utalhat.
+
+**Beállítva:** 84 kizáró kulcsszó kampányszinten, kifejezésegyezéssel.
+A teljes lista: `docs/ads-kizaro-kulcsszavak.txt`. Kategóriák: álláskeresők,
+tanulók/DIY/elmélet, ingyenkeresők, követő- és megtekintés-vadászat, angol
+nyelvű általános kifejezések, más cégek márkanevei, nem-szolgáltatás.
+
+**Amit szándékosan NEM tiltottunk le,** mert tényleg van rá szolgáltatás:
+`weboldal készítés`, `közösségi média`, `branding`, `seo`, `tiktok`,
+`instagram`, `videó`. Szintén kimaradt a `munka` (mert a „több munka
+építőiparban” típusú keresés pont a célügyfélé) és az `olcsó` (az
+árérzékeny érdeklődő is érdeklődő).
+
+**Korlát, amivel számolni kell:** a kizáró kulcsszavak a magyar toldalékolt
+alakokat **nem** fogják meg — a „minta” nem blokkolja a „mintát”, ezért
+került fel külön az „állás” és az „állások” is. Egy hónap múlva újra át
+kell nézni a keresési kifejezéseket és pótolni a toldalékos változatokat.
+
 ### Ami még nyitott a forgalomnál
 
-1. **Negatív kulcsszavak: nulla van.** 4 000 Ft/nap mellett általános
-   egyezéssel ez védené a pénzt. Ezt még senki nem nézte meg.
-2. **Keresési kifejezések riportja** az új hirdetéscsoportokra.
-3. Földrajzi célzás és időzítés — nem ellenőrizve.
-4. A CTR feltűnően magas (19–36%) és a konverziós arány 31,8% — ekkora
-   mintán lehet zaj, de érdemes a keresési kifejezéseknél ránézni, nem
-   érvénytelen forgalomról van-e szó.
+1. **Keresési kifejezések az új hirdetéscsoportokra** — jelenleg mind a 81
+   kifejezés az „1. hirdetéscsoport”-hoz tartozik; a három új niche csoport
+   nulla forgalmat kapott.
+2. Földrajzi célzás és időzítés — nem ellenőrizve.
+3. Egy hét múlva ellenőrizni: a 400 Ft-os licit elindította-e a forgalmat,
+   és a kizárások után javul-e a kifejezések minősége.
 
 ## 1. Google Ads: hirdetéscsoportok — KÉSZ (2026-09-11)
 
