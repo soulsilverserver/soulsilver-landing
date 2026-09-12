@@ -363,16 +363,17 @@ A csendes eldobások a `lead-drop.log`-ba kerülnek (gitignore-olt).
 
 ---
 
-## 10. Lead form eszköz — kitöltve, ÁSZF-elfogadásra vár (2026-09-12)
+## 10. Lead form eszköz — KÉSZ (2026-09-12)
 
-A „Potenciális ügyfél űrlapja" eszköz végig ki van töltve a kampányon
-(`campaignId=24188369439`), **de nem menthető**, mert a Google ezt írja:
+A „Potenciális ügyfél űrlapja" eszköz **elmentve**, kampányszinten a
+`Marketing Ügynökség - Search - HU` kampányon. Állapot: **Függőben /
+Ellenőrzés alatt**, hozzáadva 2026. szept. 12. 14:31.
 
-> „A potenciális ügyfelekhez tartozó új űrlapbővítmények létrehozásához fogadja
-> el az Általános Szerződési Feltételeket." → *A feltételek megtekintése és elfogadása*
-
-**Ezt a usernek kell elfogadnia** — szerződéses feltétel, Claude nem fogadja el
-helyette. Utána már csak a Mentés gomb hiányzik.
+A mentést egy ÁSZF-elfogadás blokkolta („A potenciális ügyfelekhez tartozó új
+űrlapbővítmények létrehozásához fogadja el az Általános Szerződési
+Feltételeket") — ezt **a user fogadta el**, Claude nem fogadhat el
+szerződéses feltételt helyette. Ha új fiókban kell ilyet csinálni, erre
+számítani kell.
 
 Megnyitó URL:
 `https://ads.google.com/aw/adextensions/new?campaignId=24188369439&ocid=7364900281&placeholderType=40&assetFieldType=17&legacy=false`
