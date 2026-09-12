@@ -21,3 +21,6 @@ soulsilver_hero_*.jpg
 config.php
 _overflow-test.html
 tools/_out/
+
+# Stripe webhook — futásidejű eseményazonosítók (nem tartozik a repóba)
+stripe-esemenyek.txt

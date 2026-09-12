@@ -2,7 +2,10 @@
 """Statikus audit a SOULSILVER siten: hivatkozasok, ID-k, alt, nav, tag-balansz."""
 import io, os, re, glob, collections
 
-ROOT = r'C:\Users\SOULSILVER\Downloads\SOULSILVER'
+# A repo gyokere. A regi, bedrotozott Windows-utvonal csak akkor lep be, ha
+# letezik - igy a szkript a repo barmely masolatabol is fut (macOS/Linux).
+_WIN = r'C:\Users\SOULSILVER\Downloads\SOULSILVER'
+ROOT = _WIN if os.path.isdir(_WIN) else os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
 # A _preview_*.html gitignore-olt, lokalis munkafajl - nem deployol, ezert
