@@ -727,11 +727,27 @@
     background-attachment:fixed;
     background-color:#0A0C0F;
   }
-  /* Építőipari landing hero — melyik képrészlet látszik.
-     Azért van itt és nem az oldal inline stílusában, mert médialekérdezés
-     kell hozzá. Asztali nézetben a doboz közel négyzetes, ott a `left`
-     jó: balra a munkás, jobbra a tábla. */
-  .phero-bg--epitoipar{ background-position:left center; }
+  /* Építőipari landing hero. Azért itt van és nem az oldal inline
+     stílusában, mert médialekérdezés kell hozzá: asztalin fekvő, mobilon
+     álló kép megy. Asztali nézetben a doboz közel négyzetes, ott a `left`
+     a jó: balra a munkás, jobbra a tábla. */
+  .phero-bg--epitoipar{
+    background-image:
+      url(img/hero-epitoipari.jpg),
+      radial-gradient(120% 100% at 10% 6%, #5A4212 0%, transparent 58%),
+      radial-gradient(100% 90% at 92% 100%, #C8912B 0%, transparent 54%),
+      linear-gradient(160deg,#0A0B0D 0%,#191A1C 100%);
+    background-position:left center;
+  }
+  /* Erősebb scrim CSAK ezen az oldalon. Az alapértelmezett jobbra alig
+     sötétít (0,30), ami sima fotónál jó — itt viszont a kép jobb felén egy
+     piros-fehér tábla ül a saját, nagy feliratával, és a fehér H1 pont
+     ráesett. A vízszintes gradiens ezért végig telítettebb. */
+  .phero-scrim--epitoipar{
+    background:
+      linear-gradient(90deg, rgba(8,10,12,0.95) 0%, rgba(8,10,12,0.88) 30%, rgba(8,10,12,0.68) 60%, rgba(8,10,12,0.52) 100%),
+      linear-gradient(0deg, rgba(8,10,12,0.90) 0%, rgba(8,10,12,0.20) 45%, rgba(8,10,12,0.40) 100%);
+  }
   .phero-scrim{
     position:absolute; inset:0; z-index:-1; pointer-events:none;
     background:
@@ -769,17 +785,45 @@
   @media (max-width:900px){
     .phero-bg{ background-attachment:scroll; }
     .phero{ min-height:auto; }
-    /* Mobilon a hero doboz ~375×1304, vagyis 0.29 arányú, a fotó viszont
-       1.5. A `cover` emiatt a kép szélességének mindössze 19%-át mutatja
-       (1600-ból 307 px). `left center` mellett ez pont a bal széli daru
-       volt: a munkás és a STOP-tábla teljesen kimaradt a képből — pedig a
-       kattintások 84%-a mobilról jön. A 29% a munkás arcára állítja a
-       látható sávot. A táblát (65%) szándékosan NEM választottuk: ott
-       csak egy nagy piros folt látszik levágott betűkkel. */
-    .phero-bg--epitoipar{ background-position:29% center; }
+    /* Mobilon SAJÁT, ÁLLÓ kép megy, és NEM `cover`-rel.
+
+       A fekvő fotóval ez megoldhatatlan volt: a hero doboz itt ~375×1304
+       (0.29 arány), a fotó 1.5 — a `cover` a kép szélességének csak 19%-át
+       mutatta, és abba sem a munkás, sem a tábla nem fért bele. Pedig a
+       kattintások 84%-a mobilról jön.
+
+       `background-size:100% auto`: a kép teljes szélességben, természetes
+       magassággal ül a hero TETEJÉN — így egyáltalán nincs vágás, a
+       kompozíció pont az, amit a generátor adott. Alatta a
+       background-color viszi tovább a sötétet; a kép alja pontosan
+       #0A0C0F-re van kikeverve, ezért nincs látható átmenet.
+       A `no-repeat` kötelező: enélkül a kép függőlegesen csempézne. */
+    .phero-bg--epitoipar{
+      background-image:url(img/hero-epitoipari-mobil.jpg);
+      background-size:100% auto;
+      background-position:center top;
+      background-repeat:no-repeat;
+    }
+    /* A vízszintes scrim itt fölösleges — a kép alsó része eleve sötét.
+       Felül viszont szándékosan világos marad, hogy a STOP-tábla és az arc
+       kontrasztos legyen; a sötétítés ott kapcsol be, ahol a szöveg kezdődik. */
+    .phero-scrim--epitoipar{
+      background:linear-gradient(180deg,
+        rgba(8,10,12,0.12) 0%,
+        rgba(8,10,12,0.18) 10%,
+        rgba(8,10,12,0.70) 26%,
+        rgba(8,10,12,0.55) 45%,
+        rgba(8,10,12,0.45) 100%);
+    }
     /* 176px felso terkoz utan mobilon ~350px ures sav volt a nav es a
        morzsamenu kozott. A .topnav alja 106px-nel van, 136px ad ~30px levegot. */
     .phero .wrap{ padding-top:calc(var(--sp-16) + .5rem); padding-bottom:var(--sp-6); }
+    /* Az építőipari landingen a szöveg a kép ALÁ kerül, ne a sárga
+       mellényre: 375 px-en a munkás 305 px-ig tart, a morzsamenü viszont
+       136 px-nél kezdődött, és beleolvadt a mellénybe. Ennek a sornak a
+       fenti .phero .wrap UTÁN kell állnia — azonos a specificitás, tehát
+       a sorrend dönt. */
+    .phero--epitoipar .wrap{ padding-top:200px; }
   }
 
   /* mid-page full-bleed parallax accent band (optional per page) */

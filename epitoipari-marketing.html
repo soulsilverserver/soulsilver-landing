@@ -135,22 +135,16 @@
 
 <main id="tartalom">
   <!-- HERO -->
-  <section class="phero">
+  <section class="phero phero--epitoipar">
     <!-- A fotó a LEGELSŐ background-image, tehát legfelül van; a gradiensek
          alatta maradnak tartaléknak, ha a kép nem töltődne be. A scrim
          balra sötétít erősen (0,94), jobbra alig (0,30) — ezért esik a szöveg
          a munkás felé, a tábla pedig olvasható marad a jobb oldalon. -->
-    <!-- A background-position NEM itt van, hanem a styles.css-ben
-         (.phero-bg--epitoipar): médialekérdezés kell hozzá, mert asztali
-         és mobil nézetben más képrészletet kell mutatni. -->
-    <div class="phero-bg phero-bg--epitoipar" style="background-image:url(img/hero-epitoipari.jpg), radial-gradient(120% 100% at 10% 6%, #5A4212 0%, transparent 58%), radial-gradient(100% 90% at 92% 100%, #C8912B 0%, transparent 54%), linear-gradient(160deg,#0A0B0D 0%,#191A1C 100%);"></div>
-    <!-- Erősebb scrim CSAK ezen az oldalon. Az alapértelmezett jobbra alig
-         sötétít (0,30), ami sima fotónál jó — itt viszont a kép jobb felén egy
-         piros-fehér tábla ül a saját, nagy feliratával, és a fehér H1 pont
-         ráesett. A vízszintes gradiens ezért végig telítettebb. -->
-    <div class="phero-scrim" style="background:
-      linear-gradient(90deg, rgba(8,10,12,0.95) 0%, rgba(8,10,12,0.88) 30%, rgba(8,10,12,0.68) 60%, rgba(8,10,12,0.52) 100%),
-      linear-gradient(0deg, rgba(8,10,12,0.90) 0%, rgba(8,10,12,0.20) 45%, rgba(8,10,12,0.40) 100%);"></div>
+    <!-- A hero háttere és scrimje a styles.css-ben van (.phero-bg--epitoipar,
+         .phero-scrim--epitoipar), NEM inline: médialekérdezés kell hozzá,
+         mert asztalin fekvő, mobilon álló kép megy, más scrimmel. -->
+    <div class="phero-bg phero-bg--epitoipar"></div>
+    <div class="phero-scrim phero-scrim--epitoipar"></div>
     <div class="wrap">
       <div class="subnav"><a href="index.html">SOULSILVER</a><span class="sep">/</span><span>Építőipari marketing</span></div>
       <div class="phero-kicker">Építőipari marketing · Garanciával</div>
