@@ -136,7 +136,6 @@ function ss_stripe_api(string $method, string $path, array $params = []): array
     $resp = curl_exec($ch);
     $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $cerr = curl_error($ch);
-    curl_close($ch);
 
     if ($resp === false) {
         return ['ok' => false, 'code' => $code, 'body' => [], 'error' => 'cURL: ' . $cerr];
@@ -191,7 +190,6 @@ function ss_email(string $subject, string $text, string $html = ''): bool
         ]);
         curl_exec($ch);
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
         $sent = ($code >= 200 && $code < 300);
     }
     if (!$sent) {
