@@ -1,6 +1,6 @@
 # SOULSILVER — állapot és átvétel
 
-Utolsó frissítés: 2026-09-11
+Utolsó frissítés: 2026-09-13
 
 > **Ha új sessionként veszed át:** ez a fájl a kiindulás. Olvasd végig a
 > „Kezdd itt" és a „Csapdák" szakaszt, mielőtt bármit módosítasz — a Csapdák
@@ -39,6 +39,68 @@ git worktree list
 
 Több session dolgozott már párhuzamosan ezen a repón, és egyszer ütköztek is.
 Ne hidd el vakon, amit ez a fájl ír — ellenőrizd a repó tényleges állapotát.
+
+---
+
+## Referencia-média feltöltés — 2026-09-13-án lezárva
+
+**Google Drive MCP ebben a sessionben nem állt rendelkezésre** (más szerver-ID,
+nem csatlakozott). Helyette a Browser pane-nel bejelentkezés nélkül megnyitható
+a megosztott Drive-mappa (https://drive.google.com/drive/folders/14JKD5Zm0nPWb_LGkFkLUiKpwxlyQXBod),
+és a fájl `data-id` attribútuma (DOM-ból `document.querySelectorAll('[data-id]')`,
+vagy a fájl-előnézet iframe-jének `drivesharing/clientmodel?id=...` URL-je)
+adja a Drive fileId-t. Onnan a klasszikus `https://drive.google.com/uc?export=download&id=<ID>`
+curl-lel közvetlenül letölthető — **~100 MB fölött** a Drive egy
+"Virus scan warning" HTML-oldalt ad vissza `confirm` tokennel és `uuid`-vel;
+ezeket kgodolva (`grep -o 'name="uuid" value="[^"]*"'`) a végleges URL
+`https://drive.usercontent.google.com/download?id=<ID>&export=download&confirm=t&uuid=<UUID>`,
+amit **ffmpeg/ffprobe közvetlenül streamel is** (nem kell előbb a teljes
+nyers fájlt lementeni — a `mov`/`mp4` demuxer HTTP range-kéréssel eléri a
+moov atomot). Ez sokkal gyorsabb, mint a base64 tool-result-fájlos workaround,
+amit egy korábbi session használt (az a módszer emlékben marad, ha a Drive
+MCP mégis elérhető lesz egy jövőbeli sessionben).
+
+**Kész, éles** (`img/ref/`):
+- `sara-landry.jpg` + `.mp4` — korábbi session töltötte fel.
+- `barabas-bio-hungary.jpg` + `.mp4` — a poszter már megvolt; a videó a
+  Weboldalak/`barabasbiohungaryweboldal.mov`-ból készült (1,79 GB nyers
+  4K/120fps képernyőfelvétel a weboldalról → 1280px széles, 30fps, ~1,8 Mbps
+  h264, hang nélkül, 27,7 MB, 2:09 perc).
+- `epitoipar.jpg` + `.mp4` — a Videók/FQSD/`FQSD-FÜZÉRKAJATA.mov`-ból (123 MB
+  nyers 1080p60 → 1280px, 30fps, ~2,2 Mbps, 14,8 MB, 53 mp). A poszter a
+  Fénykép/FQSD/`FQSD-FÜZÉRKAJATA-Cover.jpg`.
+- `foqusd.jpg` — csak kép (nincs hozzá videó); a `data-lb-type` `image`-re
+  állítva a referenciak.html-ben.
+- `hirdetesi-kreativok.jpg` — a Grafikák,Logók stb. mappából, `Tuzkar.png`
+  (tűzkármentesítés hirdetési kreatív, SOULSILVER Építőipari Vállalkozás
+  branddel — ugyanaz a SoulSilver-brand, nem csak a FoQuSD ügyfél).
+- `gldn-street.jpg` — **csak kép, NEM videó.** A `GLDNSTREET.mov` fájl az
+  Animáció mappában létezik, DE a tartalma **teljesen más, félrenevezett
+  anyag** (egy "Pistike alapít egy családot" c. animált magyarázó videó
+  "GYÖNGYÖS" felirattal, semmi köze GLDN Streethez). **Ne használd ezt a
+  fájlt** — ha újra előkerül, ellenőrizd tartalmilag, mielőtt felteszed. A
+  `referenciak.html`-ben a kártya emiatt `data-lb-type="image"`-re állítva,
+  a szöveg "Animáció"-ról "Márkagrafika"-ra/közösségimédia-grafikára javítva
+  (a korábbi szöveg mozgógrafikai animációt ígért, amink nincs).
+- `parton-tali.jpg` — a Fénykép/PartonTaliDrónkép mappából (nem a korábban
+  feljegyzett `_DSC0151.JPG`, hanem egy másik fájl ugyanabból a mappából:
+  légi felvétel a Budai Várról/Vársétányról napnyugtakor, tömeggel).
+- `rendezvenyek.jpg` — a Videók/NextLevel pres.HOTSPOT-Aug20 mappa
+  `RNI-Films-IMG-*.jpg` képei közül a legjobban exponált táncparketti kép.
+
+**Szándékosan NEM töltve fel (user kérésre / túl nagy fájl):**
+- `eurama` — a user explicit kérte, hogy hagyjuk ki. Van hozzá anyag a
+  Drive-ban (`eurama.png` a Grafikák mappában), **ne használd**.
+- `kowalsky-bp-park` (videó 221 MB / 755 MB / 15 GB verziókban), `buzz-sneaker`
+  (~100 MB, nincs poszter), `goat-espana` (csak 36–68 MB nyers PNG, kész
+  videó nincs — ez a bento-kártyán ÉS a `.vband` parallax videó-sávon is
+  szerepel, tehát ha egyszer pótoljuk, mindkét helyen frissíteni kell).
+  Ezekhez nem néztem újra a Drive-ot ebben a körben — ha a user kéri, a
+  fenti curl+confirm-token módszerrel valószínűleg ugyanígy megoldható.
+
+**Fájlméret-eredmények:** minden új videó jóval a ~30 MB-os önhosztolási
+szabály alatt maradt (13–28 MB), mert a forrás felbontását/fps-ét levágtuk
+1280px/30fps-re és ~2 Mbps-re tömörítettük libx264-gyel.
 
 ---
 
@@ -111,11 +173,13 @@ a még hiányzó ÁSZF üzleti feltételekről).
 
 ## Hátralévő munka (prioritás szerint)
 
-1. **Referencia-média** — a `referenciak.html` 12 kártyája gradiensen áll, mert
-   az `img/ref/` üres. 21 fájl kell (a pontos nevek a „Referenciák oldal"
-   szakaszban lentebb). A Drive-ban lévő nyers anyagok nagyok (a Barabás
-   weboldal-felvétel 1,79 GB) — webre tömöríteni kell, nyers videó ne kerüljön
-   a git repóba.
+1. **Referencia-média** — 2026-09-13-án nagyrészt lezárva (ld. fent a
+   „Referencia-média feltöltés" szakaszt). 9 kártya éles anyaggal megy
+   (`sara-landry`, `barabas-bio-hungary`, `epitoipar`, `foqusd`,
+   `hirdetesi-kreativok`, `gldn-street`, `parton-tali`, `rendezvenyek`).
+   3 kártya marad gradiensen, szándékosan (`kowalsky-bp-park`, `buzz-sneaker`,
+   `goat-espana` — túl nagy/hiányzó nyers anyag), az `eurama` pedig a user
+   kérésére marad üresen véglegesen.
 2. **Ügyféllogók** — a `referenciak.html` marquee-ja most **platformlogókat**
    mutat („Platformok, amelyeken dolgozunk"), mert valós ügyféllogó nincs.
    Ha lesz engedélyezett logó: `img/logos/ugyfel/`, az eyebrow átírása
@@ -316,12 +380,10 @@ dekorációja, nem valós referenciaanyag, ezért nem szerepelhet referenciakén
 
 ## Hátralévő teendők a referenciák oldalon
 
-1. **Média feltöltése** az `img/ref/` mappába. Minden kártya `<slug>.jpg`
-   posztert vár, a videós kártyák `<slug>.mp4`-et is (lásd a fenti táblát).
-   Amíg hiányzik, a gradiens látszik és a lightbox „A látványanyag hamarosan
-   felkerül." szöveget mutat — nem törik el semmi.
-   A Drive-ban lévő nyers fájlok nagyok (a Barabás weboldal-felvétel 1,79 GB),
-   webre tömöríteni kell — a git repóba nyers videó ne kerüljön.
+1. **Média feltöltése** az `img/ref/` mappába — 2026-09-13-án lezárva 9/12
+   kártyára (ld. fent a „Referencia-média feltöltés" szakaszt). A maradék 3
+   (`kowalsky-bp-park`, `buzz-sneaker`, `goat-espana`) gradiensen marad, az
+   `eurama` pedig a user kérésére véglegesen üres.
 2. **Ügyféllogók**: a marquee továbbra is platformlogókat mutat
    („Platformok, amelyeken dolgozunk"). Ha lesz engedélyezett ügyféllogó:
    `img/logos/ugyfel/`, az eyebrow átírása „Ügyfeleink"-re, és a `.logo-item`
