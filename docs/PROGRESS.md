@@ -88,19 +88,77 @@ MCP mégis elérhető lesz egy jövőbeli sessionben).
 - `rendezvenyek.jpg` — a Videók/NextLevel pres.HOTSPOT-Aug20 mappa
   `RNI-Films-IMG-*.jpg` képei közül a legjobban exponált táncparketti kép.
 
-**Szándékosan NEM töltve fel (user kérésre / túl nagy fájl):**
-- `eurama` — a user explicit kérte, hogy hagyjuk ki. Van hozzá anyag a
-  Drive-ban (`eurama.png` a Grafikák mappában), **ne használd**.
-- `kowalsky-bp-park` (videó 221 MB / 755 MB / 15 GB verziókban), `buzz-sneaker`
-  (~100 MB, nincs poszter), `goat-espana` (csak 36–68 MB nyers PNG, kész
-  videó nincs — ez a bento-kártyán ÉS a `.vband` parallax videó-sávon is
-  szerepel, tehát ha egyszer pótoljuk, mindkét helyen frissíteni kell).
-  Ezekhez nem néztem újra a Drive-ot ebben a körben — ha a user kéri, a
-  fenti curl+confirm-token módszerrel valószínűleg ugyanígy megoldható.
+## Referencia-média — 2. kör (ugyanaznap este) — mind a 12+2 kártya éles
+
+Kiderült, hogy a "Videók" mappának, amit korábban böngésztem, félrekattintva
+tényleg a **Fénykép** mappa tartalmát adta vissza (a két mappa root-listája
+vizuálisan egyforma pozícióban van). A valódi **Videók** mappa (Drive fileId
+`13aam3jOr_0i2l9oX3yr_fxixLZUkNUFK`) sokkal rendezettebb, ügyfelenkénti
+almappákkal: `Építőipar`, `Goat`, `GYM`, `Kowalsky Meg a Vega BP Park`,
+`Rendezvény`, `Sara Landry after movie`, `Zenés Videó klip`. **Ha legközelebb
+Drive-ban keresel, navigálj közvetlenül fileId-vel** (`drive.google.com/drive/folders/<id>`),
+ne koordináta-alapú kattintással a listában — a lista virtualizált, és a
+scrollpozíció session közben csúszhat.
+
+**Ekkor pótolt/frissített kártyák:**
+- `kowalsky-bp-park.jpg` + `.mp4` — a Videók/Rendezvény mappában talált
+  `KOWA-bppark.mov` (193 MB, 4K30, 47,6 mp) → 1280px, ~2 Mbps, 12,9 MB.
+  A korábbi feljegyzés (221 MB/755 MB/15 GB verziók) más fájlokra
+  vonatkozott ugyanabban a mappában — ezt a kisebb, kész változatot nem
+  vette észre a korábbi kör.
+- `buzz-sneaker.jpg` + `.mp4` — az AI mappa `BUZZ_sneaker_store_.mp4`-jéből
+  (100 MB, portré 4K60, 14,6 mp, **nem igényelt** confirm-tokent, 100 MB
+  alatt van) → 720px széles portré, 5,2 MB.
+- `goat-espana.jpg` + `.mp4` — a Videók/Goat/`goat benidorm shakira.mov`-ból
+  (53 MB, 1080p30, 29 mp) → 1280px, 7,9 MB. Ez a fájl a bento-kártyán ÉS a
+  `.vband` parallax videó-sávon is szerepel — mindkét helyen ugyanaz a
+  fájlnév, nem kellett külön kezelni.
+- `rendezvenyek.jpg` + **új `.mp4`** — a Videók/Rendezvény/`Czaga Tiszafüred
+  Dj Tour Fest.MOV`-ból (215 MB, 4K30, 58,3 mp — a Rendezvény mappa **kb. 35
+  aftermovie-t** tartalmaz különböző DJ-eseményekről, ez csak egy közülük,
+  a leírásban explicit megnevezett helyszín miatt választva) → 1280px,
+  16 MB. A kártya `data-lb-type` `image`-ről `video`-ra váltva, `bento-play`
+  ikon hozzáadva. A poszterkép is cserélve egy pirotechnikás koncert-
+  jelenetre (a régi tömegkép a RNI-Films fotókból volt, ez a valódi
+  aftermovie-ból kivágott kocka).
+
+**Két ÚJ kártya, a user kifejezett kérésére (13. és 14.):**
+- **Cserna Barbershop** (`cserna-barbershop.jpg`+`.mp4`, `data-cat="web marka"`)
+  — a Weboldalak/`CSERNA BARBER` weboldal-felvételből (189 MB, 3456×1708 60fps,
+  43,8 mp, néma → 720p, 9,2 MB) + poszter a Fénykép/`Barber` mappa egyik
+  fekete-fehér fotójából (ugyanaz a mappa, amit a `Barber` fotósorozat linkje
+  igazolt: https://drive.google.com/drive/folders/17WwLaIMXj-YT-7ydKS6wlUYUwZ32-8ex).
+- **Patron Barbershop** (`patron-barbershop.jpg`+`.mp4`, `data-cat="social marka"`,
+  `tall` méret a portré-videó miatt) — ez volt a user által "patronxii"-ként
+  említett anyag; a helyes link
+  https://drive.google.com/drive/folders/1mFDgvTu1insKpWtVNO0sEgIl7h3ND1B2
+  ("Patronxiii Barber shop" mappanév) alatt volt, **NEM** a fő REFERENCIÁK
+  mappában. 2 db portré (1080×1920 60fps, ~27 mp) klip AI-generált avatár-
+  modellel, aki a szalon terében "dolgozik" — összefűzve (`ffmpeg concat`)
+  egy 720×1280, ~54 mp, 16,9 MB videóvá.
+
+**Mind a 14 kártya éles** — az `eurama` az egyetlen szándékos kivétel
+(user kérésére kihagyva, `eurama.png` van hozzá a Drive-ban, de nem
+használandó).
+
+**Fel nem használt, de talált anyag — érdemes lehet később megnézni:**
+- A Videók/Rendezvény mappa **~35 további aftermovie-t** tartalmaz más
+  DJ-eseményekről (BONS-DRUMCLUB, ÉBERKÓMA, T-POSE@SUPERSONIC, DJ BUDAI/
+  GREGA/DUBMORE MIDSUMMER stb.) — ha a "Nyári rendezvényszezon" kártyát bővíteni
+  kell, vagy egy második rendezvény-kártya kellene, itt van bőven választék.
+  Van egy `Kowalsky Meg a Vega-Egy Világon Át |Koncertfelvétel|-Móri Bornapok.MOV`
+  is (720 MB) — másik Kowalsky-anyag, nem használtuk.
+- A Videók/`GYM` és Videók/`Zenés Videó klip` mappákat **nem néztem meg** —
+  ha ezek meglévő ügyfelek, akiknek jelenleg nincs kártyája, új referencia-
+  kártya lehet belőlük.
+- A Videók/`Goat` mappában sok további nyers klip van (`1212(5).MOV` stb.,
+  20–175 MB egyenként) — a `goat benidorm shakira.mov` mellett további
+  variáció készíthető, ha kell.
 
 **Fájlméret-eredmények:** minden új videó jóval a ~30 MB-os önhosztolási
-szabály alatt maradt (13–28 MB), mert a forrás felbontását/fps-ét levágtuk
-1280px/30fps-re és ~2 Mbps-re tömörítettük libx264-gyel.
+szabály alatt maradt (5–28 MB), mert a forrás felbontását/fps-ét levágtuk
+720–1280px/30fps-re és ~2 Mbps-re tömörítettük libx264-gyel. Az `img/ref/`
+mappa teljes mérete jelenleg ~124 MB (14 videó + 14 poszterkép).
 
 ---
 
@@ -173,13 +231,13 @@ a még hiányzó ÁSZF üzleti feltételekről).
 
 ## Hátralévő munka (prioritás szerint)
 
-1. **Referencia-média** — 2026-09-13-án nagyrészt lezárva (ld. fent a
-   „Referencia-média feltöltés" szakaszt). 9 kártya éles anyaggal megy
-   (`sara-landry`, `barabas-bio-hungary`, `epitoipar`, `foqusd`,
-   `hirdetesi-kreativok`, `gldn-street`, `parton-tali`, `rendezvenyek`).
-   3 kártya marad gradiensen, szándékosan (`kowalsky-bp-park`, `buzz-sneaker`,
-   `goat-espana` — túl nagy/hiányzó nyers anyag), az `eurama` pedig a user
-   kérésére marad üresen véglegesen.
+1. **Referencia-média** — 2026-09-13-án lezárva (ld. fent mindkét
+   „Referencia-média" szakaszt). Mind a 14 kártya éles anyaggal megy
+   (a 12 eredeti + 2 új: Cserna Barbershop, Patron Barbershop). Egyedül az
+   `eurama` marad szándékosan üresen, a user kérésére. Van még fel nem
+   használt nyers anyag a Drive-ban (~35 további aftermovie, `GYM` és
+   `Zenés Videó klip` mappák át sem nézve) — ld. a „Fel nem használt, de
+   talált anyag" listát fent, ha bővíteni kell.
 2. **Ügyféllogók** — a `referenciak.html` marquee-ja most **platformlogókat**
    mutat („Platformok, amelyeken dolgozunk"), mert valós ügyféllogó nincs.
    Ha lesz engedélyezett logó: `img/logos/ugyfel/`, az eyebrow átírása
@@ -368,8 +426,13 @@ A demó szövegek lecserélve a Drive `REFERENCIÁK` mappája alapján
 | 10 | GLDN Street | marka | `gldn-street` |
 | 11 | Parton Tali — légi felvételek | dron | `parton-tali` |
 | 12 | BUZZ Sneaker Store | termek, marka | `buzz-sneaker` |
+| 13 | Cserna Barbershop | web, marka | `cserna-barbershop` |
+| 14 | Patron Barbershop | social, marka | `patron-barbershop` |
 
 A két videó-sáv: YOUTOPIA × Sara Landry és THE G.O.A.T. España.
+
+13–14: 2026-09-13 este hozzáadva, a user kifejezett kérésére (nem az eredeti
+12-ből valók). Lásd a fenti „Referencia-média — 2. kör" szakaszt.
 
 Hero statisztikák a Drive-mappák alapján számolva: 30+ lezárt projekt,
 14 dokumentált rendezvény, 7 szolgáltatási terület. **Ezeket érdemes
@@ -380,16 +443,19 @@ dekorációja, nem valós referenciaanyag, ezért nem szerepelhet referenciakén
 
 ## Hátralévő teendők a referenciák oldalon
 
-1. **Média feltöltése** az `img/ref/` mappába — 2026-09-13-án lezárva 9/12
-   kártyára (ld. fent a „Referencia-média feltöltés" szakaszt). A maradék 3
-   (`kowalsky-bp-park`, `buzz-sneaker`, `goat-espana`) gradiensen marad, az
-   `eurama` pedig a user kérésére véglegesen üres.
+1. **Média feltöltése** az `img/ref/` mappába — 2026-09-13-án lezárva mind a
+   14 kártyára (ld. fent mindkét „Referencia-média" szakaszt). Egyedül az
+   `eurama` marad üres, a user kérésére.
 2. **Ügyféllogók**: a marquee továbbra is platformlogókat mutat
    („Platformok, amelyeken dolgozunk"). Ha lesz engedélyezett ügyféllogó:
    `img/logos/ugyfel/`, az eyebrow átírása „Ügyfeleink"-re, és a `.logo-item`
    képek cseréje (a listát kétszer kell felsorolni a végtelen csúszás miatt).
 3. **Szövegek ellenőrzése**: a leírásokat a Drive mappa- és fájlnevekből
    vezettem le. Ahol a projekt tartalma pontosabban megfogalmazható, javítsd.
+4. **Hero-statisztikák újraszámolása** — a „30+ lezárt projekt" számláló a
+   2026-09-01-i mappaszámlálásból származik; két új kártya (Cserna, Patron
+   Barbershop) került fel azóta, de a „30+" jelölés ettől még helytálló marad.
+   Ha pontosabb számot szeretne a user, újra kell számolni a Drive-mappákat.
 
 ## Hibakeresés eredménye (2026-09-02, `fdbda59` állapot)
 
